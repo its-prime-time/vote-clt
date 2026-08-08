@@ -1,0 +1,130 @@
+---
+import Placeholder from './Placeholder.astro';
+import type { Candidate } from '../data/jurisdictions';
+import { pick, useTranslations, type Locale } from '../i18n/utils';
+
+interface Props {
+  candidate: Candidate;
+  locale: Locale;
+}
+
+const { candidate, locale } = Astro.props;
+const t = useTranslations(locale);
+
+/** A card with no name yet is a "seat announced, candidate unknown" placeholder. */
+const announced = candidate.name.length > 0;
+const displayName = announced ? `${candidate.name} (${candidate.party})` : t('candidates.tbd');
+
+// District labels in the data are bare ("37"), except where a race spans a
+// differently-named line ("District 12"); accept both.
+const districtLabel = candidate.district
+  ? /^\d+$/.test(candidate.district)
+    ? `${t('candidates.district')} ${candidate.district}`
+    : candidate.district
+  : null;
+---
+
+<article class="card">
+  <div class="photo">
+    {
+      candidate.photo ? (
+        <img src={candidate.photo} alt={candidate.name} width="240" height="300" />
+      ) : (
+        <Placeholder />
+      )
+    }
+    {
+      districtLabel && (
+        <p class:list={['district', `party-${candidate.party}`]}>{districtLabel}</p>
+      )
+    }
+  </div>
+
+  <h3 class:list={['name', { tbd: !announced }]}>{displayName}</h3>
+
+  {
+    announced ? (
+      <ul class="issues">
+        {candidate.issues.map((issue) => (
+          <li>{pick(issue, locale)}</li>
+        ))}
+      </ul>
+    ) : (
+      <p class="issues tbd-note">{t('candidates.tbdNote')}</p>
+    )
+  }
+</article>
+
+<style>
+  .card {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .photo {
+    position: relative;
+    aspect-ratio: 4 / 5;
+    background: var(--vc-surface-alt);
+    overflow: hidden;
+  }
+
+  .photo :global(img) {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  /* Colored band across the bottom of the photo, per the mockup. */
+  .district {
+    position: absolute;
+    inset-inline: 0;
+    bottom: 0;
+    margin: 0;
+    padding: 0.25rem 0.5rem;
+    background: var(--vc-gray-party);
+    color: #fff;
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    text-align: center;
+  }
+
+  .party-D {
+    background: var(--vc-blue);
+  }
+  .party-R {
+    background: var(--vc-red);
+  }
+
+  .name {
+    margin-top: 0.6rem;
+    font-size: 1.0625rem;
+    font-weight: 500;
+    text-align: center;
+    letter-spacing: 0;
+  }
+
+  .name.tbd {
+    color: var(--vc-ink-muted);
+    font-style: italic;
+  }
+
+  .issues {
+    margin: 0.35rem 0 0;
+    padding: 0;
+    list-style: none;
+    text-align: center;
+    font-size: 0.875rem;
+    color: var(--vc-ink-muted);
+    text-wrap: balance;
+  }
+
+  .issues li::before {
+    content: '- ';
+  }
+
+  .tbd-note {
+    font-style: italic;
+  }
+</style>

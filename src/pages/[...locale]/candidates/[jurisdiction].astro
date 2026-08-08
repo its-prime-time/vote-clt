@@ -1,0 +1,73 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import CandidateCard from '../../../components/CandidateCard.astro';
+import { jurisdictions, type Jurisdiction } from '../../../data/jurisdictions';
+import { defaultLocale, locales, pick, useTranslations, type Locale } from '../../../i18n/utils';
+
+export function getStaticPaths() {
+  return locales.flatMap((locale) =>
+    jurisdictions.map((jurisdiction) => ({
+      params: {
+        locale: locale === defaultLocale ? undefined : locale,
+        jurisdiction: jurisdiction.slug,
+      },
+      props: { locale, jurisdiction },
+    })),
+  );
+}
+
+const { locale, jurisdiction } = Astro.props as {
+  locale: Locale;
+  jurisdiction: Jurisdiction;
+};
+const t = useTranslations(locale);
+
+const title = pick(jurisdiction.title, locale);
+const subtitle = pick(jurisdiction.subtitle, locale);
+---
+
+<BaseLayout locale={locale} title={title} description={subtitle}>
+  <div class="wrap page-head">
+    <h1>{title}</h1>
+    <p class="page-lead">{subtitle}</p>
+  </div>
+
+  {
+    jurisdiction.races.map((race) => (
+      <section class="wrap race" aria-labelledby={`race-${race.slug}`}>
+        <h2 id={`race-${race.slug}`} class="rule-heading">
+          {pick(race.title, locale)}
+        </h2>
+
+        {race.candidates.length > 0 ? (
+          <div class="grid">
+            {race.candidates.map((candidate) => (
+              <CandidateCard candidate={candidate} locale={locale} />
+            ))}
+          </div>
+        ) : (
+          <p class="empty">{t('candidates.emptySection')}</p>
+        )}
+      </section>
+    ))
+  }
+</BaseLayout>
+
+<style>
+  .race {
+    margin-top: clamp(2.5rem, 6vw, 4.5rem);
+  }
+
+  .grid {
+    margin-top: 2rem;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(13rem, 1fr));
+    gap: clamp(1.25rem, 2.5vw, 2rem);
+  }
+
+  .empty {
+    margin-top: 1.5rem;
+    color: var(--vc-ink-muted);
+    font-style: italic;
+  }
+</style>

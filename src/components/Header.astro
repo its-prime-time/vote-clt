@@ -1,0 +1,305 @@
+---
+import { jurisdictions } from '../data/jurisdictions';
+import { localeLabels } from '../i18n/ui';
+import {
+  canonicalPath,
+  localizePath,
+  locales,
+  pick,
+  useTranslations,
+  type Locale,
+} from '../i18n/utils';
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const t = useTranslations(locale);
+
+/** Canonical (locale-stripped) path of the current page, for active state + language swap. */
+const here = canonicalPath(Astro.url.pathname.replace(/\/+$/, '') || '/');
+
+const links = [
+  { path: '/', label: t('nav.myBallot') },
+  { path: '/next-elections', label: t('nav.nextElections') },
+  { path: '/about', label: t('nav.about') },
+  { path: '/faq', label: t('nav.faq') },
+];
+
+const isActive = (path: string) =>
+  path === '/' ? here === '/' : here === path || here.startsWith(`${path}/`);
+
+const candidatesActive = here.startsWith('/candidates');
+const otherLocales = locales.filter((l) => l !== locale);
+---
+
+<a class="skip-link" href="#main">{t('nav.skipToContent')}</a>
+
+<header class="site-header">
+  <div class="bar wrap">
+    <a class="logo" href={localizePath('/', locale)}>{t('site.name')}</a>
+
+    <nav class="nav" aria-label={t('nav.menu')}>
+      <ul class="nav-list">
+        <li>
+          <a
+            href={localizePath('/', locale)}
+            class:list={['nav-link', { current: isActive('/') }]}
+            aria-current={isActive('/') ? 'page' : undefined}>{t('nav.myBallot')}</a
+          >
+        </li>
+
+        <li class="has-menu">
+          <button
+            type="button"
+            id="candidates-trigger"
+            class:list={['nav-link', 'nav-trigger', { current: candidatesActive }]}
+            aria-expanded="false"
+            aria-controls="candidates-menu"
+          >
+            {t('nav.allCandidates')}
+          </button>
+          <ul class="submenu" id="candidates-menu" aria-labelledby="candidates-trigger">
+            {
+              jurisdictions.map((j) => {
+                const path = `/candidates/${j.slug}`;
+                return (
+                  <li>
+                    <a
+                      href={localizePath(path, locale)}
+                      class:list={['submenu-link', { current: here === path }]}
+                      aria-current={here === path ? 'page' : undefined}
+                    >
+                      {pick(j.navLabel, locale)}
+                    </a>
+                  </li>
+                );
+              })
+            }
+          </ul>
+        </li>
+
+        {
+          links.slice(1).map((link) => (
+            <li>
+              <a
+                href={localizePath(link.path, locale)}
+                class:list={['nav-link', { current: isActive(link.path) }]}
+                aria-current={isActive(link.path) ? 'page' : undefined}
+              >
+                {link.label}
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </nav>
+
+    <div class="lang" aria-label={t('nav.switchLanguage')}>
+      <span class="lang-current" aria-current="true">{localeLabels[locale]}</span>
+      {
+        otherLocales.map((l) => (
+          <a class="lang-link" href={localizePath(here, l)} hreflang={l} lang={l}>
+            {localeLabels[l]}
+          </a>
+        ))
+      }
+    </div>
+  </div>
+</header>
+
+<script>
+  const trigger = document.getElementById('candidates-trigger');
+  const menu = document.getElementById('candidates-menu');
+
+  if (trigger && menu) {
+    const setOpen = (open: boolean) => trigger.setAttribute('aria-expanded', String(open));
+
+    trigger.addEventListener('click', () => {
+      setOpen(trigger.getAttribute('aria-expanded') !== 'true');
+    });
+
+    document.addEventListener('keydown', (event) => {
+      if (event.key === 'Escape' && trigger.getAttribute('aria-expanded') === 'true') {
+        setOpen(false);
+        trigger.focus();
+      }
+    });
+
+    document.addEventListener('click', (event) => {
+      const target = event.target as Node;
+      if (!trigger.contains(target) && !menu.contains(target)) setOpen(false);
+    });
+  }
+</script>
+
+<style>
+  .skip-link {
+    position: absolute;
+    left: 0.5rem;
+    top: -3rem;
+    z-index: 20;
+    background: #fff;
+    color: var(--vc-blue);
+    padding: 0.5rem 0.875rem;
+    border-radius: 0 0 6px 6px;
+    font-weight: 600;
+    transition: top 0.15s ease;
+  }
+  .skip-link:focus {
+    top: 0;
+  }
+
+  .site-header {
+    background: var(--vc-blue);
+    color: #fff;
+  }
+
+  .bar {
+    min-height: var(--vc-header-h);
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    flex-wrap: wrap;
+    padding-block: 1rem;
+  }
+
+  .logo {
+    color: #fff;
+    text-decoration: none;
+    font-weight: 700;
+    font-size: 1.25rem;
+    letter-spacing: -0.01em;
+    flex: 0 0 auto;
+  }
+
+  .nav {
+    flex: 1 1 auto;
+    display: flex;
+    justify-content: center;
+  }
+
+  .nav-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    gap: clamp(1rem, 3.5vw, 3.25rem);
+  }
+
+  .nav-link {
+    color: #fff;
+    text-decoration: none;
+    font-size: 1.0625rem;
+    padding: 0.375rem 0;
+    display: inline-block;
+    border-bottom: 2px solid transparent;
+    white-space: nowrap;
+  }
+  .nav-link:hover {
+    border-bottom-color: rgba(255, 255, 255, 0.7);
+  }
+  .nav-link.current {
+    border-bottom-color: #fff;
+    font-weight: 600;
+  }
+
+  /* The dropdown trigger is a <button>; strip the UA chrome so it matches links. */
+  .nav-trigger {
+    background: none;
+    border: 0;
+    border-bottom: 2px solid transparent;
+    font: inherit;
+    font-size: 1.0625rem;
+    cursor: pointer;
+  }
+
+  .has-menu {
+    position: relative;
+  }
+
+  .submenu {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    margin-top: 0.9rem;
+    min-width: 14rem;
+    background: var(--vc-blue);
+    box-shadow: 0 8px 24px rgb(0 0 0 / 0.18);
+    display: none;
+    z-index: 10;
+  }
+
+  .nav-trigger[aria-expanded='true'] + .submenu {
+    display: block;
+  }
+
+  @media (hover: hover) {
+    .has-menu:hover .submenu {
+      display: block;
+    }
+  }
+
+  .submenu-link {
+    display: block;
+    padding: 0.625rem 1.25rem;
+    color: #fff;
+    text-decoration: none;
+    font-size: 0.9375rem;
+    white-space: nowrap;
+  }
+  .submenu-link:hover,
+  .submenu-link.current {
+    background: var(--vc-blue-light);
+  }
+
+  .lang {
+    flex: 0 0 auto;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-weight: 700;
+    letter-spacing: 0.03em;
+  }
+
+  .lang-current {
+    color: #fff;
+  }
+
+  .lang-link {
+    color: rgba(255, 255, 255, 0.65);
+    text-decoration: none;
+  }
+  .lang-link:hover {
+    color: #fff;
+    text-decoration: underline;
+  }
+
+  @media (max-width: 60rem) {
+    .bar {
+      justify-content: space-between;
+    }
+    .nav {
+      order: 3;
+      flex-basis: 100%;
+      justify-content: flex-start;
+    }
+    .nav-list {
+      justify-content: flex-start;
+      gap: 1rem 1.5rem;
+    }
+    .submenu {
+      left: 0;
+      transform: none;
+      margin-top: 0.5rem;
+    }
+  }
+</style>

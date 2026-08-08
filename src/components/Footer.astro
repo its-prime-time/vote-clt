@@ -1,0 +1,44 @@
+---
+import { useTranslations, type Locale } from '../i18n/utils';
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const t = useTranslations(locale);
+const year = 2026;
+---
+
+<footer class="site-footer">
+  <div class="wrap inner">
+    <p class="strong">{t('footer.rights')}</p>
+    <p>{t('footer.disclaimer')}</p>
+    <p class="fine">© {year} {t('site.name')}</p>
+  </div>
+</footer>
+
+<style>
+  .site-footer {
+    margin-top: 5rem;
+    background: var(--vc-surface-alt);
+    border-top: 1px solid var(--vc-rule);
+    color: var(--vc-ink-muted);
+    font-size: 0.875rem;
+  }
+
+  .inner {
+    padding-block: 2rem;
+    display: grid;
+    gap: 0.375rem;
+  }
+
+  .strong {
+    color: var(--vc-ink);
+    font-weight: 600;
+  }
+
+  .fine {
+    margin-top: 0.5rem;
+  }
+</style>

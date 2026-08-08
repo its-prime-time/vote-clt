@@ -1,0 +1,83 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import { localePaths, localizePath, useTranslations, type Locale } from '../../../i18n/utils';
+
+export const getStaticPaths = localePaths;
+
+const { locale } = Astro.props as { locale: Locale };
+const t = useTranslations(locale);
+---
+
+<BaseLayout locale={locale} title={t('results.title')}>
+  <section class="wrap page-head">
+    <h1>{t('results.title')}</h1>
+
+    <p class="page-lead">
+      <span id="address-line" hidden>
+        {t('results.forAddress')} <strong id="address-value"></strong>
+      </span>
+      <span id="no-address">{t('results.noAddress')}</span>
+    </p>
+
+    <p class="page-lead">{t('results.comingSoon')}</p>
+
+    <p class="actions">
+      <a class="btn" href={localizePath('/candidates/north-carolina', locale)}>
+        {t('results.browse')}
+      </a>
+      <a class="btn btn-quiet" href={localizePath('/', locale)}>{t('results.tryAgain')}</a>
+    </p>
+  </section>
+</BaseLayout>
+
+<script>
+  // The site is statically hosted, so the submitted address is read from the
+  // query string in the browser rather than on a server.
+  const address = new URLSearchParams(window.location.search).get('address')?.trim();
+
+  if (address) {
+    const line = document.getElementById('address-line');
+    const value = document.getElementById('address-value');
+    const empty = document.getElementById('no-address');
+
+    if (line && value && empty) {
+      value.textContent = address; // textContent, so a pasted address can't inject markup
+      line.hidden = false;
+      empty.hidden = true;
+    }
+  }
+</script>
+
+<style>
+  .actions {
+    margin-top: 2.5rem;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    justify-content: center;
+  }
+
+  .btn {
+    display: inline-block;
+    padding: 0.75rem 1.5rem;
+    border-radius: 999px;
+    background: var(--vc-blue);
+    color: #fff;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 0.9375rem;
+  }
+  .btn:hover {
+    background: var(--vc-blue-dark);
+  }
+
+  .btn-quiet {
+    background: transparent;
+    color: var(--vc-blue);
+    border: 1px solid var(--vc-blue);
+  }
+  .btn-quiet:hover {
+    background: var(--vc-surface-alt);
+    color: var(--vc-blue-dark);
+  }
+</style>

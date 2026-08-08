@@ -1,0 +1,55 @@
+---
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import {
+  canonicalPath,
+  defaultLocale,
+  localizePath,
+  locales,
+  useTranslations,
+  type Locale,
+} from '../i18n/utils';
+import '../styles/global.css';
+
+interface Props {
+  locale: Locale;
+  /** Page title, without the site name suffix. */
+  title: string;
+  description?: string;
+}
+
+const { locale, title, description } = Astro.props;
+const t = useTranslations(locale);
+
+const here = canonicalPath(Astro.url.pathname.replace(/\/+$/, '') || '/');
+const fullTitle = `${title} | ${t('site.name')}`;
+const desc = description ?? t('site.tagline');
+---
+
+<!doctype html>
+<html lang={locale}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{fullTitle}</title>
+    <meta name="description" content={desc} />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="canonical" href={new URL(localizePath(here, locale), Astro.site)} />
+    {
+      locales.map((l) => (
+        <link rel="alternate" hreflang={l} href={new URL(localizePath(here, l), Astro.site)} />
+      ))
+    }
+    <link rel="alternate" hreflang="x-default" href={new URL(localizePath(here, defaultLocale), Astro.site)} />
+    <meta property="og:title" content={fullTitle} />
+    <meta property="og:description" content={desc} />
+    <meta property="og:type" content="website" />
+  </head>
+  <body>
+    <Header locale={locale} />
+    <main id="main">
+      <slot />
+    </main>
+    <Footer locale={locale} />
+  </body>
+</html>
