@@ -1,0 +1,30 @@
+# build output
+dist/
+.astro/
+
+# dependencies
+node_modules/
+
+# logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+firebase-debug.log*
+firestore-debug.log*
+ui-debug.log*
+
+# environment
+.env
+.env.production
+
+# firebase
+.firebase/
+
+# test/tooling output
+.playwright-mcp/
+
+# editors / OS
+.idea/
+.vscode/
+.DS_Store

@@ -1,0 +1,146 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { elections, pollingLocationUrl } from '../../data/elections';
+import { localePaths, pick, useTranslations, type Locale } from '../../i18n/utils';
+
+export const getStaticPaths = localePaths;
+
+const { locale } = Astro.props as { locale: Locale };
+const t = useTranslations(locale);
+---
+
+<BaseLayout locale={locale} title={t('elections.title')}>
+  <div class="wrap page-head">
+    <h1>{t('elections.title')}</h1>
+    <p class="page-lead">
+      {t('elections.introPrefix')}<a href={pollingLocationUrl} rel="noopener">
+        {t('elections.introLink')}</a
+      >{t('elections.introSuffix')}
+    </p>
+  </div>
+
+  {
+    elections.map((election) => (
+      <section class="wrap election" aria-labelledby={`election-${election.id}`}>
+        <h2 id={`election-${election.id}`} class="rule-heading">
+          {pick(election.date, locale)}
+        </h2>
+        <p class="summary">{pick(election.summary, locale)}</p>
+
+        {/* <details> gives the show/hide behavior with no JavaScript. */}
+        <details class="initiatives">
+          <summary>
+            <span class="label-closed">{t('elections.view')}</span>
+            <span class="label-open">{t('elections.close')}</span>
+          </summary>
+
+          {election.initiatives.length > 0 ? (
+            <div class="table-scroll">
+              <table>
+                <thead>
+                  <tr>
+                    <th scope="col">{t('elections.colType')}</th>
+                    <th scope="col">{t('elections.colTitle')}</th>
+                    <th scope="col">{t('elections.colSubject')}</th>
+                    <th scope="col">{t('elections.colDescription')}</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {election.initiatives.map((initiative) => (
+                    <tr>
+                      <td>{pick(initiative.type, locale)}</td>
+                      <td>{pick(initiative.title, locale)}</td>
+                      <td>{pick(initiative.subject, locale)}</td>
+                      <td>{pick(initiative.description, locale)}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          ) : (
+            <p class="none">{t('elections.none')}</p>
+          )}
+        </details>
+      </section>
+    ))
+  }
+</BaseLayout>
+
+<style>
+  .election {
+    margin-top: clamp(2.5rem, 6vw, 4rem);
+  }
+
+  .summary {
+    margin-top: 1rem;
+    color: var(--vc-ink-muted);
+  }
+
+  .initiatives {
+    margin-top: 1rem;
+  }
+
+  .initiatives summary {
+    display: inline-block;
+    cursor: pointer;
+    color: var(--vc-blue);
+    font-weight: 700;
+    font-size: 0.8125rem;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    list-style: none;
+  }
+  .initiatives summary::-webkit-details-marker {
+    display: none;
+  }
+  .initiatives summary:hover {
+    text-decoration: underline;
+  }
+
+  .label-open {
+    display: none;
+  }
+  .initiatives[open] .label-closed {
+    display: none;
+  }
+  .initiatives[open] .label-open {
+    display: inline;
+  }
+
+  .table-scroll {
+    margin-top: 1.25rem;
+    overflow-x: auto;
+  }
+
+  table {
+    border-collapse: collapse;
+    width: 100%;
+    min-width: 44rem;
+    font-size: 0.9375rem;
+  }
+
+  th,
+  td {
+    border: 1px solid var(--vc-rule);
+    padding: 0.75rem 1rem;
+    text-align: left;
+    vertical-align: middle;
+  }
+
+  th {
+    font-weight: 700;
+    font-size: 0.8125rem;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+  }
+
+  tbody tr:nth-child(even) {
+    background: var(--vc-surface-alt);
+  }
+
+  .none {
+    margin-top: 1.25rem;
+    color: var(--vc-ink-muted);
+    font-style: italic;
+  }
+</style>

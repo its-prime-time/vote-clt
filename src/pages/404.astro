@@ -1,0 +1,27 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { defaultLocale, localizePath, useTranslations } from '../i18n/utils';
+
+// Firebase Hosting serves the built `404.html` for any unmatched path, so this
+// page can't know the visitor's language — it falls back to the default locale.
+const locale = defaultLocale;
+const t = useTranslations(locale);
+---
+
+<BaseLayout locale={locale} title={t('notFound.title')}>
+  <section class="wrap page-head">
+    <h1>{t('notFound.title')}</h1>
+    <p class="page-lead">{t('notFound.body')}</p>
+    <p class="home">
+      <a href={localizePath('/', locale)}>{t('notFound.home')}</a>
+    </p>
+  </section>
+</BaseLayout>
+
+<style>
+  .home {
+    margin-top: 2rem;
+    text-align: center;
+    font-weight: 600;
+  }
+</style>

@@ -1,0 +1,55 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { faqs } from '../../data/team';
+import { localePaths, pick, useTranslations, type Locale } from '../../i18n/utils';
+
+export const getStaticPaths = localePaths;
+
+const { locale } = Astro.props as { locale: Locale };
+const t = useTranslations(locale);
+---
+
+<BaseLayout locale={locale} title={t('faq.title')}>
+  <div class="wrap page-head">
+    <h1>{t('faq.title')}</h1>
+    <p class="page-lead">{t('faq.intro')}</p>
+  </div>
+
+  <section class="wrap list">
+    {
+      faqs.map((faq) => (
+        <details class="qa">
+          <summary>{pick(faq.question, locale)}</summary>
+          <p>{pick(faq.answer, locale)}</p>
+        </details>
+      ))
+    }
+  </section>
+</BaseLayout>
+
+<style>
+  .list {
+    margin-top: clamp(2.5rem, 6vw, 4rem);
+    max-width: 48rem;
+  }
+
+  .qa {
+    border-bottom: 1px solid var(--vc-rule);
+  }
+
+  .qa summary {
+    padding: 1.125rem 0;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 1.0625rem;
+  }
+
+  .qa summary:hover {
+    color: var(--vc-blue);
+  }
+
+  .qa p {
+    padding-bottom: 1.25rem;
+    color: var(--vc-ink-muted);
+  }
+</style>

@@ -1,0 +1,81 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Placeholder from '../../components/Placeholder.astro';
+import { team } from '../../data/team';
+import { localePaths, pick, useTranslations, type Locale } from '../../i18n/utils';
+
+export const getStaticPaths = localePaths;
+
+const { locale } = Astro.props as { locale: Locale };
+const t = useTranslations(locale);
+---
+
+<BaseLayout locale={locale} title={t('about.title')}>
+  <div class="wrap page-head">
+    <h1>{t('about.title')}</h1>
+    <p class="page-lead">{t('about.mission')}</p>
+  </div>
+
+  <section class="wrap team" aria-labelledby="team-heading">
+    <h2 id="team-heading">{t('about.team')}</h2>
+
+    <ul class="roster">
+      {
+        team.map((member) => (
+          <li class="member">
+            <div class="avatar">
+              {member.photo ? (
+                <img src={member.photo} alt={member.name} width="220" height="220" />
+              ) : (
+                <Placeholder />
+              )}
+            </div>
+            <p class="member-name">{member.name}</p>
+            <p class="member-role">{pick(member.role, locale)}</p>
+          </li>
+        ))
+      }
+    </ul>
+  </section>
+</BaseLayout>
+
+<style>
+  .team {
+    margin-top: clamp(3rem, 8vw, 6rem);
+    text-align: center;
+  }
+
+  .roster {
+    list-style: none;
+    margin: clamp(2rem, 5vw, 3.5rem) 0 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(14rem, 1fr));
+    gap: 2.5rem;
+    justify-items: center;
+  }
+
+  .avatar {
+    width: min(14rem, 60vw);
+    aspect-ratio: 1;
+    border-radius: 50%;
+    overflow: hidden;
+    background: var(--vc-surface-alt);
+  }
+
+  .avatar :global(img) {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .member-name {
+    margin-top: 1rem;
+    font-weight: 600;
+  }
+
+  .member-role {
+    color: var(--vc-ink-muted);
+    font-size: 0.9375rem;
+  }
+</style>

@@ -1,0 +1,75 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { localePaths, localizePath, useTranslations, type Locale } from '../../i18n/utils';
+
+export const getStaticPaths = localePaths;
+
+const { locale } = Astro.props as { locale: Locale };
+const t = useTranslations(locale);
+---
+
+<BaseLayout locale={locale} title={t('home.title')}>
+  <section class="wrap hero">
+    <h1>{t('home.title')}</h1>
+    <p class="page-lead">{t('home.subtitle')}</p>
+
+    <form class="search" action={localizePath('/my-ballot/results', locale)} method="get">
+      <label class="visually-hidden" for="address">{t('home.addressLabel')}</label>
+      <input
+        id="address"
+        name="address"
+        type="text"
+        autocomplete="street-address"
+        placeholder={t('home.addressPlaceholder')}
+        required
+      />
+      <button type="submit" class="visually-hidden">{t('home.search')}</button>
+    </form>
+
+    <p class="manual">
+      {t('home.manualPrefix')}<a href={localizePath('/candidates/north-carolina', locale)}
+        >{t('home.manualLink')}</a
+      >{t('home.manualSuffix')}
+    </p>
+  </section>
+</BaseLayout>
+
+<style>
+  .hero {
+    padding-block: clamp(3rem, 9vw, 7rem) clamp(3rem, 10vw, 9rem);
+  }
+
+  .search {
+    margin: clamp(2rem, 5vw, 3.5rem) auto 0;
+    max-width: 39rem;
+  }
+
+  .search input {
+    width: 100%;
+    font: inherit;
+    font-size: 1.0625rem;
+    padding: 1rem 1.5rem;
+    border: 1px solid var(--vc-ink-muted);
+    border-radius: 999px;
+    background: #fff;
+    color: var(--vc-ink);
+  }
+
+  .search input::placeholder {
+    color: var(--vc-ink-muted);
+  }
+
+  .search input:hover {
+    border-color: var(--vc-blue);
+  }
+
+  .manual {
+    margin-top: 1.5rem;
+    text-align: center;
+    font-size: 0.8125rem;
+    color: var(--vc-ink-muted);
+    max-width: 32rem;
+    margin-inline: auto;
+    text-wrap: balance;
+  }
+</style>
