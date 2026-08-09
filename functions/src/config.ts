@@ -36,6 +36,10 @@ export interface AppConfig {
  * (not buried in code) so it is trivial to bump when a newer/cheaper model
  * ships. Flash-Lite is the smallest, cheapest tier — more than enough to split
  * an address into three parts.
+ *
+ * Note: this model resolves on Vertex AI's *global* endpoint (see
+ * VERTEX_LOCATION below). On a specific regional endpoint like us-central1 it
+ * is not yet available (404), which is why we default the location to 'global'.
  */
 export const ADDRESS_PARSER_MODEL = 'gemini-3.5-flash-lite';
 
@@ -57,7 +61,11 @@ export function loadConfig(): AppConfig {
         process.env.GCLOUD_PROJECT ??
         process.env.GOOGLE_CLOUD_PROJECT ??
         process.env.FIREBASE_PROJECT,
-      location: process.env.VERTEX_LOCATION ?? 'us-central1',
+      // Default to the 'global' endpoint, not a region: it has broader model
+      // availability (gemini-3.5-flash-lite resolves there but 404s on
+      // us-central1) and lets Google route to the best backend. Override with
+      // VERTEX_LOCATION only if a regional endpoint is needed (data residency).
+      location: process.env.VERTEX_LOCATION ?? 'global',
       model: ADDRESS_PARSER_MODEL,
     },
   };
