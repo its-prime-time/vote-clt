@@ -1,0 +1,32 @@
+{
+  // TypeScript compiler settings for the Cloud Functions package.
+  //
+  // For teammates newer to TypeScript: this file tells `tsc` (the TypeScript
+  // compiler) how to turn the `.ts` files under src/ into the plain JavaScript
+  // that Node actually runs. The compiled output lands in lib/ (see "outDir").
+  "compilerOptions": {
+    // Emit modern JavaScript. Node 22 supports these language features natively.
+    "target": "ES2022",
+    // Use standard ECMAScript modules (import/export) rather than CommonJS.
+    // This must line up with "type": "module" in package.json.
+    "module": "ES2022",
+    "moduleResolution": "bundler",
+    // Where the compiled .js files go. Firebase deploys this folder.
+    "outDir": "lib",
+    "rootDir": ".",
+    // Turn on all the strict type-checking options. This catches whole classes
+    // of bugs (null handling, implicit any, etc.) before the code ever runs.
+    "strict": true,
+    // Allow `import x from 'y'` for CommonJS modules that lack a default export.
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+    // Generate .d.ts files and source maps to make debugging deployed code easier.
+    "declaration": true,
+    "sourceMap": true,
+    "resolveJsonModule": true
+  },
+  // Compile the function source and the CLI harness, but never the build output.
+  "include": ["src/**/*.ts", "cli/**/*.ts"],
+  "exclude": ["node_modules", "lib"]
+}
