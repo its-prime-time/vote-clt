@@ -20,6 +20,12 @@
     "cleanUrls": true,
     "trailingSlash": false,
     "ignore": ["firebase.json", "**/.*", "**/node_modules/**"],
+    "rewrites": [
+      {
+        "source": "/api/lookupAddress",
+        "function": { "functionId": "lookupAddress", "region": "us-central1" }
+      }
+    ],
     "headers": [
       {
         "source": "**/*.@(js|css|svg|png|jpg|jpeg|webp|avif|woff|woff2)",

@@ -6,45 +6,254 @@ export const getStaticPaths = localePaths;
 
 const { locale } = Astro.props as { locale: Locale };
 const t = useTranslations(locale);
+
+// The bundled <script> below is shared by every locale's copy of this page, so
+// the strings it needs at runtime are rendered per-locale as a JSON island.
+const messages = {
+  errors: {
+    unrecognized_address: t('results.error.unrecognized'),
+    address_not_found: t('results.error.notFound'),
+    multiple_matches: t('results.error.multiple'),
+    upstream_error: t('results.error.upstream'),
+    network: t('results.error.network'),
+    generic: t('results.error.generic'),
+  },
+};
 ---
 
 <BaseLayout locale={locale} title={t('results.title')}>
   <section class="wrap page-head">
     <h1>{t('results.title')}</h1>
 
-    <p class="page-lead">
-      <span id="address-line" hidden>
-        {t('results.forAddress')} <strong id="address-value"></strong>
-      </span>
-      <span id="no-address">{t('results.noAddress')}</span>
-    </p>
+    {/* No ?address= in the URL: point people back at the search box. */}
+    <div id="state-empty">
+      <p class="page-lead">{t('results.noAddress')}</p>
+      <p class="actions">
+        <a class="btn" href={localizePath('/candidates/north-carolina', locale)}>
+          {t('results.browse')}
+        </a>
+        <a class="btn btn-quiet" href={localizePath('/', locale)}>{t('results.tryAgain')}</a>
+      </p>
+    </div>
 
-    <p class="page-lead">{t('results.comingSoon')}</p>
+    {/* Interstitial while the lookup function runs (typically 10–15s). */}
+    <div id="state-loading" role="status" hidden>
+      <div class="spinner" aria-hidden="true"></div>
+      <p class="page-lead">{t('results.loading')}</p>
+      <p class="loading-note">{t('results.loadingNote')}</p>
+    </div>
 
-    <p class="actions">
-      <a class="btn" href={localizePath('/candidates/north-carolina', locale)}>
-        {t('results.browse')}
-      </a>
-      <a class="btn btn-quiet" href={localizePath('/', locale)}>{t('results.tryAgain')}</a>
-    </p>
+    {/* Lookup failed: explain why and let the user fix the address in place. */}
+    <div id="state-error" hidden>
+      <p class="error-box" id="error-message" role="alert"></p>
+
+      <div id="candidates" hidden>
+        <p class="candidates-heading">{t('results.didYouMean')}</p>
+        <ul id="candidate-list" class="candidate-list"></ul>
+      </div>
+
+      <form class="search" method="get" action={localizePath('/my-ballot/results', locale)}>
+        <label class="visually-hidden" for="retry-address">{t('home.addressLabel')}</label>
+        <input
+          id="retry-address"
+          name="address"
+          type="text"
+          autocomplete="street-address"
+          placeholder={t('home.addressPlaceholder')}
+          required
+        />
+        <button type="submit" class="btn">{t('home.search')}</button>
+      </form>
+    </div>
+
+    {/* Success: for now, the raw lookup result rendered as a nested table. */}
+    <div id="state-success" hidden>
+      <p class="page-lead">
+        {t('results.forAddress')} <strong id="result-address"></strong>
+      </p>
+      <div id="result-table" class="result-table"></div>
+      <p class="actions">
+        <a class="btn btn-quiet" href={localizePath('/', locale)}>{t('results.tryAgain')}</a>
+      </p>
+    </div>
   </section>
 </BaseLayout>
 
+<script
+  is:inline
+  type="application/json"
+  id="lookup-messages"
+  set:html={JSON.stringify(messages).replace(/</g, '\\u003c')}
+/>
+
 <script>
-  // The site is statically hosted, so the submitted address is read from the
-  // query string in the browser rather than on a server.
+  import {
+    lookupAddress,
+    LookupRequestError,
+    type AddressCandidate,
+  } from '../../../lib/lookupClient';
+
+  const messages: { errors: Record<string, string> } = JSON.parse(
+    document.getElementById('lookup-messages')?.textContent ?? '{"errors":{}}',
+  );
+
+  const states = {
+    empty: document.getElementById('state-empty')!,
+    loading: document.getElementById('state-loading')!,
+    error: document.getElementById('state-error')!,
+    success: document.getElementById('state-success')!,
+  };
+
+  function show(name: keyof typeof states): void {
+    for (const [key, el] of Object.entries(states)) el.hidden = key !== name;
+  }
+
+  // Statically hosted site: the submitted address arrives via the query string.
   const address = new URLSearchParams(window.location.search).get('address')?.trim();
 
   if (address) {
-    const line = document.getElementById('address-line');
-    const value = document.getElementById('address-value');
-    const empty = document.getElementById('no-address');
+    // Prefill the retry box so a failed search can be corrected, not retyped.
+    const retryInput = document.querySelector<HTMLInputElement>('#retry-address');
+    if (retryInput) retryInput.value = address;
+    void runLookup(address);
+  }
 
-    if (line && value && empty) {
-      value.textContent = address; // textContent, so a pasted address can't inject markup
-      line.hidden = false;
-      empty.hidden = true;
+  async function runLookup(address: string): Promise<void> {
+    show('loading');
+    try {
+      renderSuccess(address, await lookupAddress(address));
+    } catch (err) {
+      renderError(err);
     }
+  }
+
+  // ------------------------------------------------------------------ errors
+
+  /** Fallback mapping when the function's `details.code` is missing. */
+  const STATUS_TO_CODE: Record<string, string> = {
+    INVALID_ARGUMENT: 'unrecognized_address',
+    NOT_FOUND: 'address_not_found',
+    FAILED_PRECONDITION: 'multiple_matches',
+    UNAVAILABLE: 'upstream_error',
+    network: 'network',
+  };
+
+  function renderError(err: unknown): void {
+    const requestError = err instanceof LookupRequestError ? err : undefined;
+    const code = requestError?.details?.code ?? STATUS_TO_CODE[requestError?.status ?? ''];
+    document.getElementById('error-message')!.textContent =
+      (code && messages.errors[code]) || messages.errors.generic;
+
+    renderCandidates(requestError?.details?.candidates ?? []);
+    show('error');
+  }
+
+  /** For multiple_matches: each BOE candidate becomes a link that re-runs the search. */
+  function renderCandidates(candidates: AddressCandidate[]): void {
+    const list = document.getElementById('candidate-list')!;
+    list.replaceChildren(
+      ...candidates.map((candidate) => {
+        const label = candidate.label.replace(/\s+/g, ' ').trim();
+        const target = new URL(window.location.href);
+        target.searchParams.set('address', label);
+        const link = document.createElement('a');
+        link.href = target.toString();
+        link.textContent = label;
+        const item = document.createElement('li');
+        item.append(link);
+        return item;
+      }),
+    );
+    document.getElementById('candidates')!.hidden = candidates.length === 0;
+  }
+
+  // ----------------------------------------------------------------- success
+
+  function renderSuccess(address: string, result: unknown): void {
+    const matched = (result as { ballot?: { matchedAddress?: string } } | null)?.ballot
+      ?.matchedAddress;
+    document.getElementById('result-address')!.textContent = matched || address;
+    document.getElementById('result-table')!.replaceChildren(renderValue(result));
+    show('success');
+  }
+
+  /** Render any JSON value as text, a link, or a nested table. */
+  function renderValue(value: unknown): Node {
+    if (value === null || value === undefined || value === '') return emptyMark();
+    if (typeof value !== 'object') {
+      const text = String(value);
+      if (/^https?:\/\//.test(text)) {
+        const link = document.createElement('a');
+        link.href = text;
+        link.textContent = text;
+        link.target = '_blank';
+        link.rel = 'noopener';
+        return link;
+      }
+      return document.createTextNode(text);
+    }
+    if (Array.isArray(value)) return renderArray(value);
+    return renderObject(value as Record<string, unknown>);
+  }
+
+  function renderObject(obj: Record<string, unknown>): Node {
+    const entries = Object.entries(obj);
+    if (entries.length === 0) return emptyMark();
+    const table = document.createElement('table');
+    table.className = 'json-table';
+    for (const [key, val] of entries) {
+      const row = table.insertRow();
+      const header = document.createElement('th');
+      header.scope = 'row';
+      header.textContent = key;
+      row.append(header);
+      row.insertCell().append(renderValue(val));
+    }
+    return table;
+  }
+
+  function renderArray(items: unknown[]): Node {
+    if (items.length === 0) return emptyMark();
+
+    const table = document.createElement('table');
+    table.className = 'json-table';
+
+    // A uniform array of objects reads better as one table with a header row.
+    if (items.every((item) => item && typeof item === 'object' && !Array.isArray(item))) {
+      const keys = [...new Set(items.flatMap((item) => Object.keys(item as object)))];
+      const head = table.createTHead().insertRow();
+      for (const key of keys) {
+        const cell = document.createElement('th');
+        cell.scope = 'col';
+        cell.textContent = key;
+        head.append(cell);
+      }
+      const body = table.createTBody();
+      for (const item of items) {
+        const row = body.insertRow();
+        for (const key of keys) {
+          row.insertCell().append(renderValue((item as Record<string, unknown>)[key]));
+        }
+      }
+      return table;
+    }
+
+    for (const [index, item] of items.entries()) {
+      const row = table.insertRow();
+      const header = document.createElement('th');
+      header.scope = 'row';
+      header.textContent = String(index + 1);
+      row.append(header);
+      row.insertCell().append(renderValue(item));
+    }
+    return table;
+  }
+
+  function emptyMark(): Node {
+    const mark = document.createElement('span');
+    mark.className = 'json-empty';
+    mark.textContent = '—';
+    return mark;
   }
 </script>
 
@@ -79,5 +288,126 @@ const t = useTranslations(locale);
   .btn-quiet:hover {
     background: var(--vc-surface-alt);
     color: var(--vc-blue-dark);
+  }
+
+  .spinner {
+    margin: clamp(2.5rem, 6vw, 4rem) auto 0;
+    width: 3rem;
+    height: 3rem;
+    border: 4px solid var(--vc-rule);
+    border-top-color: var(--vc-blue);
+    border-radius: 50%;
+    animation: spin 0.9s linear infinite;
+  }
+
+  @keyframes spin {
+    to {
+      transform: rotate(360deg);
+    }
+  }
+
+  .loading-note {
+    margin-top: 0.75rem;
+    text-align: center;
+    font-size: 0.875rem;
+    color: var(--vc-ink-muted);
+  }
+
+  .error-box {
+    margin: 2.5rem auto 0;
+    max-width: 46rem;
+    padding: 1rem 1.25rem;
+    border: 1px solid var(--vc-rule);
+    border-left: 4px solid var(--vc-red);
+    border-radius: 0.5rem;
+    background: var(--vc-surface-alt);
+    text-align: left;
+  }
+
+  .candidates-heading {
+    margin: 1.5rem auto 0;
+    max-width: 46rem;
+    font-weight: 600;
+    text-align: left;
+  }
+
+  .candidate-list {
+    margin: 0.5rem auto 0;
+    max-width: 46rem;
+    padding-left: 1.5rem;
+    text-align: left;
+  }
+
+  .search {
+    margin: 2rem auto 0;
+    max-width: 39rem;
+    display: flex;
+    gap: 0.75rem;
+  }
+
+  .search input {
+    flex: 1;
+    min-width: 0;
+    font: inherit;
+    font-size: 1.0625rem;
+    padding: 1rem 1.5rem;
+    border: 1px solid var(--vc-ink-muted);
+    border-radius: 999px;
+    background: #fff;
+    color: var(--vc-ink);
+  }
+
+  .search input::placeholder {
+    color: var(--vc-ink-muted);
+  }
+
+  .search input:hover {
+    border-color: var(--vc-blue);
+  }
+
+  .search .btn {
+    border: 0;
+    font: inherit;
+    font-weight: 600;
+    font-size: 0.9375rem;
+    cursor: pointer;
+  }
+</style>
+
+{/* The result table and candidate links are created by the script at runtime,
+    so Astro's scoped styles can't reach them — these must be global. */}
+<style is:global>
+  .result-table {
+    margin: 2.5rem auto 0;
+    max-width: 60rem;
+    overflow-x: auto;
+    text-align: left;
+  }
+
+  .json-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.9375rem;
+  }
+
+  .json-table th,
+  .json-table td {
+    border: 1px solid var(--vc-rule);
+    padding: 0.5rem 0.75rem;
+    vertical-align: top;
+    text-align: left;
+  }
+
+  .json-table th {
+    background: var(--vc-surface-alt);
+    font-weight: 600;
+  }
+
+  .json-table th[scope='row'] {
+    white-space: nowrap;
+  }
+
+  .json-empty {
+    color: var(--vc-ink-muted);
   }
 </style>
