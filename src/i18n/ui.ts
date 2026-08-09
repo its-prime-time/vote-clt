@@ -34,7 +34,7 @@ export const ui = {
     'home.title': 'Find my ballot',
     'home.subtitle':
       'Find all of the candidates and policies you can vote for in one quick, easy search.',
-    'home.addressPlaceholder': 'Your address here...',
+    'home.addressPlaceholder': 'Your home street address, for example ‘123 Main St’',
     'home.addressLabel': 'Your home address',
     'home.search': 'Search',
     'home.manualPrefix': 'Don’t want to input your address? Find your candidates manually on the ',
@@ -97,7 +97,7 @@ export const ui = {
     'home.title': 'Encuentra mi boleta',
     'home.subtitle':
       'Encuentra todos los candidatos y las políticas por los que puedes votar en una búsqueda rápida y sencilla.',
-    'home.addressPlaceholder': 'Tu dirección aquí...',
+    'home.addressPlaceholder': 'Tu dirección de residencia, por ejemplo ‘123 Main St’',
     'home.addressLabel': 'Tu dirección de residencia',
     'home.search': 'Buscar',
     'home.manualPrefix': '¿No quieres ingresar tu dirección? Encuentra tus candidatos manualmente en la página ',
