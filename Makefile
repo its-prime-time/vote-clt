@@ -12,7 +12,8 @@ PORT     ?= 4321
 CHANNEL  ?= preview
 
 .DEFAULT_GOAL := help
-.PHONY: help install dev dev-bg dev-stop dev-logs build preview emulate publish draft channels login whoami clean distclean
+.PHONY: help install dev dev-bg dev-stop dev-logs build preview emulate publish draft channels login whoami clean distclean \
+        functions-install functions-build functions-lookup deploy deploy-functions deploy-hosting
 
 ## help: list the available targets
 help:
@@ -27,9 +28,18 @@ help:
 	@echo "  make preview    build, then serve the production build locally"
 	@echo "  make emulate    build, then serve via the Firebase Hosting emulator"
 	@echo "                  (honors firebase.json: clean URLs, headers, 404)"
-	@echo "  make publish    build and deploy to the live site (project: $(PROJECT))"
+	@echo "  make publish    build and deploy hosting to the live site (project: $(PROJECT))"
 	@echo "  make draft      deploy to a shareable preview URL (CHANNEL=$(CHANNEL))"
 	@echo "  make channels   list active preview channels"
+	@echo ""
+	@echo "  Cloud Functions:"
+	@echo "  make functions-install  install functions/ dependencies"
+	@echo "  make functions-build    compile the TypeScript functions"
+	@echo "  make functions-lookup   run the address-lookup CLI (ADDR=\"...\")"
+	@echo "  make deploy             build + deploy BOTH functions and hosting"
+	@echo "  make deploy-functions   deploy only the Cloud Functions"
+	@echo "  make deploy-hosting     deploy only hosting (same as publish)"
+	@echo ""
 	@echo "  make login      (re-)authenticate the Firebase CLI"
 	@echo "  make whoami     show the signed-in Firebase account"
 	@echo "  make clean      remove build output"
@@ -72,9 +82,41 @@ preview: build
 emulate: build
 	$(FIREBASE) emulators:start --only hosting --project $(PROJECT)
 
-## publish: build and deploy to the live channel
+## publish: build and deploy hosting to the live channel
 publish: build
 	$(FIREBASE) deploy --only hosting --project $(PROJECT)
+
+# ---------------------------------------------------------------------------
+# Cloud Functions (address lookup)
+# ---------------------------------------------------------------------------
+
+# Install functions deps whenever functions/package.json changes.
+functions/node_modules: functions/package.json
+	$(NPM) --prefix functions install
+	@touch functions/node_modules
+
+## functions-install: install functions/ npm dependencies
+functions-install: functions/node_modules
+
+## functions-build: compile the TypeScript Cloud Functions into functions/lib
+functions-build: functions/node_modules
+	$(NPM) --prefix functions run build
+
+## functions-lookup: run the address-lookup CLI, e.g. make functions-lookup ADDR="741 Kenilworth Ave"
+functions-lookup: functions/node_modules
+	$(NPM) --prefix functions run lookup -- "$(ADDR)"
+
+## deploy-functions: deploy only the Cloud Functions (firebase runs the build)
+deploy-functions: functions/node_modules
+	$(FIREBASE) deploy --only functions --project $(PROJECT)
+
+## deploy-hosting: deploy only hosting (alias of publish)
+deploy-hosting: build
+	$(FIREBASE) deploy --only hosting --project $(PROJECT)
+
+## deploy: build the site and deploy BOTH Cloud Functions and hosting
+deploy: build functions/node_modules
+	$(FIREBASE) deploy --only functions,hosting --project $(PROJECT)
 
 ## draft: deploy to a temporary preview channel and print the URL
 draft: build
@@ -94,8 +136,8 @@ whoami:
 
 ## clean: remove build output
 clean:
-	rm -rf dist .astro
+	rm -rf dist .astro functions/lib
 
 ## distclean: also remove installed dependencies
 distclean: clean
-	rm -rf node_modules
+	rm -rf node_modules functions/node_modules
