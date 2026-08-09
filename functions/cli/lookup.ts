@@ -44,13 +44,17 @@ Vote CLT — address lookup CLI
 
 Usage:
   npm run lookup -- "<free-form address>"                 Run the full pipeline locally
-  npm run lookup -- --url <functionUrl> "<address>"       Call the deployed function
+  npm run lookup -- --prod "<address>"                    Call the DEPLOYED function (uses FUNCTION_URL)
+  npm run lookup -- --url <functionUrl> "<address>"       Call the deployed function at an explicit URL
   npm run lookup -- --fixture-info <file.html>            Parse a saved info page
   npm run lookup -- --fixture-search <file.html>          Parse a saved search page
 
 Examples:
   npm run lookup -- "3227 Planters Ridge Rd 28270"
+  npm run lookup -- --prod "741 Kenilworth Ave"
   npm run lookup -- --fixture-info ../specs/sample/meckboe-address-information.aspx.html
+
+Tip: set FUNCTION_URL in functions/.env once, then --prod needs no URL.
 `.trim();
 
 async function main(): Promise<void> {
@@ -77,10 +81,29 @@ async function main(): Promise<void> {
     return;
   }
 
-  // --- Remote mode: call the deployed callable function over HTTPS. ---
+  // --- Remote mode (explicit URL): call the deployed callable over HTTPS. ---
   if (argv[0] === '--url') {
     const url = requireArg(argv[1], '--url needs a function URL');
     const address = requireArg(argv[2], '--url needs an address argument');
+    await callDeployed(url, address);
+    return;
+  }
+
+  // --- Remote mode (production): use the FUNCTION_URL from the environment. ---
+  if (argv[0] === '--prod') {
+    const url = process.env.FUNCTION_URL;
+    if (!url) {
+      console.error(
+        'No FUNCTION_URL set. Add it to functions/.env (see .env.example), ' +
+          'or use --url <functionUrl> instead.\n' +
+          "Find the URL with: firebase functions:list --project vote-clt",
+      );
+      process.exit(1);
+    }
+    const address = requireArg(
+      argv.slice(1).join(' ') || undefined,
+      '--prod needs an address argument',
+    );
     await callDeployed(url, address);
     return;
   }

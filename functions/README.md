@@ -60,7 +60,10 @@ Run the whole pipeline from the command line — no emulator required.
 # Full pipeline, locally (needs SCRAPINGBEE_API_KEY + Vertex ADC):
 npm run lookup -- "3227 Planters Ridge Rd 28270"
 
-# Call the DEPLOYED function over HTTPS (no emulator, no local creds):
+# Call the DEPLOYED function over HTTPS (no emulator, no local creds).
+# Set FUNCTION_URL in .env once, then just:
+npm run lookup -- --prod "741 Kenilworth Ave"
+# ...or pass the URL explicitly:
 npm run lookup -- --url https://us-central1-vote-clt.cloudfunctions.net/lookupAddress "741 Kenilworth Ave"
 
 # Offline — parse saved BOE HTML with no API keys (tests the parser only):

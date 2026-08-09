@@ -1,0 +1,19 @@
+{
+  // Build-only compiler settings for DEPLOYMENT.
+  //
+  // The base tsconfig.json compiles everything (src/ AND the cli/ dev harness)
+  // and is what the editor + `npm run typecheck` use. But for the deployed
+  // Cloud Function we want the conventional Firebase layout: source under src/,
+  // compiled straight into lib/ so the entry point is lib/index.js (matching
+  // "main" in package.json). Setting rootDir to "src" and compiling only src/
+  // produces exactly that — lib/index.js, lib/config.js, lib/boe/…, etc.
+  //
+  // The CLI is run with tsx (TypeScript directly), so it never needs compiling.
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "rootDir": "src",
+    "outDir": "lib"
+  },
+  "include": ["src/**/*.ts"],
+  "exclude": ["node_modules", "lib", "cli"]
+}

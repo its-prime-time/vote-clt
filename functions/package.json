@@ -9,8 +9,8 @@
   },
   "main": "lib/index.js",
   "scripts": {
-    "build": "tsc",
-    "build:watch": "tsc --watch",
+    "build": "tsc -p tsconfig.build.json",
+    "build:watch": "tsc -p tsconfig.build.json --watch",
     "typecheck": "tsc --noEmit",
     "lookup": "tsx cli/lookup.ts",
     "serve": "npm run build && firebase emulators:start --only functions",
@@ -19,7 +19,7 @@
   "dependencies": {
     "@genkit-ai/google-genai": "^1.14.1",
     "cheerio": "^1.0.0",
-    "firebase-functions": "^6.1.1",
+    "firebase-functions": "^7.3.2",
     "genkit": "^1.14.1"
   },
   "devDependencies": {

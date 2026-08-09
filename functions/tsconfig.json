@@ -2,8 +2,11 @@
   // TypeScript compiler settings for the Cloud Functions package.
   //
   // For teammates newer to TypeScript: this file tells `tsc` (the TypeScript
-  // compiler) how to turn the `.ts` files under src/ into the plain JavaScript
-  // that Node actually runs. The compiled output lands in lib/ (see "outDir").
+  // compiler) how to type-check the code. It covers BOTH src/ and the cli/ dev
+  // harness, so `npm run typecheck` and your editor check everything.
+  //
+  // Deployment uses a separate tsconfig.build.json (which compiles only src/
+  // into lib/index.js, the conventional Firebase layout). See that file.
   "compilerOptions": {
     // Emit modern JavaScript. Node 22 supports these language features natively.
     "target": "ES2022",
