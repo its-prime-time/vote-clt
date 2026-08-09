@@ -44,8 +44,20 @@ export const ui = {
     'results.title': 'Your ballot',
     'results.forAddress': 'Results for',
     'results.noAddress': 'No address provided.',
-    'results.comingSoon':
-      'Address-based ballot lookup is coming soon. In the meantime, browse candidates by jurisdiction.',
+    'results.loading': 'Looking up your ballot information',
+    'results.loadingNote': 'This usually takes 10–15 seconds.',
+    'results.error.unrecognized':
+      'We couldn’t read that as a street address. Try a format like ‘123 Main St’.',
+    'results.error.notFound':
+      'We couldn’t find that address in Mecklenburg County. Double-check the house number and street name.',
+    'results.error.multiple':
+      'That search matched more than one address. Choose yours below, or add more detail such as a ZIP code.',
+    'results.error.upstream':
+      'The Board of Elections site isn’t responding right now. Please try again in a few minutes.',
+    'results.error.network':
+      'We couldn’t reach the lookup service. Check your connection and try again.',
+    'results.error.generic': 'Something went wrong looking up your ballot. Please try again.',
+    'results.didYouMean': 'Did you mean:',
     'results.browse': 'Browse all candidates',
     'results.tryAgain': 'Search a different address',
 
@@ -76,6 +88,9 @@ export const ui = {
     'footer.rights': 'Vote CLT is a nonpartisan voter information project.',
     'footer.disclaimer':
       'Always confirm details with the Mecklenburg County Board of Elections before you vote.',
+    'footer.attributionPrefix': 'Ballot lookup information provided by ',
+    'footer.attributionLink': 'Mecklenburg Board of Elections',
+    'footer.attributionSuffix': '.',
 
     'notFound.title': 'Page not found',
     'notFound.body': 'We couldn’t find that page. Try starting from the home page.',
@@ -107,8 +122,20 @@ export const ui = {
     'results.title': 'Tu boleta',
     'results.forAddress': 'Resultados para',
     'results.noAddress': 'No se proporcionó ninguna dirección.',
-    'results.comingSoon':
-      'La búsqueda de boletas por dirección estará disponible pronto. Mientras tanto, explora los candidatos por jurisdicción.',
+    'results.loading': 'Buscando la información de tu boleta',
+    'results.loadingNote': 'Esto suele tardar entre 10 y 15 segundos.',
+    'results.error.unrecognized':
+      'No pudimos interpretar eso como una dirección. Prueba un formato como ‘123 Main St’.',
+    'results.error.notFound':
+      'No encontramos esa dirección en el condado de Mecklenburg. Verifica el número de casa y el nombre de la calle.',
+    'results.error.multiple':
+      'La búsqueda coincidió con más de una dirección. Elige la tuya abajo o agrega más detalles, como el código postal.',
+    'results.error.upstream':
+      'El sitio de la Junta Electoral no responde en este momento. Inténtalo de nuevo en unos minutos.',
+    'results.error.network':
+      'No pudimos conectar con el servicio de búsqueda. Revisa tu conexión e inténtalo de nuevo.',
+    'results.error.generic': 'Algo salió mal al buscar tu boleta. Inténtalo de nuevo.',
+    'results.didYouMean': '¿Quisiste decir:',
     'results.browse': 'Ver todos los candidatos',
     'results.tryAgain': 'Buscar otra dirección',
 
@@ -140,6 +167,9 @@ export const ui = {
     'footer.rights': 'Vote CLT es un proyecto no partidista de información para votantes.',
     'footer.disclaimer':
       'Confirma siempre los detalles con la Junta Electoral del Condado de Mecklenburg antes de votar.',
+    'footer.attributionPrefix': 'Información de búsqueda de boletas proporcionada por la ',
+    'footer.attributionLink': 'Junta Electoral del Condado de Mecklenburg',
+    'footer.attributionSuffix': '.',
 
     'notFound.title': 'Página no encontrada',
     'notFound.body': 'No pudimos encontrar esa página. Intenta comenzar desde la página principal.',
