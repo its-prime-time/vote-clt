@@ -13,7 +13,7 @@ CHANNEL  ?= preview
 
 .DEFAULT_GOAL := help
 .PHONY: help install dev dev-bg dev-stop dev-logs build preview emulate publish draft channels login whoami clean distclean \
-        functions-install functions-build functions-lookup deploy deploy-functions deploy-hosting
+        functions-install functions-build functions-lookup functions-lookup-prod deploy deploy-functions deploy-hosting
 
 ## help: list the available targets
 help:
@@ -35,7 +35,8 @@ help:
 	@echo "  Cloud Functions:"
 	@echo "  make functions-install  install functions/ dependencies"
 	@echo "  make functions-build    compile the TypeScript functions"
-	@echo "  make functions-lookup   run the address-lookup CLI (ADDR=\"...\")"
+	@echo "  make functions-lookup       run the lookup CLI locally (ADDR=\"...\")"
+	@echo "  make functions-lookup-prod  call the deployed function (ADDR=\"...\")"
 	@echo "  make deploy             build + deploy BOTH functions and hosting"
 	@echo "  make deploy-functions   deploy only the Cloud Functions"
 	@echo "  make deploy-hosting     deploy only hosting (same as publish)"
@@ -102,9 +103,13 @@ functions-install: functions/node_modules
 functions-build: functions/node_modules
 	$(NPM) --prefix functions run build
 
-## functions-lookup: run the address-lookup CLI, e.g. make functions-lookup ADDR="741 Kenilworth Ave"
+## functions-lookup: run the lookup CLI locally, e.g. make functions-lookup ADDR="741 Kenilworth Ave"
 functions-lookup: functions/node_modules
 	$(NPM) --prefix functions run lookup -- "$(ADDR)"
+
+## functions-lookup-prod: call the DEPLOYED function, e.g. make functions-lookup-prod ADDR="741 Kenilworth Ave"
+functions-lookup-prod: functions/node_modules
+	$(NPM) --prefix functions run lookup -- --prod "$(ADDR)"
 
 ## deploy-functions: deploy only the Cloud Functions (firebase runs the build)
 deploy-functions: functions/node_modules
