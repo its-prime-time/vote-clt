@@ -13,8 +13,8 @@ interface Props {
 
 const { label, class: className } = Astro.props;
 const a11y = label
-  ? { role: 'img', 'aria-label': label }
-  : { role: 'presentation', 'aria-hidden': 'true' };
+  ? ({ role: 'img', 'aria-label': label } as const)
+  : ({ role: 'presentation', 'aria-hidden': 'true' } as const);
 ---
 
 <svg

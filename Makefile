@@ -13,6 +13,7 @@ CHANNEL  ?= preview
 
 .DEFAULT_GOAL := help
 .PHONY: help install dev dev-bg dev-stop dev-logs build preview emulate publish draft channels login whoami clean distclean \
+        ingest ingest-check \
         functions-install functions-build functions-lookup functions-lookup-prod deploy deploy-functions deploy-hosting
 
 ## help: list the available targets
@@ -31,6 +32,10 @@ help:
 	@echo "  make publish    build and deploy hosting to the live site (project: $(PROJECT))"
 	@echo "  make draft      deploy to a shareable preview URL (CHANNEL=$(CHANNEL))"
 	@echo "  make channels   list active preview channels"
+	@echo ""
+	@echo "  Candidate data (editorial spreadsheet → src/data/generated):"
+	@echo "  make ingest         pull the spreadsheet + photos, write JSON and data_quality_issues.md"
+	@echo "  make ingest-check   report whether the committed data is behind the spreadsheet"
 	@echo ""
 	@echo "  Cloud Functions:"
 	@echo "  make functions-install  install functions/ dependencies"
@@ -86,6 +91,18 @@ emulate: build
 ## publish: build and deploy hosting to the live channel
 publish: build
 	$(FIREBASE) deploy --only hosting --project $(PROJECT)
+
+# ---------------------------------------------------------------------------
+# Candidate data ingest (see specs/003-data-ingest.md)
+# ---------------------------------------------------------------------------
+
+## ingest: fetch the editorial spreadsheet and photos; writes src/data/generated, public/candidates, data_quality_issues.md
+ingest: node_modules
+	$(NPM) run ingest
+
+## ingest-check: exit non-zero if the committed data differs from the spreadsheet (writes nothing)
+ingest-check: node_modules
+	$(NPM) run ingest:check
 
 # ---------------------------------------------------------------------------
 # Cloud Functions (address lookup)

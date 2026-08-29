@@ -1,46 +1,23 @@
 import type { I18nText } from '../i18n/utils';
+import type { JurisdictionSlug } from './candidateTypes';
 
 /**
- * Candidate content, grouped by the jurisdiction shown in the "All Candidates"
- * dropdown. Editing this file is all it takes to add a race or a candidate —
- * the pages are generated from it.
+ * The four entries in the "All Candidates" dropdown, in the order they appear.
+ *
+ * Only the page chrome lives here. The contests and candidates for each
+ * jurisdiction come from the editorial spreadsheet via `make ingest` — see
+ * `src/data/candidates.ts` and `src/data/generated/candidates.json`.
  */
 
-export type Party = 'D' | 'R' | 'L' | 'G' | 'U' | 'NP';
-
-export interface Candidate {
-  name: string;
-  party: Party;
-  /** Shown in the colored badge over the photo. Omit for at-large / citywide seats. */
-  district?: string;
-  /** Short issue bullets under the name. */
-  issues: I18nText[];
-  /** Path under `public/`. Leave unset to render the placeholder tile. */
-  photo?: string;
-}
-
-export interface Race {
-  slug: string;
-  title: I18nText;
-  candidates: Candidate[];
-}
-
 export interface Jurisdiction {
-  slug: string;
+  slug: JurisdictionSlug;
   /** Label in the "All Candidates" dropdown. */
   navLabel: I18nText;
   title: I18nText;
   subtitle: I18nText;
-  races: Race[];
+  /** Shown instead of the candidate grid when the ballot has no contests here. */
+  emptyNote?: I18nText;
 }
-
-/** A card with no candidate yet — renders as a "to be announced" placeholder. */
-const tbd = (district?: string): Candidate => ({
-  name: '',
-  party: 'NP',
-  district,
-  issues: [],
-});
 
 export const jurisdictions: Jurisdiction[] = [
   {
@@ -51,18 +28,6 @@ export const jurisdictions: Jurisdiction[] = [
       en: 'View all of your candidates for federal office in the 2026 elections.',
       es: 'Consulta todos tus candidatos a cargos federales en las elecciones de 2026.',
     },
-    races: [
-      {
-        slug: 'us-senate',
-        title: { en: 'U.S. Senate', es: 'Senado de EE. UU.' },
-        candidates: [tbd(), tbd()],
-      },
-      {
-        slug: 'us-house',
-        title: { en: 'U.S. House', es: 'Cámara de Representantes de EE. UU.' },
-        candidates: [tbd('District 12'), tbd('District 12'), tbd('District 14')],
-      },
-    ],
   },
   {
     slug: 'north-carolina',
@@ -72,55 +37,6 @@ export const jurisdictions: Jurisdiction[] = [
       en: 'View all of your candidates for the NC legislature and judiciary in the 2026 elections.',
       es: 'Consulta todos tus candidatos a la legislatura y al poder judicial de Carolina del Norte en las elecciones de 2026.',
     },
-    races: [
-      {
-        slug: 'nc-senate',
-        title: { en: 'NC Senate', es: 'Senado de NC' },
-        candidates: [
-          {
-            name: 'Raygan Angel',
-            party: 'D',
-            district: '37',
-            issues: [
-              { en: 'Fixing rigged maps', es: 'Corregir los mapas manipulados' },
-              { en: 'Funding public schools', es: 'Financiar las escuelas públicas' },
-              { en: 'Affordable healthcare', es: 'Atención médica asequible' },
-            ],
-          },
-          {
-            name: 'Vickie Sawyer',
-            party: 'R',
-            district: '37',
-            issues: [
-              { en: 'Improving transportation', es: 'Mejorar el transporte' },
-              { en: 'Protecting schools and families', es: 'Proteger las escuelas y las familias' },
-            ],
-          },
-          {
-            name: 'Mujtaba Mohammed',
-            party: 'D',
-            district: '38',
-            issues: [
-              { en: 'Ensuring quality education', es: 'Garantizar una educación de calidad' },
-              { en: 'Building a stronger economy', es: 'Construir una economía más fuerte' },
-              { en: 'Creating equitable policies', es: 'Crear políticas equitativas' },
-            ],
-          },
-          tbd('38'),
-          tbd('39'),
-        ],
-      },
-      {
-        slug: 'nc-house',
-        title: { en: 'NC House', es: 'Cámara de NC' },
-        candidates: [tbd('88'), tbd('88'), tbd('92')],
-      },
-      {
-        slug: 'nc-judiciary',
-        title: { en: 'NC Judiciary', es: 'Poder Judicial de NC' },
-        candidates: [tbd(), tbd()],
-      },
-    ],
   },
   {
     slug: 'mecklenburg-county',
@@ -130,18 +46,6 @@ export const jurisdictions: Jurisdiction[] = [
       en: 'View all of your candidates for county office in the 2026 elections.',
       es: 'Consulta todos tus candidatos a cargos del condado en las elecciones de 2026.',
     },
-    races: [
-      {
-        slug: 'board-of-commissioners',
-        title: { en: 'Board of Commissioners', es: 'Junta de Comisionados' },
-        candidates: [tbd('1'), tbd('2'), tbd('3')],
-      },
-      {
-        slug: 'sheriff',
-        title: { en: 'Sheriff', es: 'Alguacil' },
-        candidates: [tbd(), tbd()],
-      },
-    ],
   },
   {
     slug: 'city-of-charlotte',
@@ -151,18 +55,11 @@ export const jurisdictions: Jurisdiction[] = [
       en: 'View all of your candidates for city office in the 2026 elections.',
       es: 'Consulta todos tus candidatos a cargos municipales en las elecciones de 2026.',
     },
-    races: [
-      {
-        slug: 'mayor',
-        title: { en: 'Mayor', es: 'Alcalde' },
-        candidates: [tbd(), tbd()],
-      },
-      {
-        slug: 'city-council',
-        title: { en: 'City Council', es: 'Concejo Municipal' },
-        candidates: [tbd('1'), tbd('2'), tbd('3'), tbd('4')],
-      },
-    ],
+    // Charlotte holds its municipal elections in odd-numbered years.
+    emptyNote: {
+      en: 'There are no City of Charlotte contests on the November 3, 2026 ballot. The next city election is in 2027.',
+      es: 'No hay contiendas de la Ciudad de Charlotte en la boleta del 3 de noviembre de 2026. La próxima elección municipal es en 2027.',
+    },
   },
 ];
 

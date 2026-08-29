@@ -2,6 +2,7 @@
 import BaseLayout from '../../../layouts/BaseLayout.astro';
 import CandidateCard from '../../../components/CandidateCard.astro';
 import { jurisdictions, type Jurisdiction } from '../../../data/jurisdictions';
+import { officeGroupsFor, officeTitle } from '../../../data/candidates';
 import { defaultLocale, locales, pick, useTranslations, type Locale } from '../../../i18n/utils';
 
 export function getStaticPaths() {
@@ -24,6 +25,9 @@ const t = useTranslations(locale);
 
 const title = pick(jurisdiction.title, locale);
 const subtitle = pick(jurisdiction.subtitle, locale);
+
+// One section per office, generated from the ingested spreadsheet data.
+const groups = officeGroupsFor(jurisdiction.slug);
 ---
 
 <BaseLayout locale={locale} title={title} description={subtitle}>
@@ -33,21 +37,25 @@ const subtitle = pick(jurisdiction.subtitle, locale);
   </div>
 
   {
-    jurisdiction.races.map((race) => (
-      <section class="wrap race" aria-labelledby={`race-${race.slug}`}>
-        <h2 id={`race-${race.slug}`} class="rule-heading">
-          {pick(race.title, locale)}
+    groups.length === 0 && (
+      <p class="wrap empty">
+        {jurisdiction.emptyNote ? pick(jurisdiction.emptyNote, locale) : t('candidates.noContests')}
+      </p>
+    )
+  }
+
+  {
+    groups.map((group) => (
+      <section class="wrap race" aria-labelledby={`race-${group.office}`}>
+        <h2 id={`race-${group.office}`} class="rule-heading">
+          {officeTitle(group.office, locale)}
         </h2>
 
-        {race.candidates.length > 0 ? (
-          <div class="grid">
-            {race.candidates.map((candidate) => (
-              <CandidateCard candidate={candidate} locale={locale} />
-            ))}
-          </div>
-        ) : (
-          <p class="empty">{t('candidates.emptySection')}</p>
-        )}
+        <div class="grid">
+          {group.candidacies.map(({ candidate, contest }) => (
+            <CandidateCard candidate={candidate} contest={contest} locale={locale} />
+          ))}
+        </div>
       </section>
     ))
   }
@@ -66,8 +74,10 @@ const subtitle = pick(jurisdiction.subtitle, locale);
   }
 
   .empty {
-    margin-top: 1.5rem;
+    margin-top: clamp(2.5rem, 6vw, 4rem);
+    text-align: center;
     color: var(--vc-ink-muted);
     font-style: italic;
+    max-width: 46rem;
   }
 </style>

@@ -92,24 +92,58 @@ what's missing.
 
 ## Editing content
 
-Everything editorial is in `src/data/`, with English and Spanish side by side:
+### Candidates — from the editorial spreadsheet
 
-- **`jurisdictions.ts`** — the four entries in the "All Candidates" dropdown,
-  their races, and their candidates. The `tbd()` helper makes an
-  announced-seat-without-a-candidate card.
+Candidates and contests come from the `Candidate_Listing_2026` Google Sheet
+and its `Candidate Images` Drive folder, which the editorial team maintains.
+They reach the site through `make ingest`:
+
+```sh
+make ingest          # fetch the sheet + photos, regenerate the files below
+git diff             # review what changed
+```
+
+It writes three committed files — reviewing an ingest is an ordinary pull
+request:
+
+- `src/data/generated/candidates.json` — contests and candidates in ballot
+  order (shape in `src/data/candidateTypes.ts`).
+- `public/candidates/<id>.jpg` — every headshot normalized to 480×600 JPEG.
+- `data_quality_issues.md` — feedback for the editorial team: rows with typos,
+  missing IDs, unticked photos, off-standard blurbs. Rewritten each run; send
+  it to whoever owns the sheet.
+
+`make ingest-check` tells you whether the committed data is behind the sheet
+without writing anything. Both need no credentials (the sheet and folder are
+link-shared); if `gcloud auth login --enable-gdrive-access` has been run, the
+folder is listed through the Drive API instead of the public folder page.
+
+Everything structural (office, district, seat, jurisdiction) is derived from
+the NCSBE contest names, so a new race in the sheet flows through
+automatically. The one thing that needs a developer is a **Spanish office
+title**: add a line to `src/data/offices.ts` (that file also sets the display
+order). The ingest prints a note when an office has no entry.
+
+### Everything else — in `src/data/`
+
+With English and Spanish side by side:
+
+- **`jurisdictions.ts`** — the four entries in the "All Candidates" dropdown
+  (labels, titles, and the "no contests this year" note).
 - **`elections.ts`** — upcoming elections and their ballot initiatives, plus the
   polling-location link.
 - **`team.ts`** — the About page roster and the FAQ entries.
 
 ## Placeholders still to replace
 
-- **Photos.** Candidate and team records take an optional `photo` path under
-  `public/`; without one they render the `Placeholder` graphic.
+- **Team photos.** Team records take an optional `photo` path under `public/`;
+  without one they render the `Placeholder` graphic (as do candidates whose
+  Image box isn't ticked in the sheet).
 - **Logo.** The header renders the site name as text.
 - **Copy.** The About mission statement, team names/roles, and FAQ answers are
   lorem-grade.
-- **Address lookup.** The home page form submits to `/my-ballot/results`, which
-  reads `?address=` in the browser and shows a "coming soon" panel. Wiring it to
-  a real district lookup is the one genuinely dynamic piece left.
+- **Results page.** The address lookup works end to end, but the success state
+  renders the raw lookup JSON as a table. The "Your Sample Ballot" screen in
+  `mockup/vote-clt-mockup.pdf` (page 5) is the target design.
 - **Fonts.** `--vc-font` in `src/styles/global.css` is a system stack; point it
   at the brand webfont once chosen.
