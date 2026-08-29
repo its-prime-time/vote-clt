@@ -81,9 +81,12 @@ export const ui = {
     'faq.intro': 'Answers to common questions about voting in Charlotte and Mecklenburg County.',
 
     'candidates.district': 'District',
-    'candidates.tbd': 'Candidate to be announced',
-    'candidates.tbdNote': 'Filing for this seat has not closed yet.',
-    'candidates.emptySection': 'Candidates for this race have not been announced yet.',
+    'candidates.seat': 'Seat',
+    'candidates.atLarge': 'At-Large',
+    'candidates.voteFor': 'Vote for',
+    'candidates.noData': 'No additional data',
+    'candidates.website': 'Campaign website',
+    'candidates.noContests': 'There are no contests for this jurisdiction on the upcoming ballot.',
 
     'footer.rights': 'Vote CLT is a nonpartisan voter information project.',
     'footer.disclaimer':
@@ -160,9 +163,12 @@ export const ui = {
       'Respuestas a preguntas comunes sobre cómo votar en Charlotte y el condado de Mecklenburg.',
 
     'candidates.district': 'Distrito',
-    'candidates.tbd': 'Candidato por anunciar',
-    'candidates.tbdNote': 'El plazo de inscripción para este puesto aún no ha cerrado.',
-    'candidates.emptySection': 'Todavía no se han anunciado los candidatos para esta contienda.',
+    'candidates.seat': 'Puesto',
+    'candidates.atLarge': 'General',
+    'candidates.voteFor': 'Vota por',
+    'candidates.noData': 'Sin datos adicionales',
+    'candidates.website': 'Sitio web de campaña',
+    'candidates.noContests': 'No hay contiendas para esta jurisdicción en la próxima boleta.',
 
     'footer.rights': 'Vote CLT es un proyecto no partidista de información para votantes.',
     'footer.disclaimer':

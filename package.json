@@ -8,13 +8,19 @@
     "dev": "astro dev",
     "build": "astro build",
     "preview": "astro preview",
-    "check": "astro check"
+    "check": "astro check",
+    "ingest": "tsx scripts/ingest/index.ts",
+    "ingest:check": "tsx scripts/ingest/index.ts --check"
   },
   "dependencies": {
     "astro": "^7.2.0"
   },
   "devDependencies": {
     "@astrojs/check": "^0.9.10",
+    "@types/node": "^26.4.0",
+    "csv-parse": "^7.0.2",
+    "sharp": "^0.35.4",
+    "tsx": "^4.23.12",
     "typescript": "^6.0.3"
   }
 }

@@ -1,0 +1,2191 @@
+{
+  "generatedAt": "2026-08-29T16:22:27.335Z",
+  "source": {
+    "sheetId": "10-ZfK0aqOk7VS9HlCoDO2LP1tnxn1y8rYQmHLTeNy0I",
+    "sheetModified": null
+  },
+  "election": {
+    "id": "2026-11-03",
+    "date": "2026-11-03",
+    "county": "MECKLENBURG"
+  },
+  "contests": [
+    {
+      "id": "us-senate",
+      "name": "US SENATE",
+      "office": "us-senate",
+      "jurisdiction": "united-states",
+      "district": null,
+      "seat": null,
+      "atLarge": false,
+      "voteFor": 1,
+      "partisan": true,
+      "unexpiredTerm": false,
+      "ballotMatch": {
+        "districtKey": "statewide"
+      }
+    },
+    {
+      "id": "us-house-of-representatives-8",
+      "name": "US HOUSE OF REPRESENTATIVES DISTRICT 08",
+      "office": "us-house-of-representatives",
+      "jurisdiction": "united-states",
+      "district": "8",
+      "seat": null,
+      "atLarge": false,
+      "voteFor": 1,
+      "partisan": true,
+      "unexpiredTerm": false,
+      "ballotMatch": {
+        "districtKey": "congress",
+        "district": "8"
+      }
+    },
+    {
+      "id": "us-house-of-representatives-12",
+      "name": "US HOUSE OF REPRESENTATIVES DISTRICT 12",
+      "office": "us-house-of-representatives",
+      "jurisdiction": "united-states",
+      "district": "12",
+      "seat": null,
+      "atLarge": false,
+      "voteFor": 1,
+      "partisan": true,
+      "unexpiredTerm": false,
+      "ballotMatch": {
+        "districtKey": "congress",
+        "district": "12"
+      }
+    },
+    {
+      "id": "us-house-of-representatives-14",
+      "name": "US HOUSE OF REPRESENTATIVES DISTRICT 14",
+      "office": "us-house-of-representatives",
+      "jurisdiction": "united-states",
+      "district": "14",
+      "seat": null,
+      "atLarge": false,
+      "voteFor": 1,
+      "partisan": true,
+      "unexpiredTerm": false,
+      "ballotMatch": {
+        "districtKey": "congress",
+        "district": "14"
+      }
+    },
+    {
+      "id": "nc-state-senate-37",
+      "name": "NC STATE SENATE DISTRICT 37",
+      "office": "nc-state-senate",
+      "jurisdiction": "north-carolina",
+      "district": "37",
+      "seat": null,
+      "atLarge": false,
+      "voteFor": 1,
+      "partisan": true,
+      "unexpiredTerm": false,
+      "ballotMatch": {
+        "districtKey": "stateSenate",
+        "district": "37"
+      }
+    },
+    {
+      "id": "nc-state-senate-38",
+      "name": "NC STATE SENATE DISTRICT 38",
+      "office": "nc-state-senate",
+      "jurisdiction": "north-carolina",
+      "district": "38",
+      "seat": null,
+      "atLarge": false,
+      "voteFor": 1,
+      "partisan": true,
+      "unexpiredTerm": false,
+      "ballotMatch": {
+        "districtKey": "stateSenate",
+        "district": "38"
+      }
+    },
+    {
+      "id": "nc-state-senate-39",
+      "name": "NC STATE SENATE DISTRICT 39",
+      "office": "nc-state-senate",
+      "jurisdiction": "north-carolina",
+      "district": "39",
+      "seat": null,
+      "atLarge": false,
+      "voteFor": 1,
+      "partisan": true,
+      "unexpiredTerm": false,
+      "ballotMatch": {
+        "districtKey": "stateSenate",
+        "district": "39"
+      }
+    },
+    {
+      "id": "nc-state-senate-40",
+      "name": "NC STATE SENATE DISTRICT 40",
+      "office": "nc-state-senate",
+      "jurisdiction": "north-carolina",
+      "district": "40",
+      "seat": null,
+      "atLarge": false,
+      "voteFor": 1,
+      "partisan": true,
+      "unexpiredTerm": false,
+      "ballotMatch": {
+        "districtKey": "stateSenate",
+        "district": "40"
+      }
+    },
+    {
+      "id": "nc-state-senate-41",
+      "name": "NC STATE SENATE DISTRICT 41",
+      "office": "nc-state-senate",
+      "jurisdiction": "north-carolina",
+      "district": "41",
+      "seat": null,
+      "atLarge": false,
+      "voteFor": 1,
+      "partisan": true,
+      "unexpiredTerm": false,
+      "ballotMatch": {
+        "districtKey": "stateSenate",
+        "district": "41"
+      }
+    },
+    {
+      "id": "nc-state-senate-42",
+      "name": "NC STATE SENATE DISTRICT 42",
+      "office": "nc-state-senate",
+      "jurisdiction": "north-carolina",
+      "district": "42",
+      "seat": null,
+      "atLarge": false,
+      "voteFor": 1,
+      "partisan": true,
+      "unexpiredTerm": false,
+      "ballotMatch": {
+        "districtKey": "stateSenate",
+        "district": "42"
+      }
+    },
+    {
+      "id": "nc-house-of-representatives-88",
+      "name": "NC HOUSE OF REPRESENTATIVES DISTRICT 088",
+      "office": "nc-house-of-representatives",
+      "jurisdiction": "north-carolina",
+      "district": "88",
+      "seat": null,
+      "atLarge": false,
+      "voteFor": 1,
+      "partisan": true,
+      "unexpiredTerm": false,
+      "ballotMatch": {
+        "districtKey": "stateHouse",
+        "district": "88"
+      }
+    },
+    {
+      "id": "nc-house-of-representatives-92",
+      "name": "NC HOUSE OF REPRESENTATIVES DISTRICT 092",
+      "office": "nc-house-of-representatives",
+      "jurisdiction": "north-carolina",
+      "district": "92",
+      "seat": null,
+      "atLarge": false,
+      "voteFor": 1,
+      "partisan": true,
+      "unexpiredTerm": false,
+      "ballotMatch": {
+        "districtKey": "stateHouse",
+        "district": "92"
+      }
+    },
+    {
+      "id": "nc-house-of-representatives-98",
+      "name": "NC HOUSE OF REPRESENTATIVES DISTRICT 098",
+      "office": "nc-house-of-representatives",
+      "jurisdiction": "north-carolina",
+      "district": "98",
+      "seat": null,
+      "atLarge": false,
+      "voteFor": 1,
+      "partisan": true,
+      "unexpiredTerm": false,
+      "ballotMatch": {
+        "districtKey": "stateHouse",
+        "district": "98"
+      }
+    },
+    {
+      "id": "nc-house-of-representatives-99",
+      "name": "NC HOUSE OF REPRESENTATIVES DISTRICT 099",
+      "office": "nc-house-of-representatives",
+      "jurisdiction": "north-carolina",
+      "district": "99",
+      "seat": null,
+      "atLarge": false,
+      "voteFor": 1,
+      "partisan": true,
+      "unexpiredTerm": false,
+      "ballotMatch": {
+        "districtKey": "stateHouse",
+        "district": "99"
+      }
+    },
+    {
+      "id": "nc-house-of-representatives-100",
+      "name": "NC HOUSE OF REPRESENTATIVES DISTRICT 100",
+      "office": "nc-house-of-representatives",
+      "jurisdiction": "north-carolina",
+      "district": "100",
+      "seat": null,
+      "atLarge": false,
+      "voteFor": 1,
+      "partisan": true,
+      "unexpiredTerm": false,
+      "ballotMatch": {
+        "districtKey": "stateHouse",
+        "district": "100"
+      }
+    },
+    {
+      "id": "nc-house-of-representatives-101",
+      "name": "NC HOUSE OF REPRESENTATIVES DISTRICT 101",
+      "office": "nc-house-of-representatives",
+      "jurisdiction": "north-carolina",
+      "district": "101",
+      "seat": null,
+      "atLarge": false,
+      "voteFor": 1,
+      "partisan": true,
+      "unexpiredTerm": false,
+      "ballotMatch": {
+        "districtKey": "stateHouse",
+        "district": "101"
+      }
+    },
+    {
+      "id": "nc-house-of-representatives-102",
+      "name": "NC HOUSE OF REPRESENTATIVES DISTRICT 102",
+      "office": "nc-house-of-representatives",
+      "jurisdiction": "north-carolina",
+      "district": "102",
+      "seat": null,
+      "atLarge": false,
+      "voteFor": 1,
+      "partisan": true,
+      "unexpiredTerm": false,
+      "ballotMatch": {
+        "districtKey": "stateHouse",
+        "district": "102"
+      }
+    },
+    {
+      "id": "nc-house-of-representatives-103",
+      "name": "NC HOUSE OF REPRESENTATIVES DISTRICT 103",
+      "office": "nc-house-of-representatives",
+      "jurisdiction": "north-carolina",
+      "district": "103",
+      "seat": null,
+      "atLarge": false,
+      "voteFor": 1,
+      "partisan": true,
+      "unexpiredTerm": false,
+      "ballotMatch": {
+        "districtKey": "stateHouse",
+        "district": "103"
+      }
+    },
+    {
+      "id": "nc-house-of-representatives-104",
+      "name": "NC HOUSE OF REPRESENTATIVES DISTRICT 104",
+      "office": "nc-house-of-representatives",
+      "jurisdiction": "north-carolina",
+      "district": "104",
+      "seat": null,
+      "atLarge": false,
+      "voteFor": 1,
+      "partisan": true,
+      "unexpiredTerm": false,
+      "ballotMatch": {
+        "districtKey": "stateHouse",
+        "district": "104"
+      }
+    },
+    {
+      "id": "nc-house-of-representatives-105",
+      "name": "NC HOUSE OF REPRESENTATIVES DISTRICT 105",
+      "office": "nc-house-of-representatives",
+      "jurisdiction": "north-carolina",
+      "district": "105",
+      "seat": null,
+      "atLarge": false,
+      "voteFor": 1,
+      "partisan": true,
+      "unexpiredTerm": false,
+      "ballotMatch": {
+        "districtKey": "stateHouse",
+        "district": "105"
+      }
+    },
+    {
+      "id": "nc-house-of-representatives-106",
+      "name": "NC HOUSE OF REPRESENTATIVES DISTRICT 106",
+      "office": "nc-house-of-representatives",
+      "jurisdiction": "north-carolina",
+      "district": "106",
+      "seat": null,
+      "atLarge": false,
+      "voteFor": 1,
+      "partisan": true,
+      "unexpiredTerm": false,
+      "ballotMatch": {
+        "districtKey": "stateHouse",
+        "district": "106"
+      }
+    },
+    {
+      "id": "nc-house-of-representatives-107",
+      "name": "NC HOUSE OF REPRESENTATIVES DISTRICT 107",
+      "office": "nc-house-of-representatives",
+      "jurisdiction": "north-carolina",
+      "district": "107",
+      "seat": null,
+      "atLarge": false,
+      "voteFor": 1,
+      "partisan": true,
+      "unexpiredTerm": false,
+      "ballotMatch": {
+        "districtKey": "stateHouse",
+        "district": "107"
+      }
+    },
+    {
+      "id": "nc-house-of-representatives-112",
+      "name": "NC HOUSE OF REPRESENTATIVES DISTRICT 112",
+      "office": "nc-house-of-representatives",
+      "jurisdiction": "north-carolina",
+      "district": "112",
+      "seat": null,
+      "atLarge": false,
+      "voteFor": 1,
+      "partisan": true,
+      "unexpiredTerm": false,
+      "ballotMatch": {
+        "districtKey": "stateHouse",
+        "district": "112"
+      }
+    },
+    {
+      "id": "nc-supreme-court-associate-justice-seat-1",
+      "name": "NC SUPREME COURT ASSOCIATE JUSTICE SEAT 01",
+      "office": "nc-supreme-court-associate-justice",
+      "jurisdiction": "north-carolina",
+      "district": null,
+      "seat": "1",
+      "atLarge": false,
+      "voteFor": 1,
+      "partisan": true,
+      "unexpiredTerm": false,
+      "ballotMatch": {
+        "districtKey": "statewide"
+      }
+    },
+    {
+      "id": "nc-court-of-appeals-judge-seat-1",
+      "name": "NC COURT OF APPEALS JUDGE SEAT 01",
+      "office": "nc-court-of-appeals-judge",
+      "jurisdiction": "north-carolina",
+      "district": null,
+      "seat": "1",
+      "atLarge": false,
+      "voteFor": 1,
+      "partisan": true,
+      "unexpiredTerm": false,
+      "ballotMatch": {
+        "districtKey": "statewide"
+      }
+    },
+    {
+      "id": "nc-court-of-appeals-judge-seat-2",
+      "name": "NC COURT OF APPEALS JUDGE SEAT 02",
+      "office": "nc-court-of-appeals-judge",
+      "jurisdiction": "north-carolina",
+      "district": null,
+      "seat": "2",
+      "atLarge": false,
+      "voteFor": 1,
+      "partisan": true,
+      "unexpiredTerm": false,
+      "ballotMatch": {
+        "districtKey": "statewide"
+      }
+    },
+    {
+      "id": "nc-court-of-appeals-judge-seat-3",
+      "name": "NC COURT OF APPEALS JUDGE SEAT 03",
+      "office": "nc-court-of-appeals-judge",
+      "jurisdiction": "north-carolina",
+      "district": null,
+      "seat": "3",
+      "atLarge": false,
+      "voteFor": 1,
+      "partisan": true,
+      "unexpiredTerm": false,
+      "ballotMatch": {
+        "districtKey": "statewide"
+      }
+    },
+    {
+      "id": "mecklenburg-county-board-of-commissioners-at-large",
+      "name": "MECKLENBURG COUNTY BOARD OF COMMISSIONERS AT-LARGE",
+      "office": "mecklenburg-county-board-of-commissioners",
+      "jurisdiction": "mecklenburg-county",
+      "district": null,
+      "seat": null,
+      "atLarge": true,
+      "voteFor": 3,
+      "partisan": true,
+      "unexpiredTerm": false,
+      "ballotMatch": {
+        "districtKey": "county"
+      }
+    },
+    {
+      "id": "mecklenburg-county-board-of-commissioners-1",
+      "name": "MECKLENBURG COUNTY BOARD OF COMMISSIONERS DISTRICT 01",
+      "office": "mecklenburg-county-board-of-commissioners",
+      "jurisdiction": "mecklenburg-county",
+      "district": "1",
+      "seat": null,
+      "atLarge": false,
+      "voteFor": 1,
+      "partisan": true,
+      "unexpiredTerm": false,
+      "ballotMatch": {
+        "districtKey": "countyCommission",
+        "district": "1"
+      }
+    },
+    {
+      "id": "mecklenburg-county-board-of-commissioners-2",
+      "name": "MECKLENBURG COUNTY BOARD OF COMMISSIONERS DISTRICT 02",
+      "office": "mecklenburg-county-board-of-commissioners",
+      "jurisdiction": "mecklenburg-county",
+      "district": "2",
+      "seat": null,
+      "atLarge": false,
+      "voteFor": 1,
+      "partisan": true,
+      "unexpiredTerm": false,
+      "ballotMatch": {
+        "districtKey": "countyCommission",
+        "district": "2"
+      }
+    },
+    {
+      "id": "mecklenburg-county-board-of-commissioners-3",
+      "name": "MECKLENBURG COUNTY BOARD OF COMMISSIONERS DISTRICT 03",
+      "office": "mecklenburg-county-board-of-commissioners",
+      "jurisdiction": "mecklenburg-county",
+      "district": "3",
+      "seat": null,
+      "atLarge": false,
+      "voteFor": 1,
+      "partisan": true,
+      "unexpiredTerm": false,
+      "ballotMatch": {
+        "districtKey": "countyCommission",
+        "district": "3"
+      }
+    },
+    {
+      "id": "mecklenburg-county-board-of-commissioners-4",
+      "name": "MECKLENBURG COUNTY BOARD OF COMMISSIONERS DISTRICT 04",
+      "office": "mecklenburg-county-board-of-commissioners",
+      "jurisdiction": "mecklenburg-county",
+      "district": "4",
+      "seat": null,
+      "atLarge": false,
+      "voteFor": 1,
+      "partisan": true,
+      "unexpiredTerm": false,
+      "ballotMatch": {
+        "districtKey": "countyCommission",
+        "district": "4"
+      }
+    },
+    {
+      "id": "mecklenburg-county-board-of-commissioners-5",
+      "name": "MECKLENBURG COUNTY BOARD OF COMMISSIONERS DISTRICT 05",
+      "office": "mecklenburg-county-board-of-commissioners",
+      "jurisdiction": "mecklenburg-county",
+      "district": "5",
+      "seat": null,
+      "atLarge": false,
+      "voteFor": 1,
+      "partisan": true,
+      "unexpiredTerm": false,
+      "ballotMatch": {
+        "districtKey": "countyCommission",
+        "district": "5"
+      }
+    },
+    {
+      "id": "mecklenburg-county-board-of-commissioners-6",
+      "name": "MECKLENBURG COUNTY BOARD OF COMMISSIONERS DISTRICT 06",
+      "office": "mecklenburg-county-board-of-commissioners",
+      "jurisdiction": "mecklenburg-county",
+      "district": "6",
+      "seat": null,
+      "atLarge": false,
+      "voteFor": 1,
+      "partisan": true,
+      "unexpiredTerm": false,
+      "ballotMatch": {
+        "districtKey": "countyCommission",
+        "district": "6"
+      }
+    },
+    {
+      "id": "mecklenburg-county-sheriff",
+      "name": "MECKLENBURG COUNTY SHERIFF",
+      "office": "mecklenburg-county-sheriff",
+      "jurisdiction": "mecklenburg-county",
+      "district": null,
+      "seat": null,
+      "atLarge": false,
+      "voteFor": 1,
+      "partisan": true,
+      "unexpiredTerm": false,
+      "ballotMatch": {
+        "districtKey": "county"
+      }
+    },
+    {
+      "id": "district-attorney-26",
+      "name": "DISTRICT ATTORNEY DISTRICT 26",
+      "office": "district-attorney",
+      "jurisdiction": "mecklenburg-county",
+      "district": "26",
+      "seat": null,
+      "atLarge": false,
+      "voteFor": 1,
+      "partisan": true,
+      "unexpiredTerm": false,
+      "ballotMatch": {
+        "districtKey": "judicial",
+        "district": "26"
+      }
+    },
+    {
+      "id": "mecklenburg-county-clerk-of-superior-court",
+      "name": "MECKLENBURG COUNTY CLERK OF SUPERIOR COURT",
+      "office": "mecklenburg-county-clerk-of-superior-court",
+      "jurisdiction": "mecklenburg-county",
+      "district": null,
+      "seat": null,
+      "atLarge": false,
+      "voteFor": 1,
+      "partisan": true,
+      "unexpiredTerm": false,
+      "ballotMatch": {
+        "districtKey": "county"
+      }
+    },
+    {
+      "id": "nc-superior-court-judge-26c-seat-1",
+      "name": "NC SUPERIOR COURT JUDGE DISTRICT 26C SEAT 01",
+      "office": "nc-superior-court-judge",
+      "jurisdiction": "mecklenburg-county",
+      "district": "26C",
+      "seat": "1",
+      "atLarge": false,
+      "voteFor": 1,
+      "partisan": true,
+      "unexpiredTerm": false,
+      "ballotMatch": {
+        "districtKey": "superiorCourt",
+        "district": "26C"
+      }
+    },
+    {
+      "id": "nc-superior-court-judge-26f-seat-1",
+      "name": "NC SUPERIOR COURT JUDGE DISTRICT 26F SEAT 01",
+      "office": "nc-superior-court-judge",
+      "jurisdiction": "mecklenburg-county",
+      "district": "26F",
+      "seat": "1",
+      "atLarge": false,
+      "voteFor": 1,
+      "partisan": true,
+      "unexpiredTerm": false,
+      "ballotMatch": {
+        "districtKey": "superiorCourt",
+        "district": "26F"
+      }
+    },
+    {
+      "id": "nc-superior-court-judge-26h-seat-1",
+      "name": "NC SUPERIOR COURT JUDGE DISTRICT 26H SEAT 01",
+      "office": "nc-superior-court-judge",
+      "jurisdiction": "mecklenburg-county",
+      "district": "26H",
+      "seat": "1",
+      "atLarge": false,
+      "voteFor": 1,
+      "partisan": true,
+      "unexpiredTerm": false,
+      "ballotMatch": {
+        "districtKey": "superiorCourt",
+        "district": "26H"
+      }
+    },
+    {
+      "id": "nc-district-court-judge-26-seat-6",
+      "name": "NC DISTRICT COURT JUDGE DISTRICT 26 SEAT 06 (UNEXPIRED)",
+      "office": "nc-district-court-judge",
+      "jurisdiction": "mecklenburg-county",
+      "district": "26",
+      "seat": "6",
+      "atLarge": false,
+      "voteFor": 1,
+      "partisan": true,
+      "unexpiredTerm": true,
+      "ballotMatch": {
+        "districtKey": "judicial",
+        "district": "26"
+      }
+    },
+    {
+      "id": "nc-district-court-judge-26-seat-13",
+      "name": "NC DISTRICT COURT JUDGE DISTRICT 26 SEAT 13",
+      "office": "nc-district-court-judge",
+      "jurisdiction": "mecklenburg-county",
+      "district": "26",
+      "seat": "13",
+      "atLarge": false,
+      "voteFor": 1,
+      "partisan": true,
+      "unexpiredTerm": false,
+      "ballotMatch": {
+        "districtKey": "judicial",
+        "district": "26"
+      }
+    },
+    {
+      "id": "nc-district-court-judge-26-seat-14",
+      "name": "NC DISTRICT COURT JUDGE DISTRICT 26 SEAT 14",
+      "office": "nc-district-court-judge",
+      "jurisdiction": "mecklenburg-county",
+      "district": "26",
+      "seat": "14",
+      "atLarge": false,
+      "voteFor": 1,
+      "partisan": true,
+      "unexpiredTerm": false,
+      "ballotMatch": {
+        "districtKey": "judicial",
+        "district": "26"
+      }
+    },
+    {
+      "id": "nc-district-court-judge-26-seat-15",
+      "name": "NC DISTRICT COURT JUDGE DISTRICT 26 SEAT 15",
+      "office": "nc-district-court-judge",
+      "jurisdiction": "mecklenburg-county",
+      "district": "26",
+      "seat": "15",
+      "atLarge": false,
+      "voteFor": 1,
+      "partisan": true,
+      "unexpiredTerm": false,
+      "ballotMatch": {
+        "districtKey": "judicial",
+        "district": "26"
+      }
+    },
+    {
+      "id": "nc-district-court-judge-26-seat-16",
+      "name": "NC DISTRICT COURT JUDGE DISTRICT 26 SEAT 16",
+      "office": "nc-district-court-judge",
+      "jurisdiction": "mecklenburg-county",
+      "district": "26",
+      "seat": "16",
+      "atLarge": false,
+      "voteFor": 1,
+      "partisan": true,
+      "unexpiredTerm": false,
+      "ballotMatch": {
+        "districtKey": "judicial",
+        "district": "26"
+      }
+    },
+    {
+      "id": "nc-district-court-judge-26-seat-17",
+      "name": "NC DISTRICT COURT JUDGE DISTRICT 26 SEAT 17",
+      "office": "nc-district-court-judge",
+      "jurisdiction": "mecklenburg-county",
+      "district": "26",
+      "seat": "17",
+      "atLarge": false,
+      "voteFor": 1,
+      "partisan": true,
+      "unexpiredTerm": false,
+      "ballotMatch": {
+        "districtKey": "judicial",
+        "district": "26"
+      }
+    },
+    {
+      "id": "nc-district-court-judge-26-seat-18",
+      "name": "NC DISTRICT COURT JUDGE DISTRICT 26 SEAT 18",
+      "office": "nc-district-court-judge",
+      "jurisdiction": "mecklenburg-county",
+      "district": "26",
+      "seat": "18",
+      "atLarge": false,
+      "voteFor": 1,
+      "partisan": true,
+      "unexpiredTerm": false,
+      "ballotMatch": {
+        "districtKey": "judicial",
+        "district": "26"
+      }
+    },
+    {
+      "id": "nc-district-court-judge-26-seat-19",
+      "name": "NC DISTRICT COURT JUDGE DISTRICT 26 SEAT 19",
+      "office": "nc-district-court-judge",
+      "jurisdiction": "mecklenburg-county",
+      "district": "26",
+      "seat": "19",
+      "atLarge": false,
+      "voteFor": 1,
+      "partisan": true,
+      "unexpiredTerm": false,
+      "ballotMatch": {
+        "districtKey": "judicial",
+        "district": "26"
+      }
+    },
+    {
+      "id": "nc-district-court-judge-26-seat-20",
+      "name": "NC DISTRICT COURT JUDGE DISTRICT 26 SEAT 20",
+      "office": "nc-district-court-judge",
+      "jurisdiction": "mecklenburg-county",
+      "district": "26",
+      "seat": "20",
+      "atLarge": false,
+      "voteFor": 1,
+      "partisan": true,
+      "unexpiredTerm": false,
+      "ballotMatch": {
+        "districtKey": "judicial",
+        "district": "26"
+      }
+    },
+    {
+      "id": "nc-district-court-judge-26-seat-21",
+      "name": "NC DISTRICT COURT JUDGE DISTRICT 26 SEAT 21",
+      "office": "nc-district-court-judge",
+      "jurisdiction": "mecklenburg-county",
+      "district": "26",
+      "seat": "21",
+      "atLarge": false,
+      "voteFor": 1,
+      "partisan": true,
+      "unexpiredTerm": false,
+      "ballotMatch": {
+        "districtKey": "judicial",
+        "district": "26"
+      }
+    },
+    {
+      "id": "soil-water-conservation-district-supervisor",
+      "name": "SOIL & WATER CONSERVATION DISTRICT SUPERVISOR",
+      "office": "soil-water-conservation-district-supervisor",
+      "jurisdiction": "mecklenburg-county",
+      "district": null,
+      "seat": null,
+      "atLarge": false,
+      "voteFor": 2,
+      "partisan": false,
+      "unexpiredTerm": false,
+      "ballotMatch": {
+        "districtKey": "county"
+      }
+    }
+  ],
+  "candidates": [
+    {
+      "id": "shannon_wilson_bray",
+      "contestId": "us-senate",
+      "name": "Shannon W. Bray",
+      "party": "LIB",
+      "website": "https://www.shannonbray.us/",
+      "issues": {
+        "en": [
+          "Lowering costs and inflation",
+          "Ending wasteful spending",
+          "Protecting jobs and savings"
+        ],
+        "es": []
+      },
+      "photo": {
+        "path": "/candidates/shannon_wilson_bray.jpg",
+        "sourceName": "shannon_wilson_bray.png",
+        "sourceHash": "f68299c078571dbb71b11d899e88dde76c1d877a4c071ba7602c5039a90fb97d",
+        "sourceWidth": 1031,
+        "sourceHeight": 1031
+      },
+      "profileComplete": true
+    },
+    {
+      "id": "roy_asberry_cooper",
+      "contestId": "us-senate",
+      "name": "Roy Cooper",
+      "party": "DEM",
+      "website": "https://roycooper.com/",
+      "issues": {
+        "en": [
+          "Lowering the cost of groceries",
+          "Making healthcare affordable",
+          "Lowering energy/utility costs"
+        ],
+        "es": []
+      },
+      "photo": {
+        "path": "/candidates/roy_asberry_cooper.jpg",
+        "sourceName": "roy_asberry_cooper.jpg",
+        "sourceHash": "8998ed05801cc22c3efc26908da2918aee2d937a23aba08a156274bc7fec6f76",
+        "sourceWidth": 478,
+        "sourceHeight": 634
+      },
+      "profileComplete": true
+    },
+    {
+      "id": "michael_louis_dublin",
+      "contestId": "us-senate",
+      "name": "Michael Dublin",
+      "party": "GRE",
+      "website": "https://www.dublinforcongress.com/",
+      "issues": {
+        "en": [
+          "Fighting for climate justice",
+          "Standing against oppression",
+          "Stopping the war machine"
+        ],
+        "es": []
+      },
+      "photo": {
+        "path": "/candidates/michael_louis_dublin.jpg",
+        "sourceName": "michael_louis_dublin.png",
+        "sourceHash": "7e696e3e995118033f77c8fb8f8220d23de88f1481a29c90ee895b2df860524c",
+        "sourceWidth": 200,
+        "sourceHeight": 300
+      },
+      "profileComplete": true
+    },
+    {
+      "id": "michael_david_whatley",
+      "contestId": "us-senate",
+      "name": "Michael Whatley",
+      "party": "REP",
+      "website": "https://michaelwhatley.com/",
+      "issues": {
+        "en": [
+          "Enacting the Trump Agenda",
+          "Making NC safe again",
+          "Fighting illegal immigration"
+        ],
+        "es": []
+      },
+      "photo": {
+        "path": "/candidates/michael_david_whatley.jpg",
+        "sourceName": "michael_david_whatley.jpg",
+        "sourceHash": "7801668bb7153344afea865f01096b334618ee35478e0438933fbf4b9879e351",
+        "sourceWidth": 2275,
+        "sourceHeight": 3031
+      },
+      "profileComplete": true
+    },
+    {
+      "id": "mark_everette_harris",
+      "contestId": "us-house-of-representatives-8",
+      "name": "Mark Harris",
+      "party": "REP",
+      "website": "https://markharris.house.gov/",
+      "issues": {
+        "en": [
+          "Empowering agriculture",
+          "Free enterprise and low taxes",
+          "Returning education to states"
+        ],
+        "es": []
+      },
+      "photo": {
+        "path": "/candidates/mark_everette_harris.jpg",
+        "sourceName": "mark_everette_harris.jpg",
+        "sourceHash": "c5b7c460824ac87c3a1ae0f4112adc7c09a1d3b06a961c34e755393cf6efe5c1",
+        "sourceWidth": 960,
+        "sourceHeight": 1200
+      },
+      "profileComplete": true
+    },
+    {
+      "id": "colby_lawrence_watson",
+      "contestId": "us-house-of-representatives-8",
+      "name": "Colby Watson",
+      "party": "DEM",
+      "website": "https://www.colbyforcongress.com/",
+      "issues": {
+        "en": [
+          "Increasing homeownership",
+          "Supporting small business",
+          "Making healthcare accessible"
+        ],
+        "es": []
+      },
+      "photo": {
+        "path": "/candidates/colby_lawrence_watson.jpg",
+        "sourceName": "colby_lawrence_watson.jpg",
+        "sourceHash": "a422b153fc86d25f2acb704b8774cff946e99442df1cbb0e950634700e5bd986",
+        "sourceWidth": 750,
+        "sourceHeight": 750
+      },
+      "profileComplete": true
+    },
+    {
+      "id": "robert_william_whitehead",
+      "contestId": "us-house-of-representatives-8",
+      "name": "Bo Whitehead",
+      "party": "GRE",
+      "website": "https://whiteheadforcongressnc.carrd.co/",
+      "issues": {
+        "en": [
+          "Ending human trafficking",
+          "Ending wars and genocides",
+          "Universal health and childcare"
+        ],
+        "es": []
+      },
+      "photo": {
+        "path": "/candidates/robert_william_whitehead.jpg",
+        "sourceName": "robert_william_whitehead.jpg",
+        "sourceHash": "e5ce5def59f52bee00fce058ffc76677147682147534abc51ab8570373d2687f",
+        "sourceWidth": 900,
+        "sourceHeight": 1330
+      },
+      "profileComplete": true
+    },
+    {
+      "id": "alma_shealey_adams",
+      "contestId": "us-house-of-representatives-12",
+      "name": "Alma S. Adams",
+      "party": "DEM",
+      "website": null,
+      "issues": {
+        "en": [],
+        "es": []
+      },
+      "photo": null,
+      "profileComplete": false
+    },
+    {
+      "id": "john_christopher_codiga",
+      "contestId": "us-house-of-representatives-12",
+      "name": "Jack Codiga",
+      "party": "REP",
+      "website": "https://ihatepolitics.com/",
+      "issues": {
+        "en": [
+          "Accountability in Washington",
+          "Lowering cost of living",
+          "Creating freedom and safety"
+        ],
+        "es": []
+      },
+      "photo": {
+        "path": "/candidates/john_christopher_codiga.jpg",
+        "sourceName": "john_christopher_codiga.jpg",
+        "sourceHash": "9fa9f459307f480a801ebf2b5cab1d6e1ac739fc37a2a45969872ee0a4309e9f",
+        "sourceWidth": 200,
+        "sourceHeight": 300
+      },
+      "profileComplete": true
+    },
+    {
+      "id": "timothy_keith_moore",
+      "contestId": "us-house-of-representatives-14",
+      "name": "Tim Moore",
+      "party": "REP",
+      "website": "https://timmoore.house.gov/",
+      "issues": {
+        "en": [
+          "Fostering economic growth",
+          "Financial accountability",
+          "Supporting hardworking families"
+        ],
+        "es": []
+      },
+      "photo": {
+        "path": "/candidates/timothy_keith_moore.jpg",
+        "sourceName": "timothy_keith_moore.jpg",
+        "sourceHash": "d094125be46a9a019d71e63e3679f120df0c0a221e0d2de42d70daa25f1d8140",
+        "sourceWidth": 880,
+        "sourceHeight": 1120
+      },
+      "profileComplete": true
+    },
+    {
+      "id": "lakesha_shanese_womack",
+      "contestId": "us-house-of-representatives-14",
+      "name": "Lakesha Womack",
+      "party": "DEM",
+      "website": "https://www.womack4nc14.com/",
+      "issues": {
+        "en": [
+          "Affordable healthcare",
+          "Pathways to economic mobility",
+          "High-quality education for all"
+        ],
+        "es": []
+      },
+      "photo": {
+        "path": "/candidates/lakesha_shanese_womack.jpg",
+        "sourceName": "lakesha_shanese_womack.jpg",
+        "sourceHash": "2af50afdfb3f5374316ea8579d38ee1be54c2e0f154c428daf3f3c5bf5613398",
+        "sourceWidth": 447,
+        "sourceHeight": 447
+      },
+      "profileComplete": true
+    },
+    {
+      "id": "raygan_jason_angel",
+      "contestId": "nc-state-senate-37",
+      "name": "Raygan J. Angel",
+      "party": "DEM",
+      "website": "https://www.rayganfornc.com/",
+      "issues": {
+        "en": [
+          "Fixing rigged maps",
+          "Funding public schools",
+          "Affordable healthcare"
+        ],
+        "es": []
+      },
+      "photo": {
+        "path": "/candidates/raygan_jason_angel.jpg",
+        "sourceName": "raygan_jason_angel.jpg",
+        "sourceHash": "7a1f326fc76a9d17f40c87abe8c2734b268f3e2a29ae6aa943a2f6607a81d6de",
+        "sourceWidth": 1680,
+        "sourceHeight": 2048
+      },
+      "profileComplete": true
+    },
+    {
+      "id": "victoria_burgess_sawyer",
+      "contestId": "nc-state-senate-37",
+      "name": "Vickie Sawyer",
+      "party": "REP",
+      "website": "https://www.sawyernc.com/",
+      "issues": {
+        "en": [
+          "Keeping conservative principles",
+          "Improving transportation",
+          "Protecting schools and families"
+        ],
+        "es": []
+      },
+      "photo": {
+        "path": "/candidates/victoria_burgess_sawyer.jpg",
+        "sourceName": "victoria_burgess_sawyer.jpg",
+        "sourceHash": "aae8fe0b37d6c63a5c873aeb6596e5fb89de2c578509393bcc8bc869427ddf5d",
+        "sourceWidth": 1200,
+        "sourceHeight": 1800
+      },
+      "profileComplete": true
+    },
+    {
+      "id": "mujtaba_azizmateen_mohammed",
+      "contestId": "nc-state-senate-38",
+      "name": "Mujtaba A. Mohammed",
+      "party": "DEM",
+      "website": "https://mohammednc.com/",
+      "issues": {
+        "en": [
+          "Ensuring quality education",
+          "Building a stronger economy",
+          "Creating equitable policies"
+        ],
+        "es": []
+      },
+      "photo": {
+        "path": "/candidates/mujtaba_azizmateen_mohammed.jpg",
+        "sourceName": "mujtaba_azizmateen_mohammed.jpg",
+        "sourceHash": "fa8dd4b96ca0582b48950db8ebe225e6bafd34fbae9db50324bcbc32770d572b",
+        "sourceWidth": 1200,
+        "sourceHeight": 1800
+      },
+      "profileComplete": true
+    },
+    {
+      "id": "deandra_newman_salvador",
+      "contestId": "nc-state-senate-39",
+      "name": "DeAndrea Salvador",
+      "party": "DEM",
+      "website": "https://salvadorfornc.com/",
+      "issues": {
+        "en": [
+          "Affordable healthcare",
+          "Educational opportunity",
+          "Advancing infrastructure"
+        ],
+        "es": []
+      },
+      "photo": {
+        "path": "/candidates/deandra_newman_salvador.jpg",
+        "sourceName": "deandra_newman_salvador.jpg",
+        "sourceHash": "d50613a39aa92e6c226a2aaf887ac9bcba6c1b9dcd3ca19f3e56289def8b295d",
+        "sourceWidth": 1200,
+        "sourceHeight": 1800
+      },
+      "profileComplete": true
+    },
+    {
+      "id": "bobbie_shields",
+      "contestId": "nc-state-senate-40",
+      "name": "Bobbie Shields",
+      "party": "REP",
+      "website": "https://votebobbieshields.com/",
+      "issues": {
+        "en": [
+          "Creating economic development",
+          "Investing in public infrastructure",
+          "Improving education"
+        ],
+        "es": []
+      },
+      "photo": {
+        "path": "/candidates/bobbie_shields.jpg",
+        "sourceName": "bobbie_shields.jpg",
+        "sourceHash": "564cb6b164cf7c8dfb1de91dd605d7219763a4b382d75618552c60cc2ddbe1a1",
+        "sourceWidth": 880,
+        "sourceHeight": 880
+      },
+      "profileComplete": true
+    },
+    {
+      "id": "joyce_davis_waddell",
+      "contestId": "nc-state-senate-40",
+      "name": "Joyce Waddell",
+      "party": "DEM",
+      "website": "https://www.ncsenate.org/joyce-waddell",
+      "issues": {
+        "en": [
+          "Creating affordability",
+          "Improving students' education",
+          "Supporting women and families"
+        ],
+        "es": []
+      },
+      "photo": {
+        "path": "/candidates/joyce_davis_waddell.jpg",
+        "sourceName": "joyce_davis_waddell.jpeg",
+        "sourceHash": "058640254412de99afc550258538f76fab2fb935bc7026ad3bccccb92baf6f64",
+        "sourceWidth": 1200,
+        "sourceHeight": 1800
+      },
+      "profileComplete": true
+    },
+    {
+      "id": "kevin_earl_gray",
+      "contestId": "nc-state-senate-41",
+      "name": "Kevin Gray",
+      "party": "REP",
+      "website": "https://kevingray.carrd.co/",
+      "issues": {
+        "en": [
+          "Making public transport safer",
+          "Creating judicial accountability",
+          "Upgrading uptown"
+        ],
+        "es": []
+      },
+      "photo": {
+        "path": "/candidates/kevin_earl_gray.jpg",
+        "sourceName": "kevin_earl_gray.jpg",
+        "sourceHash": "a04f50af9a1689c017da11b50d75c9cc893f26ba651774641927640e68a91f3e",
+        "sourceWidth": 400,
+        "sourceHeight": 400
+      },
+      "profileComplete": true
+    },
+    {
+      "id": "caleb_theodros",
+      "contestId": "nc-state-senate-41",
+      "name": "Caleb Theodros",
+      "party": "DEM",
+      "website": "https://calebnc.com/",
+      "issues": {
+        "en": [
+          "Valuing educators and students",
+          "Championing economic growth",
+          "Mental health awareness"
+        ],
+        "es": []
+      },
+      "photo": {
+        "path": "/candidates/caleb_theodros.jpg",
+        "sourceName": "caleb_theodros.jpg",
+        "sourceHash": "e986a802bbd1584521594ca72939053d5c22cbe3ab55dfc2c2af6f440665f0e1",
+        "sourceWidth": 1279,
+        "sourceHeight": 1481
+      },
+      "profileComplete": true
+    },
+    {
+      "id": "mary_woodsengardner_bradley",
+      "contestId": "nc-state-senate-42",
+      "name": "Mrs. Woodson Bradley",
+      "party": "DEM",
+      "website": "https://www.woodsonbradley.com/",
+      "issues": {
+        "en": [
+          "Lowering costs for families",
+          "Protecting public schools",
+          "Keeping communities safe"
+        ],
+        "es": []
+      },
+      "photo": {
+        "path": "/candidates/mary_woodsengardner_bradley.jpg",
+        "sourceName": "mary_woodsengardner_bradley.jpg",
+        "sourceHash": "60399bb053483c177ba8d3ee8ce71e827fc660efcc62ceaa2af2acd69daa330a",
+        "sourceWidth": 386,
+        "sourceHeight": 540
+      },
+      "profileComplete": true
+    },
+    {
+      "id": "stacie_mcginn",
+      "contestId": "nc-state-senate-42",
+      "name": "Stacie McGinn",
+      "party": "REP",
+      "website": "https://www.staciemcginnfornc.com/",
+      "issues": {
+        "en": [
+          "Advancing academic success",
+          "Safety and security",
+          "Promoting economic growth"
+        ],
+        "es": []
+      },
+      "photo": {
+        "path": "/candidates/stacie_mcginn.jpg",
+        "sourceName": "stacie_mcginn.jpg",
+        "sourceHash": "a9d3ae82ac1dfe3e04761fd8224d20cf8f4b8286a0b47062a49ea91c482ddbc5",
+        "sourceWidth": 444,
+        "sourceHeight": 450
+      },
+      "profileComplete": true
+    },
+    {
+      "id": "mary_g_belk",
+      "contestId": "nc-house-of-representatives-88",
+      "name": "Mary Belk",
+      "party": "DEM",
+      "website": "https://www.marybelk.com/",
+      "issues": {
+        "en": [
+          "Protecting children's education",
+          "Making neighborhoods safe",
+          "Focusing on the community"
+        ],
+        "es": []
+      },
+      "photo": {
+        "path": "/candidates/mary_g_belk.jpg",
+        "sourceName": "mary_g_belk.jpg",
+        "sourceHash": "688447a557d7d85a05aa8587cae5be2b29a626a11adbae53366eee6a28278184",
+        "sourceWidth": 200,
+        "sourceHeight": 300
+      },
+      "profileComplete": true
+    },
+    {
+      "id": "raymond_arnold_craig",
+      "contestId": "nc-house-of-representatives-88",
+      "name": "Ray Craig",
+      "party": "REP",
+      "website": "https://www.craigforcharlotte.org/about",
+      "issues": {
+        "en": [
+          "Promoting civic excellence",
+          "Protecting innocent childhoods",
+          "Government accountability"
+        ],
+        "es": []
+      },
+      "photo": {
+        "path": "/candidates/raymond_arnold_craig.jpg",
+        "sourceName": "raymond_arnold_craig.jpg",
+        "sourceHash": "6923dba42f22853c4a846ed564d8a5528df8b2df6fd47183990aaa4138557beb",
+        "sourceWidth": 335,
+        "sourceHeight": 597
+      },
+      "profileComplete": true
+    },
+    {
+      "id": "terry_martin_brown",
+      "contestId": "nc-house-of-representatives-92",
+      "name": "Terry Brown",
+      "party": "DEM",
+      "website": "https://www.voteterrybrown.com/",
+      "issues": {
+        "en": [
+          "Adequately funding our schools",
+          "Adding jobs and higher wages",
+          "Physical and mental health"
+        ],
+        "es": []
+      },
+      "photo": {
+        "path": "/candidates/terry_martin_brown.jpg",
+        "sourceName": "terry_martin_brown.jpg",
+        "sourceHash": "41ea718b45840a24691d9f3a4659bae9da1b2a2edf843128e271b57a25729e1c",
+        "sourceWidth": 386,
+        "sourceHeight": 540
+      },
+      "profileComplete": true
+    },
+    {
+      "id": "nancy_elizabethgardner_helfrich",
+      "contestId": "nc-house-of-representatives-98",
+      "name": "Beth Helfrich",
+      "party": "DEM",
+      "website": "https://bethhelfrichnc.com/",
+      "issues": {
+        "en": [
+          "Responsible growth",
+          "Working for great schools",
+          "Making safe communities"
+        ],
+        "es": []
+      },
+      "photo": {
+        "path": "/candidates/nancy_elizabethgardner_helfrich.jpg",
+        "sourceName": "nancy_elizabethgardner_helfrich.jpg",
+        "sourceHash": "fd63fcf77cb01d47f411bb5399f4cb951dee402f3642810e7e0f75626acbfd63",
+        "sourceWidth": 1200,
+        "sourceHeight": 1800
+      },
+      "profileComplete": true
+    },
+    {
+      "id": "john_walker_rhodes",
+      "contestId": "nc-house-of-representatives-98",
+      "name": "John Rhodes",
+      "party": "REP",
+      "website": "https://electjohnrhodes.com/",
+      "issues": {
+        "en": [
+          "Protecting your money",
+          "Exposing government corruption",
+          "Supporting businesses and jobs"
+        ],
+        "es": []
+      },
+      "photo": {
+        "path": "/candidates/john_walker_rhodes.jpg",
+        "sourceName": "john_walker_rhodes.jpg",
+        "sourceHash": "e98cb05b03dca90fde9ee9da732e0d95f9372e5a86c0fb07965fb14b44906e5b",
+        "sourceWidth": 1920,
+        "sourceHeight": 1516
+      },
+      "profileComplete": true
+    },
+    {
+      "id": "veleria_marie_levy",
+      "contestId": "nc-house-of-representatives-99",
+      "name": "Veleria M. Levy",
+      "party": "DEM",
+      "website": "https://www.checklevy.com/",
+      "issues": {
+        "en": [
+          "Women's health and Medicaid",
+          "Living wages and childcare",
+          "Supportive infrastructure"
+        ],
+        "es": []
+      },
+      "photo": {
+        "path": "/candidates/veleria_marie_levy.jpg",
+        "sourceName": "veleria_marie_levy.jpg",
+        "sourceHash": "7d5ed56224374de9c27316708cc9cc9c39c46e929fe75f407ee17b9b7215f6c2",
+        "sourceWidth": 750,
+        "sourceHeight": 750
+      },
+      "profileComplete": true
+    },
+    {
+      "id": "julia_stanley_greenfield",
+      "contestId": "nc-house-of-representatives-100",
+      "name": "Julia Greenfield",
+      "party": "DEM",
+      "website": "https://www.juliag4nc.com/",
+      "issues": {
+        "en": [
+          "Right to exceptional education",
+          "Outstanding healthcare",
+          "Earning living wages"
+        ],
+        "es": []
+      },
+      "photo": {
+        "path": "/candidates/julia_stanley_greenfield.jpg",
+        "sourceName": "julia_stanley_greenfield.jpg",
+        "sourceHash": "acdaaa783d8ec61be64d2f025cbd2b72765d6cb711bd9a9ed1f3391e00b2fd55",
+        "sourceWidth": 960,
+        "sourceHeight": 1440
+      },
+      "profileComplete": true
+    },
+    {
+      "id": "carolyn_g_logan",
+      "contestId": "nc-house-of-representatives-101",
+      "name": "Carolyn G. Logan",
+      "party": "DEM",
+      "website": "http://www.carolynlogannc.com/",
+      "issues": {
+        "en": [
+          "Better health insurance",
+          "Stronger public safety",
+          "Combating systemic racism"
+        ],
+        "es": []
+      },
+      "photo": {
+        "path": "/candidates/carolyn_g_logan.jpg",
+        "sourceName": "carolyn_g_logan.jpg",
+        "sourceHash": "fd3eef4e55751b36e40b2e58d5edf04864cbf0ef4f3b90d514ef2aef7e867e7a",
+        "sourceWidth": 1200,
+        "sourceHeight": 1800
+      },
+      "profileComplete": true
+    },
+    {
+      "id": "rebecca_ann_carney",
+      "contestId": "nc-house-of-representatives-102",
+      "name": "Becky Carney",
+      "party": "DEM",
+      "website": "https://www.beckycarney.com/",
+      "issues": {
+        "en": [
+          "Promoting public education",
+          "Encouraging arts education",
+          "Healthcare issues"
+        ],
+        "es": []
+      },
+      "photo": {
+        "path": "/candidates/rebecca_ann_carney.jpg",
+        "sourceName": "rebecca_ann_carney.jpg",
+        "sourceHash": "f7670dadcc539c22a5954888314450f169f9157d92aa0d5ec5a2e8497b1cd363",
+        "sourceWidth": 386,
+        "sourceHeight": 540
+      },
+      "profileComplete": true
+    },
+    {
+      "id": "laura_huntingdon_budd",
+      "contestId": "nc-house-of-representatives-103",
+      "name": "Laura Budd",
+      "party": "DEM",
+      "website": null,
+      "issues": {
+        "en": [],
+        "es": []
+      },
+      "photo": null,
+      "profileComplete": false
+    },
+    {
+      "id": "trina_vernell_boyd",
+      "contestId": "nc-house-of-representatives-104",
+      "name": "Trina Boyd",
+      "party": "REP",
+      "website": null,
+      "issues": {
+        "en": [],
+        "es": []
+      },
+      "photo": null,
+      "profileComplete": false
+    },
+    {
+      "id": "brandon_marcus_lofton",
+      "contestId": "nc-house-of-representatives-104",
+      "name": "Brandon Lofton",
+      "party": "DEM",
+      "website": null,
+      "issues": {
+        "en": [],
+        "es": []
+      },
+      "photo": null,
+      "profileComplete": false
+    },
+    {
+      "id": "patricia_ann_cotham",
+      "contestId": "nc-house-of-representatives-105",
+      "name": "Tricia Ann Cotham",
+      "party": "REP",
+      "website": null,
+      "issues": {
+        "en": [],
+        "es": []
+      },
+      "photo": null,
+      "profileComplete": false
+    },
+    {
+      "id": "kenneth_john_mccool",
+      "contestId": "nc-house-of-representatives-105",
+      "name": "Ken McCool",
+      "party": "DEM",
+      "website": null,
+      "issues": {
+        "en": [],
+        "es": []
+      },
+      "photo": null,
+      "profileComplete": false
+    },
+    {
+      "id": "rodney_steven_sadler",
+      "contestId": "nc-house-of-representatives-106",
+      "name": "Rodney Sadler",
+      "party": "DEM",
+      "website": null,
+      "issues": {
+        "en": [],
+        "es": []
+      },
+      "photo": null,
+      "profileComplete": false
+    },
+    {
+      "id": "aisha_ophelia_dew",
+      "contestId": "nc-house-of-representatives-107",
+      "name": "Aisha O. Dew",
+      "party": "DEM",
+      "website": null,
+      "issues": {
+        "en": [],
+        "es": []
+      },
+      "photo": null,
+      "profileComplete": false
+    },
+    {
+      "id": "jordan_alexander_lopez",
+      "contestId": "nc-house-of-representatives-112",
+      "name": "Jordan Lopez",
+      "party": "DEM",
+      "website": null,
+      "issues": {
+        "en": [],
+        "es": []
+      },
+      "photo": null,
+      "profileComplete": false
+    },
+    {
+      "id": "anita_sue_earls",
+      "contestId": "nc-supreme-court-associate-justice-seat-1",
+      "name": "Anita Earls",
+      "party": "DEM",
+      "website": "https://earls4justice.com/",
+      "issues": {
+        "en": [
+          "Protecting and defending freedoms like healthcare, education, and the right to vote."
+        ],
+        "es": []
+      },
+      "photo": {
+        "path": "/candidates/anita_sue_earls.jpg",
+        "sourceName": "anita_sue_earls.jpg",
+        "sourceHash": "7f6e140158135131b471019fb0aa2d9a0c26166280450490ac15c2f0ca0c4221",
+        "sourceWidth": 414,
+        "sourceHeight": 483
+      },
+      "profileComplete": true
+    },
+    {
+      "id": "sarah_suzanne_stevens",
+      "contestId": "nc-supreme-court-associate-justice-seat-1",
+      "name": "Sarah Stevens",
+      "party": "REP",
+      "website": "https://www.sarahstevensnc.com/",
+      "issues": {
+        "en": [
+          "Will respect the NC Constitution and apply the principles of conserving liberty to every case."
+        ],
+        "es": []
+      },
+      "photo": {
+        "path": "/candidates/sarah_suzanne_stevens.jpg",
+        "sourceName": "sarah_suzanne_stevens.jpg",
+        "sourceHash": "940b70d787ddf64efa4789aa9686513b98589ebc70f22be59787597162571c4b",
+        "sourceWidth": 1463,
+        "sourceHeight": 2048
+      },
+      "profileComplete": true
+    },
+    {
+      "id": "john_stanley_arrowood",
+      "contestId": "nc-court-of-appeals-judge-seat-1",
+      "name": "John S. Arrowood",
+      "party": "DEM",
+      "website": "https://www.keepjudgearrowood.com/",
+      "issues": {
+        "en": [
+          "Stands with experience, integrity, and courage for equal justice under the law."
+        ],
+        "es": []
+      },
+      "photo": {
+        "path": "/candidates/john_stanley_arrowood.jpg",
+        "sourceName": "john_stanley_arrowood.jpg",
+        "sourceHash": "f12b16bf6754b730a4ddc4952c56d18168ece9b006a007239175b277ecf0610d",
+        "sourceWidth": 1017,
+        "sourceHeight": 903
+      },
+      "profileComplete": true
+    },
+    {
+      "id": "michael_christoper_byrne",
+      "contestId": "nc-court-of-appeals-judge-seat-1",
+      "name": "Michael C. Byrne",
+      "party": "REP",
+      "website": "https://mb4nc.com/",
+      "issues": {
+        "en": [
+          "Believes passionately in due process, fairness, and giving all sides a chance to be heard."
+        ],
+        "es": []
+      },
+      "photo": {
+        "path": "/candidates/michael_christoper_byrne.jpg",
+        "sourceName": "michael_christoper_byrne.jpg",
+        "sourceHash": "6fd5701831382dc9fa868c2f2f8f7bce93f74f41e0daec1c1a9f048b8b154438",
+        "sourceWidth": 750,
+        "sourceHeight": 750
+      },
+      "profileComplete": true
+    },
+    {
+      "id": "george_cooper_bell",
+      "contestId": "nc-court-of-appeals-judge-seat-2",
+      "name": "George Cooper Bell",
+      "party": "REP",
+      "website": "https://www.judgegeorgebell.com/",
+      "issues": {
+        "en": [
+          "A Cornell-educated leader bringing discipline, integrity, and legal excellence to the bench."
+        ],
+        "es": []
+      },
+      "photo": {
+        "path": "/candidates/george_cooper_bell.jpg",
+        "sourceName": "george_cooper_bell.jpeg",
+        "sourceHash": "bfda99cf4de6a907a34068abe2e23bcf3358f1709dac5a027786fe5d631391dc",
+        "sourceWidth": 200,
+        "sourceHeight": 300
+      },
+      "profileComplete": true
+    },
+    {
+      "id": "tobias_samuel_hampson",
+      "contestId": "nc-court-of-appeals-judge-seat-2",
+      "name": "Tobias (Toby) Hampson",
+      "party": "DEM",
+      "website": "https://judgetobyhampson.com/",
+      "issues": {
+        "en": [
+          "Defending the rule of law, protecting your rights, and looking out for your family."
+        ],
+        "es": []
+      },
+      "photo": {
+        "path": "/candidates/tobias_samuel_hampson.jpg",
+        "sourceName": "tobias_samuel_hampson.jpg",
+        "sourceHash": "0e7a8a10556058ea84ed32d6e58af87df22848c2e2089b7dcafbf492efdeae56",
+        "sourceWidth": 200,
+        "sourceHeight": 300
+      },
+      "profileComplete": true
+    },
+    {
+      "id": "craig_robert_collins",
+      "contestId": "nc-court-of-appeals-judge-seat-3",
+      "name": "Craig Collins",
+      "party": "REP",
+      "website": "https://www.votecraigcollins.com/",
+      "issues": {
+        "en": [
+          "Conservative judge who will uphold the Constitution and the rule of law."
+        ],
+        "es": []
+      },
+      "photo": {
+        "path": "/candidates/craig_robert_collins.jpg",
+        "sourceName": "craig_robert_collins.jpg",
+        "sourceHash": "cd9eca7f2b36ec1b637929da468dc62068e6228a77162a2fca79920ede1ce94e",
+        "sourceWidth": 480,
+        "sourceHeight": 480
+      },
+      "profileComplete": true
+    },
+    {
+      "id": "christine_m_walczyk",
+      "contestId": "nc-court-of-appeals-judge-seat-3",
+      "name": "Christine Marie Walczyk",
+      "party": "DEM",
+      "website": "https://www.judgechristine.org/",
+      "issues": {
+        "en": [
+          "Safeguarding the fundamental rights and liberties of all with swift and nonpartisan decisions."
+        ],
+        "es": []
+      },
+      "photo": {
+        "path": "/candidates/christine_m_walczyk.jpg",
+        "sourceName": "christine_m_walczyk.jpg",
+        "sourceHash": "789e06dea047c08d7d7cef44932f6a1bb9986ee9dfd279e0b4e0451714b9a0cb",
+        "sourceWidth": 1029,
+        "sourceHeight": 831
+      },
+      "profileComplete": true
+    },
+    {
+      "id": "leigh_altman",
+      "contestId": "mecklenburg-county-board-of-commissioners-at-large",
+      "name": "Leigh Altman",
+      "party": "DEM",
+      "website": null,
+      "issues": {
+        "en": [],
+        "es": []
+      },
+      "photo": null,
+      "profileComplete": false
+    },
+    {
+      "id": "arthur_griffin",
+      "contestId": "mecklenburg-county-board-of-commissioners-at-large",
+      "name": "Arthur Griffin, Jr.",
+      "party": "DEM",
+      "website": null,
+      "issues": {
+        "en": [],
+        "es": []
+      },
+      "photo": null,
+      "profileComplete": false
+    },
+    {
+      "id": "yvette_benita_townsend-ingram",
+      "contestId": "mecklenburg-county-board-of-commissioners-at-large",
+      "name": "Yvette Townsend-Ingram",
+      "party": "DEM",
+      "website": null,
+      "issues": {
+        "en": [],
+        "es": []
+      },
+      "photo": null,
+      "profileComplete": false
+    },
+    {
+      "id": "aaron_ricardo_marin",
+      "contestId": "mecklenburg-county-board-of-commissioners-1",
+      "name": "Aaron R. Marin",
+      "party": "REP",
+      "website": null,
+      "issues": {
+        "en": [],
+        "es": []
+      },
+      "photo": null,
+      "profileComplete": false
+    },
+    {
+      "id": "morris_fonville_mcadoo",
+      "contestId": "mecklenburg-county-board-of-commissioners-1",
+      "name": "Morris (Mac) McAdoo",
+      "party": "DEM",
+      "website": null,
+      "issues": {
+        "en": [],
+        "es": []
+      },
+      "photo": null,
+      "profileComplete": false
+    },
+    {
+      "id": "monifa_dara_drayton",
+      "contestId": "mecklenburg-county-board-of-commissioners-2",
+      "name": "Monifa (Mo) Drayton",
+      "party": "DEM",
+      "website": null,
+      "issues": {
+        "en": [],
+        "es": []
+      },
+      "photo": null,
+      "profileComplete": false
+    },
+    {
+      "id": "angela_white_edwards",
+      "contestId": "mecklenburg-county-board-of-commissioners-2",
+      "name": "Angela White Edwards",
+      "party": "REP",
+      "website": null,
+      "issues": {
+        "en": [],
+        "es": []
+      },
+      "photo": null,
+      "profileComplete": false
+    },
+    {
+      "id": "george_r_dunlap",
+      "contestId": "mecklenburg-county-board-of-commissioners-3",
+      "name": "George Dunlap",
+      "party": "DEM",
+      "website": null,
+      "issues": {
+        "en": [],
+        "es": []
+      },
+      "photo": null,
+      "profileComplete": false
+    },
+    {
+      "id": "mark_devin_jerrell",
+      "contestId": "mecklenburg-county-board-of-commissioners-4",
+      "name": "Mark Jerrell",
+      "party": "DEM",
+      "website": null,
+      "issues": {
+        "en": [],
+        "es": []
+      },
+      "photo": null,
+      "profileComplete": false
+    },
+    {
+      "id": "mark_charles_deloach",
+      "contestId": "mecklenburg-county-board-of-commissioners-5",
+      "name": "Charles DeLoach",
+      "party": "DEM",
+      "website": null,
+      "issues": {
+        "en": [],
+        "es": []
+      },
+      "photo": null,
+      "profileComplete": false
+    },
+    {
+      "id": "susan_marie_rodriguez-mcdowell",
+      "contestId": "mecklenburg-county-board-of-commissioners-6",
+      "name": "Susan Rodriguez-McDowell",
+      "party": "DEM",
+      "website": null,
+      "issues": {
+        "en": [],
+        "es": []
+      },
+      "photo": null,
+      "profileComplete": false
+    },
+    {
+      "id": "garry_leonard_mcfadden",
+      "contestId": "mecklenburg-county-sheriff",
+      "name": "Garry L. McFadden",
+      "party": "DEM",
+      "website": null,
+      "issues": {
+        "en": [],
+        "es": []
+      },
+      "photo": null,
+      "profileComplete": false
+    },
+    {
+      "id": "spencer_benjamin_merriweather",
+      "contestId": "district-attorney-26",
+      "name": "Spencer Merriweather",
+      "party": "DEM",
+      "website": null,
+      "issues": {
+        "en": [],
+        "es": []
+      },
+      "photo": null,
+      "profileComplete": false
+    },
+    {
+      "id": "elisa_chinn_gary",
+      "contestId": "mecklenburg-county-clerk-of-superior-court",
+      "name": "Elisa Chinn Gary",
+      "party": "DEM",
+      "website": null,
+      "issues": {
+        "en": [],
+        "es": []
+      },
+      "photo": null,
+      "profileComplete": false
+    },
+    {
+      "id": "john_g_guise",
+      "contestId": "nc-superior-court-judge-26c-seat-1",
+      "name": "George Guise",
+      "party": "DEM",
+      "website": null,
+      "issues": {
+        "en": [],
+        "es": []
+      },
+      "photo": null,
+      "profileComplete": false
+    },
+    {
+      "id": "karen_elise_eady-williams",
+      "contestId": "nc-superior-court-judge-26f-seat-1",
+      "name": "Karen Eady-Williams",
+      "party": "DEM",
+      "website": null,
+      "issues": {
+        "en": [],
+        "es": []
+      },
+      "photo": null,
+      "profileComplete": false
+    },
+    {
+      "id": "elizabeth_thornton_trosch",
+      "contestId": "nc-superior-court-judge-26h-seat-1",
+      "name": "Elizabeth Thornton Trosch",
+      "party": "DEM",
+      "website": null,
+      "issues": {
+        "en": [],
+        "es": []
+      },
+      "photo": null,
+      "profileComplete": false
+    },
+    {
+      "id": "kimberly_yvette_best",
+      "contestId": "nc-district-court-judge-26-seat-6",
+      "name": "Kimberly Y. Best",
+      "party": "DEM",
+      "website": null,
+      "issues": {
+        "en": [],
+        "es": []
+      },
+      "photo": null,
+      "profileComplete": false
+    },
+    {
+      "id": "roderick_glenn_davis",
+      "contestId": "nc-district-court-judge-26-seat-13",
+      "name": "Roderick G. Davis",
+      "party": "DEM",
+      "website": null,
+      "issues": {
+        "en": [],
+        "es": []
+      },
+      "photo": null,
+      "profileComplete": false
+    },
+    {
+      "id": "alyssa_michelle_levine",
+      "contestId": "nc-district-court-judge-26-seat-14",
+      "name": "Alyssa M. Levine",
+      "party": "DEM",
+      "website": null,
+      "issues": {
+        "en": [],
+        "es": []
+      },
+      "photo": null,
+      "profileComplete": false
+    },
+    {
+      "id": "jennifer_lynn_fleet",
+      "contestId": "nc-district-court-judge-26-seat-15",
+      "name": "Jennifer L. Fleet",
+      "party": "DEM",
+      "website": null,
+      "issues": {
+        "en": [],
+        "es": []
+      },
+      "photo": null,
+      "profileComplete": false
+    },
+    {
+      "id": "matthew_dennis_newton",
+      "contestId": "nc-district-court-judge-26-seat-16",
+      "name": "Matt Newton",
+      "party": "DEM",
+      "website": null,
+      "issues": {
+        "en": [],
+        "es": []
+      },
+      "photo": null,
+      "profileComplete": false
+    },
+    {
+      "id": "paige_barns_mcthenia",
+      "contestId": "nc-district-court-judge-26-seat-17",
+      "name": "Paige McThenia",
+      "party": "DEM",
+      "website": null,
+      "issues": {
+        "en": [],
+        "es": []
+      },
+      "photo": null,
+      "profileComplete": false
+    },
+    {
+      "id": "habekah_britton_cannon",
+      "contestId": "nc-district-court-judge-26-seat-18",
+      "name": "Habekah Cannon",
+      "party": "DEM",
+      "website": null,
+      "issues": {
+        "en": [],
+        "es": []
+      },
+      "photo": null,
+      "profileComplete": false
+    },
+    {
+      "id": "samantha_carien_mobley",
+      "contestId": "nc-district-court-judge-26-seat-19",
+      "name": "Samantha C. Mobley",
+      "party": "DEM",
+      "website": null,
+      "issues": {
+        "en": [],
+        "es": []
+      },
+      "photo": null,
+      "profileComplete": false
+    },
+    {
+      "id": "karen_d_williams",
+      "contestId": "nc-district-court-judge-26-seat-20",
+      "name": "Karen D. McCallum",
+      "party": "DEM",
+      "website": null,
+      "issues": {
+        "en": [],
+        "es": []
+      },
+      "photo": null,
+      "profileComplete": false
+    },
+    {
+      "id": "rhonda_lynn_patternson-wrighten",
+      "contestId": "nc-district-court-judge-26-seat-21",
+      "name": "Rhonda L. Patterson-Wrighten",
+      "party": "DEM",
+      "website": null,
+      "issues": {
+        "en": [],
+        "es": []
+      },
+      "photo": null,
+      "profileComplete": false
+    },
+    {
+      "id": "michael_betterly",
+      "contestId": "soil-water-conservation-district-supervisor",
+      "name": "Michael Betterly",
+      "party": "NP",
+      "website": null,
+      "issues": {
+        "en": [],
+        "es": []
+      },
+      "photo": null,
+      "profileComplete": false
+    },
+    {
+      "id": "barbara_j_bleiwieis",
+      "contestId": "soil-water-conservation-district-supervisor",
+      "name": "Barbara Bleiweis",
+      "party": "NP",
+      "website": null,
+      "issues": {
+        "en": [],
+        "es": []
+      },
+      "photo": null,
+      "profileComplete": false
+    },
+    {
+      "id": "jillian_nicole_king",
+      "contestId": "soil-water-conservation-district-supervisor",
+      "name": "Jillian King",
+      "party": "NP",
+      "website": null,
+      "issues": {
+        "en": [],
+        "es": []
+      },
+      "photo": null,
+      "profileComplete": false
+    },
+    {
+      "id": "makenzie_purnell_pearce",
+      "contestId": "soil-water-conservation-district-supervisor",
+      "name": "Makenzie Pearce",
+      "party": "NP",
+      "website": null,
+      "issues": {
+        "en": [],
+        "es": []
+      },
+      "photo": null,
+      "profileComplete": false
+    },
+    {
+      "id": "long_tran",
+      "contestId": "soil-water-conservation-district-supervisor",
+      "name": "Long Tran",
+      "party": "NP",
+      "website": null,
+      "issues": {
+        "en": [],
+        "es": []
+      },
+      "photo": null,
+      "profileComplete": false
+    }
+  ]
+}
