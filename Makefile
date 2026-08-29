@@ -12,7 +12,7 @@ PORT     ?= 4321
 CHANNEL  ?= preview
 
 .DEFAULT_GOAL := help
-.PHONY: help install dev dev-bg dev-stop dev-logs build preview emulate publish draft channels login whoami clean distclean \
+.PHONY: help install dev dev-bg dev-stop dev-logs build test preview emulate publish draft channels login whoami clean distclean \
         ingest ingest-check \
         functions-install functions-build functions-lookup functions-lookup-prod deploy deploy-functions deploy-hosting
 
@@ -26,6 +26,7 @@ help:
 	@echo "  make dev-logs   tail a detached dev server's output"
 	@echo "  make dev-stop   stop a detached dev server"
 	@echo "  make build      build the static site into dist/"
+	@echo "  make test       run the unit tests"
 	@echo "  make preview    build, then serve the production build locally"
 	@echo "  make emulate    build, then serve via the Firebase Hosting emulator"
 	@echo "                  (honors firebase.json: clean URLs, headers, 404)"
@@ -79,6 +80,10 @@ dev-stop:
 ## build: produce the static site in dist/
 build: node_modules
 	$(NPM) run build
+
+## test: run the unit tests (src/**/*.test.ts) with Node's built-in runner
+test: node_modules
+	$(NPM) test
 
 ## preview: serve the built site with Astro's static preview server
 preview: build

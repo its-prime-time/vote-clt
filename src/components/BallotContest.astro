@@ -1,0 +1,103 @@
+---
+/**
+ * One contest on the sample-ballot page: the district/seat pill, the
+ * "Select one." instruction, and the candidates side by side with VS between.
+ *
+ * Rendered hidden for every contest in the election; the results page's
+ * script reveals the ones that match the voter's districts. The
+ * `data-key` / `data-district` attributes carry the contest's ballotMatch so
+ * the script can decide without any other data.
+ */
+import CandidateCard from './CandidateCard.astro';
+import type { Candidate, Contest } from '../data/candidates';
+import { useTranslations, type Locale } from '../i18n/utils';
+
+interface Props {
+  contest: Contest;
+  candidates: Candidate[];
+  locale: Locale;
+}
+
+const { contest, candidates, locale } = Astro.props;
+const t = useTranslations(locale);
+
+// "District 8", "Seat 2", "District 26C · Seat 1", "At-Large", or nothing.
+const pillParts: string[] = [];
+if (contest.atLarge) pillParts.push(t('candidates.atLarge'));
+if (contest.district) pillParts.push(`${t('candidates.district')} ${contest.district}`);
+if (contest.seat) pillParts.push(`${t('candidates.seat')} ${contest.seat}`);
+const pill = pillParts.length > 0 ? pillParts.join(' · ') : null;
+
+const instruction =
+  contest.voteFor > 1 ? `${t('ballot.selectUpTo')} ${contest.voteFor}.` : t('ballot.selectOne');
+---
+
+<div
+  class="contest"
+  hidden
+  data-contest={contest.id}
+  data-key={contest.ballotMatch.districtKey}
+  data-district={contest.ballotMatch.district}
+>
+  <p class="contest-head">
+    {pill && <span class="pill">{pill}</span>}
+    <span class="instruction">{instruction}</span>
+  </p>
+
+  <ul class="lineup">
+    {
+      candidates.map((candidate, index) => (
+        <>
+          {index > 0 && (
+            <li class="vs" aria-hidden="true">
+              {t('ballot.vs')}
+            </li>
+          )}
+          <li class="entry">
+            <CandidateCard candidate={candidate} contest={contest} locale={locale} variant="ballot" />
+          </li>
+        </>
+      ))
+    }
+  </ul>
+</div>
+
+<style>
+  .contest + .contest {
+    margin-top: 2.5rem;
+    padding-top: 2rem;
+    border-top: 1px solid var(--vc-rule);
+  }
+
+  .contest-head {
+    margin-top: 0.75rem;
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    color: var(--vc-ink-muted);
+  }
+
+  .lineup {
+    list-style: none;
+    margin: 1.5rem 0 0;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    gap: 1.5rem clamp(1.5rem, 4vw, 3rem);
+  }
+
+  .entry {
+    width: 15rem;
+    max-width: 100%;
+  }
+
+  .vs {
+    font-size: 1.75rem;
+    font-weight: 700;
+    color: var(--vc-ink-muted);
+    letter-spacing: 0.04em;
+  }
+</style>
