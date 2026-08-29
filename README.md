@@ -18,6 +18,7 @@ Run `make` on its own to see every target.
 | `make dev` | Dev server with hot module reload, opens a browser tab |
 | `make dev-bg` / `dev-logs` / `dev-stop` | Same server, detached |
 | `make build` | Static build into `dist/` |
+| `make test` | Unit tests (`src/**/*.test.ts`, Node's built-in runner) |
 | `make preview` | Build, then serve the production output |
 | `make emulate` | Build, then serve through the Firebase Hosting emulator — the only local mode that applies `firebase.json` (clean URLs, headers, the 404 page) |
 | `make draft` | Deploy to a shareable, expiring preview URL |
@@ -86,6 +87,17 @@ Each page exports `getStaticPaths = localePaths` from `src/i18n/utils.ts`, which
 is what produces both language variants. The candidates page composes that with
 the jurisdiction list, so adding a jurisdiction adds pages in both languages.
 
+### The My Ballot results page
+
+`/my-ballot/results?address=…` calls the `lookupAddress` Cloud Function (see
+`functions/README.md`), which returns the voter's districts, polling place,
+precinct, and official sample-ballot PDFs from the Board of Elections. The page
+is static: every contest in the election is pre-rendered hidden, and a small
+client script matches the returned districts against each contest's
+`ballotMatch` (`src/lib/ballotMatch.ts`, unit-tested) and reveals the ones
+that apply. Locally, `astro dev`/`preview` have no `/api/lookupAddress`
+rewrite — copy `.env.example` to `.env` to point at the deployed function.
+
 To add a language, extend `locales` and `ui` in `src/i18n/ui.ts`, then add the
 matching key to every `I18nText` value in `src/data/`. TypeScript will point out
 what's missing.
@@ -142,8 +154,7 @@ With English and Spanish side by side:
 - **Logo.** The header renders the site name as text.
 - **Copy.** The About mission statement, team names/roles, and FAQ answers are
   lorem-grade.
-- **Results page.** The address lookup works end to end, but the success state
-  renders the raw lookup JSON as a table. The "Your Sample Ballot" screen in
-  `mockup/vote-clt-mockup.pdf` (page 5) is the target design.
+- **Spanish blurbs.** The sample-ballot sentence and the candidate cards fall
+  back to English until the `Policy Blurb (ES)` column is filled in.
 - **Fonts.** `--vc-font` in `src/styles/global.css` is a system stack; point it
   at the brand webfont once chosen.

@@ -9,6 +9,8 @@
   --vc-blue-dark: #0c4173;
   --vc-blue-light: #4a83b8;
   --vc-red: #b3231e;
+  --vc-gold: #c9a227;
+  --vc-green: #2e7d32;
   --vc-gray-party: #6b7280;
 
   /* Neutrals */
@@ -92,6 +94,24 @@ a {
 }
 
 /* --- shared helpers --------------------------------------------------- */
+
+/* Scripts toggle `hidden` on elements that also have display rules; make it win. */
+[hidden] {
+  display: none !important;
+}
+
+/* Blue pill used for a district or seat label next to a heading. */
+.pill {
+  display: inline-block;
+  padding: 0.3rem 0.9rem;
+  border-radius: 999px;
+  background: var(--vc-blue);
+  color: #fff;
+  font-size: 0.9375rem;
+  font-weight: 600;
+  line-height: 1.3;
+  white-space: nowrap;
+}
 
 .wrap {
   max-width: var(--vc-measure);

@@ -1,33 +1,62 @@
 ---
+/**
+ * One candidate. Two looks:
+ *
+ *   variant="grid"    (default) the All Candidates pages — band shows the
+ *                     district/seat, blurb as bullet lines.
+ *   variant="ballot"  the sample-ballot page — band shows the jurisdiction
+ *                     ("NORTH CAROLINA"), bold name, blurb as one sentence.
+ */
 import Placeholder from './Placeholder.astro';
-import { issuesFor, partyAbbreviation, type Candidate, type Contest } from '../data/candidates';
-import { useTranslations, type Locale } from '../i18n/utils';
+import { issuesFor, issuesLocale, partyAbbreviation, type Candidate, type Contest } from '../data/candidates';
+import { getJurisdiction } from '../data/jurisdictions';
+import { blurbSentence } from '../lib/blurb';
+import { pick, useTranslations, type Locale } from '../i18n/utils';
 
 interface Props {
   candidate: Candidate;
   contest: Contest;
   locale: Locale;
+  variant?: 'grid' | 'ballot';
 }
 
-const { candidate, contest, locale } = Astro.props;
+const { candidate, contest, locale, variant = 'grid' } = Astro.props;
 const t = useTranslations(locale);
 
 const abbreviation = partyAbbreviation[candidate.party];
 const displayName = abbreviation ? `${candidate.name} (${abbreviation})` : candidate.name;
 
-// The coloured band over the photo says which seat this card is for. A
-// countywide, single-seat contest (Sheriff) has nothing to say and gets no band.
-const bandParts: string[] = [];
-if (contest.atLarge) bandParts.push(t('candidates.atLarge'));
-if (contest.district) bandParts.push(`${t('candidates.district')} ${contest.district}`);
-if (contest.seat) bandParts.push(`${t('candidates.seat')} ${contest.seat}`);
-if (contest.voteFor > 1) bandParts.push(`${t('candidates.voteFor')} ${contest.voteFor}`);
-const band = bandParts.join(' · ');
+// The coloured band over the photo.
+let band: string | null;
+if (variant === 'ballot') {
+  // On the ballot the district is already in the heading's pill, so the band
+  // names who elects this seat, per the mockup ("NORTH CAROLINA").
+  const jurisdiction = getJurisdiction(contest.jurisdiction);
+  band = jurisdiction ? pick(jurisdiction.title, locale) : null;
+} else {
+  // On the grid it says which seat this card is for. A countywide, single-seat
+  // contest (Sheriff) has nothing to say and gets no band.
+  const parts: string[] = [];
+  if (contest.atLarge) parts.push(t('candidates.atLarge'));
+  if (contest.district) parts.push(`${t('candidates.district')} ${contest.district}`);
+  if (contest.seat) parts.push(`${t('candidates.seat')} ${contest.seat}`);
+  if (contest.voteFor > 1) parts.push(`${t('candidates.voteFor')} ${contest.voteFor}`);
+  band = parts.length > 0 ? parts.join(' · ') : null;
+}
 
 const issues = issuesFor(candidate, locale);
+
+// The sentence is built in the language the blurb actually exists in, so an
+// English blurb on the Spanish page reads as an English sentence rather than
+// "Prioriza lowering costs … y protecting jobs".
+const blurbLocale = issuesLocale(candidate, locale);
+const sentence =
+  variant === 'ballot'
+    ? blurbSentence(issues, useTranslations(blurbLocale)('ballot.prioritizes'), blurbLocale)
+    : null;
 ---
 
-<article class="card">
+<article class:list={['card', variant]}>
   <div class="photo">
     {
       candidate.photo ? (
@@ -42,7 +71,13 @@ const issues = issuesFor(candidate, locale);
   <h3 class="name">{displayName}</h3>
 
   {
-    issues.length > 0 ? (
+    variant === 'ballot' ? (
+      sentence ? (
+        <p class="sentence">{sentence}</p>
+      ) : (
+        <p class="sentence no-data">{t('candidates.noData')}</p>
+      )
+    ) : issues.length > 0 ? (
       <ul class="issues">
         {issues.map((issue) => (
           <li>{issue}</li>
@@ -105,6 +140,12 @@ const issues = issuesFor(candidate, locale);
   .party-REP {
     background: var(--vc-red);
   }
+  .party-LIB {
+    background: var(--vc-gold);
+  }
+  .party-GRE {
+    background: var(--vc-green);
+  }
 
   .name {
     margin-top: 0.6rem;
@@ -112,6 +153,11 @@ const issues = issuesFor(candidate, locale);
     font-weight: 500;
     text-align: center;
     letter-spacing: 0;
+  }
+
+  .ballot .name {
+    font-weight: 700;
+    font-size: 1.125rem;
   }
 
   .issues {
@@ -128,8 +174,17 @@ const issues = issuesFor(candidate, locale);
     content: '- ';
   }
 
+  .sentence {
+    margin-top: 0.5rem;
+    text-align: center;
+    font-size: 0.9375rem;
+    color: var(--vc-ink);
+    text-wrap: pretty;
+  }
+
   .no-data {
     font-style: italic;
+    color: var(--vc-ink-muted);
   }
 
   .website {

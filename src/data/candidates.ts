@@ -54,11 +54,14 @@ export interface OfficeGroup {
   candidacies: Candidacy[];
 }
 
-/** The sections for one jurisdiction's page, in ballot order. */
-export function officeGroupsFor(jurisdiction: JurisdictionSlug): OfficeGroup[] {
+/**
+ * The sections for one jurisdiction's page — or, with no argument, for the
+ * whole ballot — in ballot order.
+ */
+export function officeGroupsFor(jurisdiction?: JurisdictionSlug): OfficeGroup[] {
   const groups: OfficeGroup[] = [];
   for (const contest of contests) {
-    if (contest.jurisdiction !== jurisdiction) continue;
+    if (jurisdiction && contest.jurisdiction !== jurisdiction) continue;
     let group = groups.at(-1);
     if (!group || group.office !== contest.office) {
       group = { office: contest.office, contests: [], candidacies: [] };
@@ -86,9 +89,17 @@ export function officeTitle(office: string, locale: Locale): string {
     .join(' ');
 }
 
+/**
+ * The language a candidate's blurb is actually available in: the requested
+ * one, or English until the Spanish column is filled in.
+ */
+export function issuesLocale(candidate: Candidate, locale: Locale): Locale {
+  return candidate.issues[locale].length > 0 ? locale : 'en';
+}
+
 /** The blurb in the requested language, falling back to English until the Spanish is written. */
 export function issuesFor(candidate: Candidate, locale: Locale): string[] {
-  return candidate.issues[locale].length > 0 ? candidate.issues[locale] : candidate.issues.en;
+  return candidate.issues[issuesLocale(candidate, locale)];
 }
 
 /**

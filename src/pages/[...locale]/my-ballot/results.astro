@@ -1,11 +1,36 @@
 ---
+/**
+ * My Ballot results — "Your Sample Ballot".
+ *
+ * A static page with four states driven by a small client script:
+ *   empty    no ?address= in the URL
+ *   loading  while the lookup Cloud Function runs (10–15 s)
+ *   error    the lookup failed; the message + a retry box
+ *   success  the voter's sample ballot
+ *
+ * The success state is pre-rendered for EVERY contest in the election, hidden.
+ * The script matches the BOE districts from the lookup against each contest's
+ * ballotMatch (data attributes) and reveals the ones that apply. That keeps a
+ * single CandidateCard component for both pages and keeps this script small —
+ * it only decides visibility and fills in the voting-details panel.
+ */
 import BaseLayout from '../../../layouts/BaseLayout.astro';
+import BallotContest from '../../../components/BallotContest.astro';
+import { candidateData, candidatesFor, officeGroupsFor, officeTitle } from '../../../data/candidates';
+import { elections } from '../../../data/elections';
 import { localePaths, localizePath, useTranslations, type Locale } from '../../../i18n/utils';
 
 export const getStaticPaths = localePaths;
 
 const { locale } = Astro.props as { locale: Locale };
 const t = useTranslations(locale);
+
+// Every office on the ballot, in ballot order, across all four jurisdictions.
+const groups = officeGroupsFor();
+
+// "Also on your ballot: 3 ballot initiatives" → the matching Next Elections entry.
+const election = elections.find((e) => e.id === candidateData.election.id);
+const initiativeCount = election?.initiatives.length ?? 0;
 
 // The bundled <script> below is shared by every locale's copy of this page, so
 // the strings it needs at runtime are rendered per-locale as a JSON island.
@@ -18,65 +43,137 @@ const messages = {
     network: t('results.error.network'),
     generic: t('results.error.generic'),
   },
+  parties: {
+    Democratic: t('party.Democratic'),
+    Republican: t('party.Republican'),
+    Libertarian: t('party.Libertarian'),
+    Green: t('party.Green'),
+    Constitution: t('party.Constitution'),
+    Unaffiliated: t('party.Unaffiliated'),
+  },
 };
 ---
 
 <BaseLayout locale={locale} title={t('results.title')}>
-  <section class="wrap page-head">
-    <h1>{t('results.title')}</h1>
+  <div class="wrap page-head">
+    <h1>{t('ballot.heading')}</h1>
+  </div>
 
-    {/* No ?address= in the URL: point people back at the search box. */}
-    <div id="state-empty">
-      <p class="page-lead">{t('results.noAddress')}</p>
+  {/* No ?address= in the URL: point people back at the search box. */}
+  <section id="state-empty" class="wrap centered">
+    <p class="page-lead">{t('results.noAddress')}</p>
+    <p class="actions">
+      <a class="btn" href={localizePath('/candidates/north-carolina', locale)}>
+        {t('results.browse')}
+      </a>
+      <a class="btn btn-quiet" href={localizePath('/', locale)}>{t('results.tryAgain')}</a>
+    </p>
+  </section>
+
+  {/* Interstitial while the lookup function runs (typically 10–15s). */}
+  <section id="state-loading" class="wrap centered" role="status" hidden>
+    <div class="spinner" aria-hidden="true"></div>
+    <p class="page-lead">{t('results.loading')}</p>
+    <p class="loading-note">{t('results.loadingNote')}</p>
+  </section>
+
+  {/* Lookup failed: explain why and let the user fix the address in place. */}
+  <section id="state-error" class="wrap centered" hidden>
+    <p class="error-box" id="error-message" role="alert"></p>
+
+    <div id="candidates" hidden>
+      <p class="candidates-heading">{t('results.didYouMean')}</p>
+      <ul id="candidate-list" class="candidate-list"></ul>
+    </div>
+
+    <form class="search" method="get" action={localizePath('/my-ballot/results', locale)}>
+      <label class="visually-hidden" for="retry-address">{t('home.addressLabel')}</label>
+      <input
+        id="retry-address"
+        name="address"
+        type="text"
+        autocomplete="street-address"
+        placeholder={t('home.addressPlaceholder')}
+        required
+      />
+      <button type="submit" class="btn">{t('home.search')}</button>
+    </form>
+  </section>
+
+  {/* Success: the voting-details panel, then the matching contests. */}
+  <div id="state-success" hidden>
+    <section class="wrap" aria-labelledby="details-heading">
+      <div class="details">
+        <h2 id="details-heading" class="details-heading">{t('ballot.detailsHeading')}</h2>
+        <dl class="details-list">
+          <div class="details-item">
+            <dt>{t('ballot.address')}</dt>
+            <dd id="detail-address"></dd>
+          </div>
+          <div class="details-item" id="detail-polling" hidden>
+            <dt>{t('ballot.pollingPlace')}</dt>
+            <dd>
+              <span id="detail-polling-name"></span><br />
+              <span id="detail-polling-address"></span>
+              <a id="detail-directions" class="details-link" rel="noopener" target="_blank" hidden>
+                {t('ballot.directions')}
+              </a>
+            </dd>
+          </div>
+          <div class="details-item" id="detail-precinct-item" hidden>
+            <dt>{t('ballot.precinct')}</dt>
+            <dd id="detail-precinct"></dd>
+          </div>
+          <div class="details-item" id="detail-pdfs-item" hidden>
+            <dt>{t('ballot.samplePdf')}</dt>
+            <dd><ul id="detail-pdfs" class="pdf-list"></ul></dd>
+          </div>
+        </dl>
+        <p class="details-source">{t('ballot.source')}</p>
+      </div>
+    </section>
+
+    <div id="ballot">
+      {
+        groups.map((group) => (
+          <section class="wrap office" data-office={group.office} hidden>
+            <div class="office-head">
+              <h2 class="rule-heading">{officeTitle(group.office, locale)}</h2>
+            </div>
+            {group.contests.map((contest) => (
+              <BallotContest contest={contest} candidates={candidatesFor(contest.id)} locale={locale} />
+            ))}
+          </section>
+        ))
+      }
+    </div>
+
+    <section id="ballot-empty" class="wrap centered" hidden>
+      <p class="page-lead">{t('ballot.noMatches')}</p>
       <p class="actions">
         <a class="btn" href={localizePath('/candidates/north-carolina', locale)}>
           {t('results.browse')}
         </a>
-        <a class="btn btn-quiet" href={localizePath('/', locale)}>{t('results.tryAgain')}</a>
       </p>
-    </div>
+    </section>
 
-    {/* Interstitial while the lookup function runs (typically 10–15s). */}
-    <div id="state-loading" role="status" hidden>
-      <div class="spinner" aria-hidden="true"></div>
-      <p class="page-lead">{t('results.loading')}</p>
-      <p class="loading-note">{t('results.loadingNote')}</p>
-    </div>
-
-    {/* Lookup failed: explain why and let the user fix the address in place. */}
-    <div id="state-error" hidden>
-      <p class="error-box" id="error-message" role="alert"></p>
-
-      <div id="candidates" hidden>
-        <p class="candidates-heading">{t('results.didYouMean')}</p>
-        <ul id="candidate-list" class="candidate-list"></ul>
-      </div>
-
-      <form class="search" method="get" action={localizePath('/my-ballot/results', locale)}>
-        <label class="visually-hidden" for="retry-address">{t('home.addressLabel')}</label>
-        <input
-          id="retry-address"
-          name="address"
-          type="text"
-          autocomplete="street-address"
-          placeholder={t('home.addressPlaceholder')}
-          required
-        />
-        <button type="submit" class="btn">{t('home.search')}</button>
-      </form>
-    </div>
-
-    {/* Success: for now, the raw lookup result rendered as a nested table. */}
-    <div id="state-success" hidden>
-      <p class="page-lead">
-        {t('results.forAddress')} <strong id="result-address"></strong>
-      </p>
-      <div id="result-table" class="result-table"></div>
+    <section class="wrap centered closing">
+      {
+        initiativeCount > 0 && (
+          <p class="also">
+            {t('ballot.alsoPrefix')}
+            <a href={`${localizePath('/next-elections', locale)}#election-${election!.id}`}>
+              {initiativeCount} {initiativeCount === 1 ? t('ballot.initiative') : t('ballot.initiatives')}
+            </a>
+            {t('ballot.alsoSuffix')}
+          </p>
+        )
+      }
       <p class="actions">
         <a class="btn btn-quiet" href={localizePath('/', locale)}>{t('results.tryAgain')}</a>
       </p>
-    </div>
-  </section>
+    </section>
+  </div>
 </BaseLayout>
 
 <script
@@ -91,10 +188,13 @@ const messages = {
     lookupAddress,
     LookupRequestError,
     type AddressCandidate,
+    type LookupResult,
   } from '../../../lib/lookupClient';
+  import { matchContests } from '../../../lib/ballotMatch';
+  import type { BallotMatch } from '../../../data/candidateTypes';
 
-  const messages: { errors: Record<string, string> } = JSON.parse(
-    document.getElementById('lookup-messages')?.textContent ?? '{"errors":{}}',
+  const messages: { errors: Record<string, string>; parties: Record<string, string> } = JSON.parse(
+    document.getElementById('lookup-messages')?.textContent ?? '{"errors":{},"parties":{}}',
   );
 
   const states = {
@@ -107,6 +207,8 @@ const messages = {
   function show(name: keyof typeof states): void {
     for (const [key, el] of Object.entries(states)) el.hidden = key !== name;
   }
+
+  const byId = (id: string) => document.getElementById(id)!;
 
   // Statically hosted site: the submitted address arrives via the query string.
   const address = new URLSearchParams(window.location.search).get('address')?.trim();
@@ -141,8 +243,7 @@ const messages = {
   function renderError(err: unknown): void {
     const requestError = err instanceof LookupRequestError ? err : undefined;
     const code = requestError?.details?.code ?? STATUS_TO_CODE[requestError?.status ?? ''];
-    document.getElementById('error-message')!.textContent =
-      (code && messages.errors[code]) || messages.errors.generic;
+    byId('error-message').textContent = (code && messages.errors[code]) || messages.errors.generic;
 
     renderCandidates(requestError?.details?.candidates ?? []);
     show('error');
@@ -150,7 +251,7 @@ const messages = {
 
   /** For multiple_matches: each BOE candidate becomes a link that re-runs the search. */
   function renderCandidates(candidates: AddressCandidate[]): void {
-    const list = document.getElementById('candidate-list')!;
+    const list = byId('candidate-list');
     list.replaceChildren(
       ...candidates.map((candidate) => {
         const label = candidate.label.replace(/\s+/g, ' ').trim();
@@ -164,100 +265,97 @@ const messages = {
         return item;
       }),
     );
-    document.getElementById('candidates')!.hidden = candidates.length === 0;
+    byId('candidates').hidden = candidates.length === 0;
   }
 
   // ----------------------------------------------------------------- success
 
-  function renderSuccess(address: string, result: unknown): void {
-    const matched = (result as { ballot?: { matchedAddress?: string } } | null)?.ballot
-      ?.matchedAddress;
-    document.getElementById('result-address')!.textContent = matched || address;
-    document.getElementById('result-table')!.replaceChildren(renderValue(result));
+  function renderSuccess(address: string, result: LookupResult): void {
+    const ballot = result.ballot ?? {};
+    renderDetails(address, ballot);
+    const matched = revealContests(ballot.districts);
+    byId('ballot-empty').hidden = matched > 0;
     show('success');
+    window.scrollTo({ top: 0 });
   }
 
-  /** Render any JSON value as text, a link, or a nested table. */
-  function renderValue(value: unknown): Node {
-    if (value === null || value === undefined || value === '') return emptyMark();
-    if (typeof value !== 'object') {
-      const text = String(value);
-      if (/^https?:\/\//.test(text)) {
+  /** Fill the "Your voting details" panel from the lookup result. */
+  function renderDetails(address: string, ballot: NonNullable<LookupResult['ballot']>): void {
+    byId('detail-address').textContent = ballot.matchedAddress || address;
+
+    const place = ballot.pollingPlace;
+    const polling = byId('detail-polling');
+    polling.hidden = !place?.name;
+    if (place?.name) {
+      byId('detail-polling-name').textContent = place.name;
+      byId('detail-polling-address').textContent = [
+        place.streetAddress,
+        [place.city, place.state].filter(Boolean).join(', ') + (place.zip ? ` ${place.zip}` : ''),
+      ]
+        .filter(Boolean)
+        .join(', ');
+      const directions = byId('detail-directions') as HTMLAnchorElement;
+      const href = place.directionsUrl || place.mapUrl;
+      directions.hidden = !href;
+      if (href) directions.href = href;
+    }
+
+    byId('detail-precinct-item').hidden = !ballot.precinct;
+    if (ballot.precinct) byId('detail-precinct').textContent = ballot.precinct;
+
+    // Only parties that actually have a ballot for this address.
+    const pdfs = (ballot.sampleBallots ?? []).filter((s) => s.hasBallot && s.url);
+    byId('detail-pdfs-item').hidden = pdfs.length === 0;
+    byId('detail-pdfs').replaceChildren(
+      ...pdfs.map((sample) => {
         const link = document.createElement('a');
-        link.href = text;
-        link.textContent = text;
-        link.target = '_blank';
+        link.href = sample.url;
         link.rel = 'noopener';
-        return link;
-      }
-      return document.createTextNode(text);
-    }
-    if (Array.isArray(value)) return renderArray(value);
-    return renderObject(value as Record<string, unknown>);
+        link.target = '_blank';
+        link.textContent = messages.parties[sample.party] ?? sample.party;
+        const item = document.createElement('li');
+        item.append(link);
+        return item;
+      }),
+    );
   }
 
-  function renderObject(obj: Record<string, unknown>): Node {
-    const entries = Object.entries(obj);
-    if (entries.length === 0) return emptyMark();
-    const table = document.createElement('table');
-    table.className = 'json-table';
-    for (const [key, val] of entries) {
-      const row = table.insertRow();
-      const header = document.createElement('th');
-      header.scope = 'row';
-      header.textContent = key;
-      row.append(header);
-      row.insertCell().append(renderValue(val));
+  /**
+   * Un-hide the contests whose ballotMatch (carried as data attributes) fits
+   * the BOE districts, and their office sections. Returns how many matched.
+   */
+  function revealContests(districts: Record<string, string> | undefined): number {
+    const contestEls = [...document.querySelectorAll<HTMLElement>('#ballot .contest')];
+    const matchable = contestEls.map((el) => ({
+      id: el.dataset.contest!,
+      el,
+      ballotMatch: {
+        districtKey: el.dataset.key as BallotMatch['districtKey'],
+        district: el.dataset.district || undefined,
+      },
+    }));
+    const matched = new Set(matchContests(districts, matchable).map((m) => m.id));
+    for (const m of matchable) m.el.hidden = !matched.has(m.id);
+
+    for (const office of document.querySelectorAll<HTMLElement>('#ballot .office')) {
+      const visible = [...office.querySelectorAll<HTMLElement>('.contest')].filter((c) => !c.hidden);
+      office.hidden = visible.length === 0;
+
+      // With a single contest for the office, the pill sits beside the heading
+      // as in the mockup ("US House of Representatives [District 8]"); with
+      // several (Court of Appeals seats), each row keeps its own.
+      const pill = visible.length === 1 ? visible[0].querySelector('.pill') : null;
+      if (pill) office.querySelector('.office-head')!.append(pill);
     }
-    return table;
-  }
-
-  function renderArray(items: unknown[]): Node {
-    if (items.length === 0) return emptyMark();
-
-    const table = document.createElement('table');
-    table.className = 'json-table';
-
-    // A uniform array of objects reads better as one table with a header row.
-    if (items.every((item) => item && typeof item === 'object' && !Array.isArray(item))) {
-      const keys = [...new Set(items.flatMap((item) => Object.keys(item as object)))];
-      const head = table.createTHead().insertRow();
-      for (const key of keys) {
-        const cell = document.createElement('th');
-        cell.scope = 'col';
-        cell.textContent = key;
-        head.append(cell);
-      }
-      const body = table.createTBody();
-      for (const item of items) {
-        const row = body.insertRow();
-        for (const key of keys) {
-          row.insertCell().append(renderValue((item as Record<string, unknown>)[key]));
-        }
-      }
-      return table;
-    }
-
-    for (const [index, item] of items.entries()) {
-      const row = table.insertRow();
-      const header = document.createElement('th');
-      header.scope = 'row';
-      header.textContent = String(index + 1);
-      row.append(header);
-      row.insertCell().append(renderValue(item));
-    }
-    return table;
-  }
-
-  function emptyMark(): Node {
-    const mark = document.createElement('span');
-    mark.className = 'json-empty';
-    mark.textContent = '—';
-    return mark;
+    return matched.size;
   }
 </script>
 
 <style>
+  .centered {
+    text-align: center;
+  }
+
   .actions {
     margin-top: 2.5rem;
     display: flex;
@@ -308,7 +406,6 @@ const messages = {
 
   .loading-note {
     margin-top: 0.75rem;
-    text-align: center;
     font-size: 0.875rem;
     color: var(--vc-ink-muted);
   }
@@ -372,42 +469,83 @@ const messages = {
     font-size: 0.9375rem;
     cursor: pointer;
   }
-</style>
 
-{/* The result table and candidate links are created by the script at runtime,
-    so Astro's scoped styles can't reach them — these must be global. */}
-<style is:global>
-  .result-table {
-    margin: 2.5rem auto 0;
-    max-width: 60rem;
-    overflow-x: auto;
-    text-align: left;
-  }
+  /* --- voting details panel ------------------------------------------- */
 
-  .json-table {
-    width: 100%;
-    border-collapse: collapse;
-    font-size: 0.9375rem;
-  }
-
-  .json-table th,
-  .json-table td {
+  .details {
+    margin-top: clamp(2rem, 5vw, 3rem);
+    padding: 1.5rem clamp(1.25rem, 3vw, 2rem);
     border: 1px solid var(--vc-rule);
-    padding: 0.5rem 0.75rem;
-    vertical-align: top;
-    text-align: left;
+    border-radius: 0.75rem;
+    background: var(--vc-surface-alt);
   }
 
-  .json-table th {
-    background: var(--vc-surface-alt);
+  .details-heading {
+    font-size: 1.125rem;
+    font-weight: 700;
+    letter-spacing: 0;
+  }
+
+  .details-list {
+    margin: 1rem 0 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr));
+    gap: 1rem 2rem;
+  }
+
+  .details-item dt {
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--vc-ink-muted);
+  }
+
+  .details-item dd {
+    margin: 0.25rem 0 0;
+    line-height: 1.45;
+  }
+
+  .details-link {
+    display: block;
+    width: fit-content;
+    margin-top: 0.35rem;
     font-weight: 600;
   }
 
-  .json-table th[scope='row'] {
-    white-space: nowrap;
+  .pdf-list {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.25rem 1rem;
   }
 
-  .json-empty {
+  .details-source {
+    margin-top: 1rem;
+    font-size: 0.8125rem;
+    color: var(--vc-ink-muted);
+  }
+
+  /* --- contests --------------------------------------------------------- */
+
+  .office {
+    margin-top: clamp(2.5rem, 6vw, 4rem);
+  }
+
+  .office-head {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 0.75rem 1.25rem;
+  }
+
+  .closing {
+    margin-top: clamp(2.5rem, 6vw, 4rem);
+  }
+
+  .also {
     color: var(--vc-ink-muted);
   }
 </style>

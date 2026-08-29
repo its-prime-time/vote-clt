@@ -71,9 +71,14 @@ make deploy-functions / make publish (hosting only)
 ```
 
 Verification checklist for a change: `make build`, `npx astro check`,
+`make test` (unit tests for the ballot matcher and blurb joiner),
 `cd functions && npx tsc --noEmit`, and for anything touching the lookup path
 a `--prod` lookup (or `make draft` and click through) with the known-good
-address below.
+address below. To see the results page locally: `cp .env.example .env`,
+`make build`, `npx astro preview`, open
+`/my-ballot/results?address=3227 Planters Ridge Rd 28270` (takes ~12 s;
+costs ScrapingBee credits). Delete `.env` afterwards so a `make publish`
+from this machine keeps using the same-origin rewrite.
 
 ## Environment & credentials (state as of 2026-08-29)
 
@@ -142,23 +147,40 @@ address below.
   row is omitted or published without the bad field. Structural problems
   (sheet unreachable, missing column) do exit non-zero.
 - `ballotMatch.districtKey` maps onto the BOE lookup's `districts` keys
-  (plus `statewide` / `county`) — the hook for spec 004's results page.
-- Mockup page 5 ("Your Sample Ballot") is the results-page design: office
-  title + district pill, "Select one.", blurb rendered as one sentence,
-  LIB = gold band.
+  (plus `statewide` / `county`).
+
+## Results page (spec 004 — shipped)
+
+- `src/pages/[...locale]/my-ballot/results.astro` pre-renders **every**
+  contest (`BallotContest.astro`, `CandidateCard variant="ballot"`) hidden,
+  with `data-key` / `data-district` from `ballotMatch`. The client script
+  calls `matchContests()` (`src/lib/ballotMatch.ts`, pure, unit-tested) on
+  the BOE `districts` and un-hides matches; it also fills the voting-details
+  panel and lifts a single contest's pill next to the office heading.
+- Matching rules: `statewide`/`county` always; district keys compare the
+  trailing token (`"NC HOUSE DISTRICT 105"` → `105`, `26A` ≠ `26C`);
+  `municipality`/`cityCouncil` require the BOE municipality to be
+  `CHARLOTTE`. A voter in Superior Court 26A correctly sees no Superior Court
+  contest this year (only 26C/F/H have seats).
+- Blurb sentence: `src/lib/blurb.ts` — "This candidate prioritizes a, b, and
+  c." / "Prioriza a, b y c."; the template follows the language the blurb
+  exists in (`issuesLocale`), so English blurbs on `/es` read as English.
+- Candidate order within a contest is alphabetical by last name (team
+  decision 2026-08-29; NC's statutory ballot order is not encoded).
+- Page `<title>` stays "Your ballot"; the H1 is "Your Sample Ballot".
 
 ## Where the project stands / likely next work
 
 Done: full site scaffold (all mockup pages, EN/ES), Cloud Function, CLI
-harness, site wiring with loading/error/success states, footer attribution,
-candidate data ingest + generated All Candidates pages (spec 003).
+harness, site wiring with loading/error states, footer attribution,
+candidate data ingest + generated All Candidates pages (spec 003), the
+sample-ballot results page (spec 004).
 
 Still placeholder or rough:
 
-1. **Results page design (spec 004)** — success state is a raw nested-JSON
-   table. Target is mockup page 5: match the BOE `districts` to contests via
-   `ballotMatch`, render each contest with its candidates ("VS" layout),
-   blurb as a sentence, plus sample-ballot PDFs / polling place / precinct.
+1. **Ballot order / band design review** — the results page follows mockup
+   page 5 plus decisions recorded above; the design team hasn't seen the
+   voting-details panel or the multi-seat rows yet.
 2. **Editorial data gaps** — see `data_quality_issues.md` (ID typo for Alma
    Adams, stray row, 40 profiles without blurbs, no Spanish blurbs yet).
 3. **Copy** — About mission, team roster, FAQ answers are lorem-grade.

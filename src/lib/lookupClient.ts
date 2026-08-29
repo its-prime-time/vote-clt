@@ -29,6 +29,32 @@ export interface LookupErrorDetails {
   candidates?: AddressCandidate[];
 }
 
+/**
+ * The parts of a successful lookup the site uses. Mirrors `LookupSuccess` in
+ * functions/src/lookup/types.ts; everything is optional because the page must
+ * cope with a BOE page that is missing a section.
+ */
+export interface LookupResult {
+  parsedAddress?: { houseNumber?: string; streetName?: string; streetType?: string };
+  ballot?: {
+    matchedAddress?: string;
+    electionTitle?: string;
+    /** BOE district labels keyed by kind, e.g. { stateHouse: "NC HOUSE DISTRICT 105" }. */
+    districts?: Record<string, string>;
+    sampleBallots?: { party: string; url: string; hasBallot: boolean }[];
+    pollingPlace?: {
+      name?: string;
+      streetAddress?: string;
+      city?: string;
+      state?: string;
+      zip?: string;
+      mapUrl?: string;
+      directionsUrl?: string;
+    };
+    precinct?: string;
+  };
+}
+
 /** A failed lookup: either a structured error from the function or a transport failure. */
 export class LookupRequestError extends Error {
   constructor(
@@ -51,7 +77,7 @@ const TIMEOUT_MS = 120_000;
  * Look up ballot information for a free-form address string. Resolves with the
  * function's JSON result; rejects with {@link LookupRequestError} on any failure.
  */
-export async function lookupAddress(address: string): Promise<unknown> {
+export async function lookupAddress(address: string): Promise<LookupResult> {
   let response: Response;
   try {
     response = await fetch(ENDPOINT, {
@@ -86,5 +112,5 @@ export async function lookupAddress(address: string): Promise<unknown> {
     throw new LookupRequestError('INTERNAL', 'Unexpected response from the lookup service.');
   }
 
-  return (payload as { result: unknown }).result;
+  return (payload as { result: LookupResult }).result ?? {};
 }

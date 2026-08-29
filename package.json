@@ -10,7 +10,8 @@
     "preview": "astro preview",
     "check": "astro check",
     "ingest": "tsx scripts/ingest/index.ts",
-    "ingest:check": "tsx scripts/ingest/index.ts --check"
+    "ingest:check": "tsx scripts/ingest/index.ts --check",
+    "test": "node --import tsx --test \"src/**/*.test.ts\""
   },
   "dependencies": {
     "astro": "^7.2.0"
