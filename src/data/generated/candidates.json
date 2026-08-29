@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-08-29T16:22:27.335Z",
+  "generatedAt": "2026-08-29T16:29:55.497Z",
   "source": {
     "sheetId": "10-ZfK0aqOk7VS9HlCoDO2LP1tnxn1y8rYQmHLTeNy0I",
     "sheetModified": null
@@ -985,13 +985,23 @@
       "contestId": "us-house-of-representatives-12",
       "name": "Alma S. Adams",
       "party": "DEM",
-      "website": null,
+      "website": "https://adams.house.gov/",
       "issues": {
-        "en": [],
+        "en": [
+          "Making housing affordable",
+          "Addressing the food crisis",
+          "Creating affordable healthcare"
+        ],
         "es": []
       },
-      "photo": null,
-      "profileComplete": false
+      "photo": {
+        "path": "/candidates/alma_shealey_adams.jpg",
+        "sourceName": "alma_shealey_adams.jpg",
+        "sourceHash": "679d06fa1700c04825b1588826ca5099027706533d7e83795ccd043c05f710ca",
+        "sourceWidth": 319,
+        "sourceHeight": 480
+      },
+      "profileComplete": true
     },
     {
       "id": "john_christopher_codiga",
