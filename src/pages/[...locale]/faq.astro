@@ -1,12 +1,19 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import { faqs } from '../../data/team';
+import { renderMarkdown } from '../../lib/markdown';
 import { localePaths, pick, useTranslations, type Locale } from '../../i18n/utils';
 
 export const getStaticPaths = localePaths;
 
 const { locale } = Astro.props as { locale: Locale };
 const t = useTranslations(locale);
+
+// Answers are Markdown in src/data/team.ts; render them to HTML here, at build.
+const entries = faqs.map((faq) => ({
+  question: pick(faq.question, locale),
+  answerHtml: renderMarkdown(pick(faq.answer, locale)),
+}));
 ---
 
 <BaseLayout locale={locale} title={t('faq.title')}>
@@ -17,10 +24,10 @@ const t = useTranslations(locale);
 
   <section class="wrap list">
     {
-      faqs.map((faq) => (
+      entries.map((entry) => (
         <details class="qa">
-          <summary>{pick(faq.question, locale)}</summary>
-          <p>{pick(faq.answer, locale)}</p>
+          <summary>{entry.question}</summary>
+          <div class="answer" set:html={entry.answerHtml} />
         </details>
       ))
     }
@@ -48,8 +55,24 @@ const t = useTranslations(locale);
     color: var(--vc-blue);
   }
 
-  .qa p {
+  .answer {
     padding-bottom: 1.25rem;
     color: var(--vc-ink-muted);
+  }
+
+  /* The answer's markup comes from Markdown, so style its children globally. */
+  .answer :global(p + p),
+  .answer :global(ul),
+  .answer :global(ol) {
+    margin-top: 0.75rem;
+  }
+
+  .answer :global(ul),
+  .answer :global(ol) {
+    padding-left: 1.25rem;
+  }
+
+  .answer :global(a) {
+    font-weight: 600;
   }
 </style>

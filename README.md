@@ -144,7 +144,11 @@ With English and Spanish side by side:
   (labels, titles, and the "no contests this year" note).
 - **`elections.ts`** — upcoming elections and their ballot initiatives, plus the
   polling-location link.
-- **`team.ts`** — the About page roster and the FAQ entries.
+- **`team.ts`** — the About page roster and the FAQ entries. FAQ answers are
+  Markdown (links, lists, paragraphs), rendered to HTML at build time by
+  `src/lib/markdown.ts` — nothing Markdown-related ships to the browser.
+- **`links.ts`** — the official NCSBE / Mecklenburg BOE URLs used in more
+  than one place.
 
 ## Placeholders still to replace
 

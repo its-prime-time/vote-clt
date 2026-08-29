@@ -1,4 +1,5 @@
 ---
+import { meckBoeUrl } from '../data/links';
 import { useTranslations, type Locale } from '../i18n/utils';
 
 interface Props {
@@ -15,7 +16,7 @@ const year = 2026;
     <p class="strong">{t('footer.rights')}</p>
     <p>{t('footer.disclaimer')}</p>
     <p>
-      {t('footer.attributionPrefix')}<a href="https://vote.mecknc.gov/" rel="noopener"
+      {t('footer.attributionPrefix')}<a href={meckBoeUrl} rel="noopener"
         >{t('footer.attributionLink')}</a
       >{t('footer.attributionSuffix')}
     </p>

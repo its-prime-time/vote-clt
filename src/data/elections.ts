@@ -1,4 +1,5 @@
 import type { I18nText } from '../i18n/utils';
+import { ncVoterSearchUrl } from './links';
 
 /** Upcoming elections and their certified ballot initiatives. */
 
@@ -78,5 +79,5 @@ export const elections: Election[] = [
   },
 ];
 
-/** Where the "find your polling location" link points. */
-export const pollingLocationUrl = 'https://vt.ncsbe.gov/RegLkup/';
+/** Where the "find your polling location" link points: the NCSBE Voter Search. */
+export const pollingLocationUrl = ncVoterSearchUrl;
