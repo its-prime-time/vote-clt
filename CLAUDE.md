@@ -53,6 +53,9 @@ Home (/, /es)  ──form GET ?address=──▶  /my-ballot/results   (static p
   `results.astro` maps codes to `results.error.*` strings in `src/i18n/ui.ts`.
 - All editorial content is data: `src/data/{jurisdictions,elections,team}.ts`
   with `{ en, es }` strings side by side. Chrome strings are in `src/i18n/ui.ts`.
+  FAQ answers are Markdown strings rendered at build by `src/lib/markdown.ts`
+  (`marked`; external links get `target=_blank rel=noopener`). Official
+  NCSBE/BOE URLs live in `src/data/links.ts`.
 - The site never imports the Firebase SDK; the callable is invoked with plain
   `fetch` using the callable JSON convention.
 
