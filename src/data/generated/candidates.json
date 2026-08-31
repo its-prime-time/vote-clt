@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-08-29T16:29:55.497Z",
+  "generatedAt": "2026-08-30T23:55:08.461Z",
   "source": {
     "sheetId": "10-ZfK0aqOk7VS9HlCoDO2LP1tnxn1y8rYQmHLTeNy0I",
     "sheetModified": null
@@ -549,6 +549,21 @@
       }
     },
     {
+      "id": "soil-water-conservation-district-supervisor",
+      "name": "SOIL & WATER CONSERVATION DISTRICT SUPERVISOR",
+      "office": "soil-water-conservation-district-supervisor",
+      "jurisdiction": "mecklenburg-county",
+      "district": null,
+      "seat": null,
+      "atLarge": false,
+      "voteFor": 2,
+      "partisan": false,
+      "unexpiredTerm": false,
+      "ballotMatch": {
+        "districtKey": "county"
+      }
+    },
+    {
       "id": "mecklenburg-county-sheriff",
       "name": "MECKLENBURG COUNTY SHERIFF",
       "office": "mecklenburg-county-sheriff",
@@ -800,21 +815,6 @@
       "ballotMatch": {
         "districtKey": "judicial",
         "district": "26"
-      }
-    },
-    {
-      "id": "soil-water-conservation-district-supervisor",
-      "name": "SOIL & WATER CONSERVATION DISTRICT SUPERVISOR",
-      "office": "soil-water-conservation-district-supervisor",
-      "jurisdiction": "mecklenburg-county",
-      "district": null,
-      "seat": null,
-      "atLarge": false,
-      "voteFor": 2,
-      "partisan": false,
-      "unexpiredTerm": false,
-      "ballotMatch": {
-        "districtKey": "county"
       }
     }
   ],
@@ -1514,87 +1514,151 @@
       "contestId": "nc-house-of-representatives-103",
       "name": "Laura Budd",
       "party": "DEM",
-      "website": null,
+      "website": "https://www.laurabuddnc.com/",
       "issues": {
-        "en": [],
+        "en": [
+          "Government transparency",
+          "Promoting bipartisanship",
+          "Keeping communities safe"
+        ],
         "es": []
       },
-      "photo": null,
-      "profileComplete": false
+      "photo": {
+        "path": "/candidates/laura_huntingdon_budd.jpg",
+        "sourceName": "laura_huntingdon_budd.jpg",
+        "sourceHash": "b67a74cdd32d6648d73d6198c21a805f31290b826e60cdcfcccc19394adc4a49",
+        "sourceWidth": 960,
+        "sourceHeight": 1440
+      },
+      "profileComplete": true
     },
     {
       "id": "trina_vernell_boyd",
       "contestId": "nc-house-of-representatives-104",
       "name": "Trina Boyd",
       "party": "REP",
-      "website": null,
+      "website": "https://ballotpedia.org/Trina_Boyd",
       "issues": {
-        "en": [],
+        "en": [
+          "Supporting small businesses",
+          "Expanding childcare access",
+          "Increasing youth opportunities"
+        ],
         "es": []
       },
-      "photo": null,
-      "profileComplete": false
+      "photo": {
+        "path": "/candidates/trina_vernell_boyd.jpg",
+        "sourceName": "trina_vernell_boyd.jpg",
+        "sourceHash": "f7739686df7dd70f5f4001ac6b3b87f929434dd2b7d533b4395c936448e8de4f",
+        "sourceWidth": 200,
+        "sourceHeight": 300
+      },
+      "profileComplete": true
     },
     {
       "id": "brandon_marcus_lofton",
       "contestId": "nc-house-of-representatives-104",
       "name": "Brandon Lofton",
       "party": "DEM",
-      "website": null,
+      "website": "https://www.loftonfornc.com/",
       "issues": {
-        "en": [],
+        "en": [
+          "Promoting a vibrant economy",
+          "Funding public education",
+          "Protecting constitutional rights"
+        ],
         "es": []
       },
-      "photo": null,
-      "profileComplete": false
+      "photo": {
+        "path": "/candidates/brandon_marcus_lofton.jpg",
+        "sourceName": "brandon_marcus_lofton.jpg",
+        "sourceHash": "92397859bedf6377e91b0715405127144090084d123c856b1863cde457b292b8",
+        "sourceWidth": 386,
+        "sourceHeight": 540
+      },
+      "profileComplete": true
     },
     {
       "id": "patricia_ann_cotham",
       "contestId": "nc-house-of-representatives-105",
       "name": "Tricia Ann Cotham",
       "party": "REP",
-      "website": null,
+      "website": "https://www.triciacotham.net/",
       "issues": {
-        "en": [],
+        "en": [
+          "Fighting inflation",
+          "Protecting our community",
+          "Putting kids first"
+        ],
         "es": []
       },
-      "photo": null,
-      "profileComplete": false
+      "photo": {
+        "path": "/candidates/patricia_ann_cotham.jpg",
+        "sourceName": "patricia_ann_cotham.jpg",
+        "sourceHash": "0a595ecd37287bd161f682db05d55077d3e96d0fb919efcabf427285c623dff1",
+        "sourceWidth": 386,
+        "sourceHeight": 540
+      },
+      "profileComplete": true
     },
     {
       "id": "kenneth_john_mccool",
       "contestId": "nc-house-of-representatives-105",
       "name": "Ken McCool",
       "party": "DEM",
-      "website": null,
+      "website": "https://kenmccool.com/",
       "issues": {
-        "en": [],
+        "en": [
+          "Fighting for affordable housing",
+          "Public safety",
+          "Smart urban growth"
+        ],
         "es": []
       },
-      "photo": null,
-      "profileComplete": false
+      "photo": {
+        "path": "/candidates/kenneth_john_mccool.jpg",
+        "sourceName": "kenneth_john_mccool.jpeg",
+        "sourceHash": "033e061bffb2b60f6bfca5be556e8a816f6575765a3aa6bb0d5795934526d2a0",
+        "sourceWidth": 6720,
+        "sourceHeight": 4480
+      },
+      "profileComplete": true
     },
     {
       "id": "rodney_steven_sadler",
       "contestId": "nc-house-of-representatives-106",
       "name": "Rodney Sadler",
       "party": "DEM",
-      "website": null,
+      "website": "https://rodneysadler.com/",
       "issues": {
-        "en": [],
+        "en": [
+          "Strengthening public schools",
+          "Making homes we can afford",
+          "Raising minimum wage"
+        ],
         "es": []
       },
-      "photo": null,
-      "profileComplete": false
+      "photo": {
+        "path": "/candidates/rodney_steven_sadler.jpg",
+        "sourceName": "rodney_steven_sadler.jpg",
+        "sourceHash": "eadd6b23fdc50b3c544e5044673d12af23636f26719a563b279b6e0d937e4af5",
+        "sourceWidth": 1003,
+        "sourceHeight": 962
+      },
+      "profileComplete": true
     },
     {
       "id": "aisha_ophelia_dew",
       "contestId": "nc-house-of-representatives-107",
       "name": "Aisha O. Dew",
       "party": "DEM",
-      "website": null,
+      "website": "https://nchousedems.com/our-members/aisha-o.-dew-house-district-107/",
       "issues": {
-        "en": [],
+        "en": [
+          "Reproductive justice",
+          "Supporting small businesses",
+          "Protecting the environment"
+        ],
         "es": []
       },
       "photo": null,
@@ -1925,6 +1989,71 @@
       "profileComplete": false
     },
     {
+      "id": "michael_betterly",
+      "contestId": "soil-water-conservation-district-supervisor",
+      "name": "Michael Betterly",
+      "party": "NP",
+      "website": null,
+      "issues": {
+        "en": [],
+        "es": []
+      },
+      "photo": null,
+      "profileComplete": false
+    },
+    {
+      "id": "barbara_j_bleiwieis",
+      "contestId": "soil-water-conservation-district-supervisor",
+      "name": "Barbara Bleiweis",
+      "party": "NP",
+      "website": null,
+      "issues": {
+        "en": [],
+        "es": []
+      },
+      "photo": null,
+      "profileComplete": false
+    },
+    {
+      "id": "jillian_nicole_king",
+      "contestId": "soil-water-conservation-district-supervisor",
+      "name": "Jillian King",
+      "party": "NP",
+      "website": null,
+      "issues": {
+        "en": [],
+        "es": []
+      },
+      "photo": null,
+      "profileComplete": false
+    },
+    {
+      "id": "makenzie_purnell_pearce",
+      "contestId": "soil-water-conservation-district-supervisor",
+      "name": "Makenzie Pearce",
+      "party": "NP",
+      "website": null,
+      "issues": {
+        "en": [],
+        "es": []
+      },
+      "photo": null,
+      "profileComplete": false
+    },
+    {
+      "id": "long_tran",
+      "contestId": "soil-water-conservation-district-supervisor",
+      "name": "Long Tran",
+      "party": "NP",
+      "website": null,
+      "issues": {
+        "en": [],
+        "es": []
+      },
+      "photo": null,
+      "profileComplete": false
+    },
+    {
       "id": "garry_leonard_mcfadden",
       "contestId": "mecklenburg-county-sheriff",
       "name": "Garry L. McFadden",
@@ -2124,71 +2253,6 @@
       "contestId": "nc-district-court-judge-26-seat-21",
       "name": "Rhonda L. Patterson-Wrighten",
       "party": "DEM",
-      "website": null,
-      "issues": {
-        "en": [],
-        "es": []
-      },
-      "photo": null,
-      "profileComplete": false
-    },
-    {
-      "id": "michael_betterly",
-      "contestId": "soil-water-conservation-district-supervisor",
-      "name": "Michael Betterly",
-      "party": "NP",
-      "website": null,
-      "issues": {
-        "en": [],
-        "es": []
-      },
-      "photo": null,
-      "profileComplete": false
-    },
-    {
-      "id": "barbara_j_bleiwieis",
-      "contestId": "soil-water-conservation-district-supervisor",
-      "name": "Barbara Bleiweis",
-      "party": "NP",
-      "website": null,
-      "issues": {
-        "en": [],
-        "es": []
-      },
-      "photo": null,
-      "profileComplete": false
-    },
-    {
-      "id": "jillian_nicole_king",
-      "contestId": "soil-water-conservation-district-supervisor",
-      "name": "Jillian King",
-      "party": "NP",
-      "website": null,
-      "issues": {
-        "en": [],
-        "es": []
-      },
-      "photo": null,
-      "profileComplete": false
-    },
-    {
-      "id": "makenzie_purnell_pearce",
-      "contestId": "soil-water-conservation-district-supervisor",
-      "name": "Makenzie Pearce",
-      "party": "NP",
-      "website": null,
-      "issues": {
-        "en": [],
-        "es": []
-      },
-      "photo": null,
-      "profileComplete": false
-    },
-    {
-      "id": "long_tran",
-      "contestId": "soil-water-conservation-district-supervisor",
-      "name": "Long Tran",
-      "party": "NP",
       "website": null,
       "issues": {
         "en": [],

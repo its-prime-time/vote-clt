@@ -93,13 +93,15 @@ export const officeOrder: string[] = [
   'nc-house-of-representatives',
   'nc-supreme-court-associate-justice',
   'nc-court-of-appeals-judge',
+  // Commissioners first, then Soil & Water — the two most contested county
+  // races sit above the long run of unopposed seats.
   'mecklenburg-county-board-of-commissioners',
+  'soil-water-conservation-district-supervisor',
   'mecklenburg-county-sheriff',
   'district-attorney',
   'mecklenburg-county-clerk-of-superior-court',
   'nc-superior-court-judge',
   'nc-district-court-judge',
-  'soil-water-conservation-district-supervisor',
   'charlotte-mayor',
   'charlotte-city-council',
 ];

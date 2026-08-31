@@ -68,7 +68,18 @@ const sentence =
     {band && <p class:list={['band', `party-${candidate.party}`]}>{band}</p>}
   </div>
 
-  <h3 class="name">{displayName}</h3>
+  {/* The name links to the campaign site when the profile has one. */}
+  <h3 class="name">
+    {
+      candidate.website ? (
+        <a href={candidate.website} rel="noopener" target="_blank">
+          {displayName}
+        </a>
+      ) : (
+        displayName
+      )
+    }
+  </h3>
 
   {
     variant === 'ballot' ? (
@@ -88,15 +99,6 @@ const sentence =
     )
   }
 
-  {
-    candidate.website && (
-      <p class="website">
-        <a href={candidate.website} rel="noopener" target="_blank">
-          {t('candidates.website')}
-        </a>
-      </p>
-    )
-  }
 </article>
 
 <style>
@@ -182,14 +184,17 @@ const sentence =
     text-wrap: pretty;
   }
 
+  .name a {
+    color: var(--vc-blue);
+    text-decoration: underline;
+  }
+
+  .name a:hover {
+    color: var(--vc-blue-dark);
+  }
+
   .no-data {
     font-style: italic;
     color: var(--vc-ink-muted);
-  }
-
-  .website {
-    margin-top: 0.5rem;
-    text-align: center;
-    font-size: 0.8125rem;
   }
 </style>

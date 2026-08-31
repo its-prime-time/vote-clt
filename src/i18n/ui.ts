@@ -67,6 +67,7 @@ export const ui = {
     'ballot.directions': 'Directions',
     'ballot.precinct': 'Precinct',
     'ballot.samplePdf': 'Official sample ballot (PDF)',
+    'ballot.samplePdfPending': 'Sample ballots will be linked once available.',
     'ballot.source': 'Voting details from the Mecklenburg County Board of Elections.',
     'ballot.selectOne': 'Select one.',
     'ballot.selectUpTo': 'Select up to',
@@ -78,13 +79,6 @@ export const ui = {
     'ballot.alsoSuffix': '.',
     'ballot.noMatches':
       'We couldn’t match your districts to any of the contests we have information on.',
-
-    'party.Democratic': 'Democratic',
-    'party.Republican': 'Republican',
-    'party.Libertarian': 'Libertarian',
-    'party.Green': 'Green',
-    'party.Constitution': 'Constitution',
-    'party.Unaffiliated': 'Unaffiliated',
 
     'elections.title': 'Next Elections',
     'elections.introPrefix': 'View upcoming elections and ballot initiatives in your area. Find your polling location ',
@@ -110,7 +104,6 @@ export const ui = {
     'candidates.atLarge': 'At-Large',
     'candidates.voteFor': 'Vote for',
     'candidates.noData': 'No additional data',
-    'candidates.website': 'Campaign website',
     'candidates.noContests': 'There are no contests for this jurisdiction on the upcoming ballot.',
 
     'footer.rights': 'Vote CLT is a nonpartisan voter information project.',
@@ -173,6 +166,7 @@ export const ui = {
     'ballot.directions': 'Cómo llegar',
     'ballot.precinct': 'Precinto',
     'ballot.samplePdf': 'Boleta de muestra oficial (PDF)',
+    'ballot.samplePdfPending': 'Las boletas de muestra se enlazarán cuando estén disponibles.',
     'ballot.source': 'Datos de votación de la Junta Electoral del Condado de Mecklenburg.',
     'ballot.selectOne': 'Selecciona uno.',
     'ballot.selectUpTo': 'Selecciona hasta',
@@ -184,13 +178,6 @@ export const ui = {
     'ballot.alsoSuffix': '.',
     'ballot.noMatches':
       'No pudimos relacionar tus distritos con ninguna de las contiendas sobre las que tenemos información.',
-
-    'party.Democratic': 'Demócrata',
-    'party.Republican': 'Republicano',
-    'party.Libertarian': 'Libertario',
-    'party.Green': 'Verde',
-    'party.Constitution': 'Constitución',
-    'party.Unaffiliated': 'Sin afiliación',
 
     'elections.title': 'Próximas Elecciones',
     'elections.introPrefix': 'Consulta las próximas elecciones e iniciativas electorales en tu área. Encuentra tu lugar de votación ',
@@ -217,7 +204,6 @@ export const ui = {
     'candidates.atLarge': 'General',
     'candidates.voteFor': 'Vota por',
     'candidates.noData': 'Sin datos adicionales',
-    'candidates.website': 'Sitio web de campaña',
     'candidates.noContests': 'No hay contiendas para esta jurisdicción en la próxima boleta.',
 
     'footer.rights': 'Vote CLT es un proyecto no partidista de información para votantes.',
