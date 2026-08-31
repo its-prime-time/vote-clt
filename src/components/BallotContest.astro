@@ -44,19 +44,27 @@ const instruction =
     <span class="instruction">{instruction}</span>
   </p>
 
-  <ul class="lineup">
+  {/*
+    Each list item is one "duo": the VS separator plus the candidate to its
+    right. Because the VS travels with the candidate that follows it, a line
+    break can never leave a VS dangling at the end of a row — and since every
+    duo is the same fixed width on a grid track, wrapped rows stay aligned.
+    The first candidate carries an invisible "ghost" VS so its card lines up
+    with the grid too.
+  */}
+  <ul class:list={['lineup', { solo: candidates.length === 1 }]}>
     {
       candidates.map((candidate, index) => (
-        <>
-          {index > 0 && (
-            <li class="vs" aria-hidden="true">
+        <li class="duo">
+          {candidates.length > 1 && (
+            <span class:list={['vs', { ghost: index === 0 }]} aria-hidden="true">
               {t('ballot.vs')}
-            </li>
+            </span>
           )}
-          <li class="entry">
+          <div class="slot">
             <CandidateCard candidate={candidate} contest={contest} locale={locale} variant="ballot" />
-          </li>
-        </>
+          </div>
+        </li>
       ))
     }
   </ul>
@@ -79,25 +87,82 @@ const instruction =
   }
 
   .lineup {
+    /* Sized so four duos (VS + card) fit across the 1280px content measure.
+       auto-fit (not auto-fill) collapses unused tracks, so a two-candidate
+       race centers instead of hugging the left of a four-column set. */
+    --card-w: 12.5rem;
+    --vs-w: 3rem;
+
     list-style: none;
     margin: 1.5rem 0 0;
     padding: 0;
-    display: flex;
-    flex-wrap: wrap;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, calc(var(--vs-w) + var(--card-w)));
     justify-content: center;
-    align-items: center;
-    gap: 1.5rem clamp(1.5rem, 4vw, 3rem);
+    row-gap: 2.5rem;
   }
 
-  .entry {
-    width: 15rem;
-    max-width: 100%;
+  /* A single unopposed candidate has no VS, so the track is just the card. */
+  .lineup.solo {
+    grid-template-columns: repeat(auto-fit, var(--card-w));
+  }
+
+  .duo {
+    /* Top-aligned so every photo starts on the same line regardless of how
+       long the blurb below it runs. */
+    display: flex;
+    align-items: flex-start;
+  }
+
+  .slot {
+    flex: 1;
+    min-width: 0;
   }
 
   .vs {
-    font-size: 1.75rem;
+    /* The flex-basis (--vs-w) sets the space between candidates, so the
+       smaller type below doesn't change the margins. */
+    flex: 0 0 var(--vs-w);
+    text-align: center;
+    font-size: 1.125rem;
     font-weight: 700;
-    color: var(--vc-ink-muted);
+    color: var(--vc-gray-party);
     letter-spacing: 0.04em;
+    /* Center on the photo, whose height is 5/4 of the card width (4:5 box). */
+    margin-top: calc(var(--card-w) * 5 / 8);
+    transform: translateY(-50%);
+  }
+
+  /* Keeps the first card on the grid without showing a leading VS. */
+  .vs.ghost {
+    visibility: hidden;
+  }
+
+  /* One-column mode: below the width where two duos fit (2 × 15.5rem tracks
+     plus the page gutters), the duo stacks vertically so the VS reads as
+     "between" candidates while scrolling. The ghost disappears entirely —
+     there is nothing to align against in a single column. */
+  @media (max-width: 34rem) {
+    .lineup,
+    .lineup.solo {
+      --card-w: 15rem;
+      grid-template-columns: min(var(--card-w), 100%);
+      row-gap: 1.5rem;
+    }
+
+    .duo {
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .vs {
+      flex-basis: auto;
+      margin: 0 0 1.5rem;
+      transform: none;
+    }
+
+    .vs.ghost {
+      display: none;
+    }
   }
 </style>

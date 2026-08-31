@@ -43,14 +43,6 @@ const messages = {
     network: t('results.error.network'),
     generic: t('results.error.generic'),
   },
-  parties: {
-    Democratic: t('party.Democratic'),
-    Republican: t('party.Republican'),
-    Libertarian: t('party.Libertarian'),
-    Green: t('party.Green'),
-    Constitution: t('party.Constitution'),
-    Unaffiliated: t('party.Unaffiliated'),
-  },
 };
 ---
 
@@ -124,9 +116,16 @@ const messages = {
             <dt>{t('ballot.precinct')}</dt>
             <dd id="detail-precinct"></dd>
           </div>
-          <div class="details-item" id="detail-pdfs-item" hidden>
+          {/*
+            The BOE's per-party PDF links still point at the 2026 PRIMARY
+            ballots, so we deliberately don't render them. Restore the linked
+            list (git history: spec 004) once the general-election ballots are
+            posted — the lookup result already carries them as
+            ballot.sampleBallots.
+          */}
+          <div class="details-item">
             <dt>{t('ballot.samplePdf')}</dt>
-            <dd><ul id="detail-pdfs" class="pdf-list"></ul></dd>
+            <dd class="pending">{t('ballot.samplePdfPending')}</dd>
           </div>
         </dl>
         <p class="details-source">{t('ballot.source')}</p>
@@ -193,8 +192,8 @@ const messages = {
   import { matchContests } from '../../../lib/ballotMatch';
   import type { BallotMatch } from '../../../data/candidateTypes';
 
-  const messages: { errors: Record<string, string>; parties: Record<string, string> } = JSON.parse(
-    document.getElementById('lookup-messages')?.textContent ?? '{"errors":{},"parties":{}}',
+  const messages: { errors: Record<string, string> } = JSON.parse(
+    document.getElementById('lookup-messages')?.textContent ?? '{"errors":{}}',
   );
 
   const states = {
@@ -303,21 +302,8 @@ const messages = {
     byId('detail-precinct-item').hidden = !ballot.precinct;
     if (ballot.precinct) byId('detail-precinct').textContent = ballot.precinct;
 
-    // Only parties that actually have a ballot for this address.
-    const pdfs = (ballot.sampleBallots ?? []).filter((s) => s.hasBallot && s.url);
-    byId('detail-pdfs-item').hidden = pdfs.length === 0;
-    byId('detail-pdfs').replaceChildren(
-      ...pdfs.map((sample) => {
-        const link = document.createElement('a');
-        link.href = sample.url;
-        link.rel = 'noopener';
-        link.target = '_blank';
-        link.textContent = messages.parties[sample.party] ?? sample.party;
-        const item = document.createElement('li');
-        item.append(link);
-        return item;
-      }),
-    );
+    // Sample-ballot PDF links are intentionally not rendered for now — see
+    // the comment on the details-item in the markup above.
   }
 
   /**
@@ -513,13 +499,8 @@ const messages = {
     font-weight: 600;
   }
 
-  .pdf-list {
-    margin: 0;
-    padding: 0;
-    list-style: none;
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.25rem 1rem;
+  .pending {
+    font-style: italic;
   }
 
   .details-source {
