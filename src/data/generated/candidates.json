@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-08-30T23:55:08.461Z",
+  "generatedAt": "2026-09-03T00:06:32.868Z",
   "source": {
     "sheetId": "10-ZfK0aqOk7VS9HlCoDO2LP1tnxn1y8rYQmHLTeNy0I",
     "sheetModified": null
@@ -1537,12 +1537,12 @@
       "contestId": "nc-house-of-representatives-104",
       "name": "Trina Boyd",
       "party": "REP",
-      "website": "https://ballotpedia.org/Trina_Boyd",
+      "website": "https://www.facebook.com/people/Trina-Boyd-For-NC-House-District-104/61570701451471/",
       "issues": {
         "en": [
-          "Supporting small businesses",
-          "Expanding childcare access",
-          "Increasing youth opportunities"
+          "Strengthening healthcare",
+          "Empowering youth & education",
+          "Growing small businesses"
         ],
         "es": []
       },
@@ -1661,21 +1661,37 @@
         ],
         "es": []
       },
-      "photo": null,
-      "profileComplete": false
+      "photo": {
+        "path": "/candidates/aisha_ophelia_dew.jpg",
+        "sourceName": "aisha_ophelia_dew.jpeg",
+        "sourceHash": "42a4fb7771c57750abf5ee2ec90a1b71d3e49b4ca28cf08e662b67bdcc6cf8b0",
+        "sourceWidth": 650,
+        "sourceHeight": 650
+      },
+      "profileComplete": true
     },
     {
       "id": "jordan_alexander_lopez",
       "contestId": "nc-house-of-representatives-112",
       "name": "Jordan Lopez",
       "party": "DEM",
-      "website": null,
+      "website": "https://lopez4nc.com/",
       "issues": {
-        "en": [],
+        "en": [
+          "Food access for all",
+          "Investing in public education",
+          "Economic opportunity for all"
+        ],
         "es": []
       },
-      "photo": null,
-      "profileComplete": false
+      "photo": {
+        "path": "/candidates/jordan_alexander_lopez.jpg",
+        "sourceName": "jordan_alexander_lopez.jpg",
+        "sourceHash": "fae5910f4dabc8d5e413cfc7ba6523ffa87890ce79410a5bbe2fa43a37062649",
+        "sourceWidth": 200,
+        "sourceHeight": 300
+      },
+      "profileComplete": true
     },
     {
       "id": "anita_sue_earls",
@@ -1850,13 +1866,23 @@
       "contestId": "mecklenburg-county-board-of-commissioners-at-large",
       "name": "Leigh Altman",
       "party": "DEM",
-      "website": null,
+      "website": "https://www.leighaltman.com/",
       "issues": {
-        "en": [],
+        "en": [
+          "Improving mass transit",
+          "Funding parks and greenways",
+          "High quality public schools"
+        ],
         "es": []
       },
-      "photo": null,
-      "profileComplete": false
+      "photo": {
+        "path": "/candidates/leigh_altman.jpg",
+        "sourceName": "leigh_altman.jpg",
+        "sourceHash": "1a2787740734352de9208586e35d4dedf0594212c73c4e14a8e4baa3543a9a56",
+        "sourceWidth": 200,
+        "sourceHeight": 300
+      },
+      "profileComplete": true
     },
     {
       "id": "arthur_griffin",
@@ -1876,13 +1902,23 @@
       "contestId": "mecklenburg-county-board-of-commissioners-at-large",
       "name": "Yvette Townsend-Ingram",
       "party": "DEM",
-      "website": null,
+      "website": "https://www.linkedin.com/in/yvette-townsend-ingram-mba-dba-abd-993b538/",
       "issues": {
-        "en": [],
+        "en": [
+          "County communication",
+          "Diminishing food insecurity",
+          "Improving family services"
+        ],
         "es": []
       },
-      "photo": null,
-      "profileComplete": false
+      "photo": {
+        "path": "/candidates/yvette_benita_townsend-ingram.jpg",
+        "sourceName": "yvette_benita_townsend-ingram.jpg",
+        "sourceHash": "482531ef64100316f46d02d0f303c680fc7ba783a5af523e47642488b8dedaf6",
+        "sourceWidth": 377,
+        "sourceHeight": 530
+      },
+      "profileComplete": true
     },
     {
       "id": "aaron_ricardo_marin",
@@ -2071,13 +2107,21 @@
       "contestId": "district-attorney-26",
       "name": "Spencer Merriweather",
       "party": "DEM",
-      "website": null,
+      "website": "https://merriweatherforda.com/about-spencer/",
       "issues": {
-        "en": [],
+        "en": [
+          "Supporting victims, obtaining justice, and creating safer streets and communities."
+        ],
         "es": []
       },
-      "photo": null,
-      "profileComplete": false
+      "photo": {
+        "path": "/candidates/spencer_benjamin_merriweather.jpg",
+        "sourceName": "spencer_benjamin_merriweather.jpg",
+        "sourceHash": "fe71e442bfaada731e16f946f84d8b595effe8df6fdc5666665c52513ad2f009",
+        "sourceWidth": 400,
+        "sourceHeight": 600
+      },
+      "profileComplete": true
     },
     {
       "id": "elisa_chinn_gary",
@@ -2097,104 +2141,168 @@
       "contestId": "nc-superior-court-judge-26c-seat-1",
       "name": "George Guise",
       "party": "DEM",
-      "website": null,
+      "website": "https://www.guiseforsuperiorcourt.com/",
       "issues": {
-        "en": [],
+        "en": [
+          "Will protect individuals' rights, respect all parties, and work to ensure justice is served."
+        ],
         "es": []
       },
-      "photo": null,
-      "profileComplete": false
+      "photo": {
+        "path": "/candidates/john_g_guise.jpg",
+        "sourceName": "john_g_guise.jpeg",
+        "sourceHash": "de71f4dc6222fe4ca2761feeb37dbf6d8fe919b1f685717c0f6230df91d432dc",
+        "sourceWidth": 1200,
+        "sourceHeight": 674
+      },
+      "profileComplete": true
     },
     {
       "id": "karen_elise_eady-williams",
       "contestId": "nc-superior-court-judge-26f-seat-1",
       "name": "Karen Eady-Williams",
       "party": "DEM",
-      "website": null,
+      "website": "https://www.linkedin.com/in/karen-e-b34439b/",
       "issues": {
-        "en": [],
+        "en": [
+          "Has experience as both a Superior Court Judge and District Court judge in NC."
+        ],
         "es": []
       },
-      "photo": null,
-      "profileComplete": false
+      "photo": {
+        "path": "/candidates/karen_elise_eady-williams.jpg",
+        "sourceName": "karen_elise_eady-williams.jpg",
+        "sourceHash": "ea2b94b27d2481ab26c314926d3e0b715d2077e828ac7ddc86503e9b21b35308",
+        "sourceWidth": 500,
+        "sourceHeight": 500
+      },
+      "profileComplete": true
     },
     {
       "id": "elizabeth_thornton_trosch",
       "contestId": "nc-superior-court-judge-26h-seat-1",
       "name": "Elizabeth Thornton Trosch",
       "party": "DEM",
-      "website": null,
+      "website": "https://www.judgetroschforourcourts.com/",
       "issues": {
-        "en": [],
+        "en": [
+          "A champion for justice who leads with commitment, conviction and collaboration."
+        ],
         "es": []
       },
-      "photo": null,
-      "profileComplete": false
+      "photo": {
+        "path": "/candidates/elizabeth_thornton_trosch.jpg",
+        "sourceName": "elizabeth_thornton_trosch.jpg",
+        "sourceHash": "e78406ffc7ea580dbfb07e8a2f492ddc2d84fd7eb215bbe6a5b0253eda62a47e",
+        "sourceWidth": 447,
+        "sourceHeight": 447
+      },
+      "profileComplete": true
     },
     {
       "id": "kimberly_yvette_best",
       "contestId": "nc-district-court-judge-26-seat-6",
       "name": "Kimberly Y. Best",
       "party": "DEM",
-      "website": null,
+      "website": "https://www.meckbar.org/?pg=Kimberly-Best",
       "issues": {
-        "en": [],
+        "en": [
+          "I understand the need to make fair and impartial decisions that comply with the law."
+        ],
         "es": []
       },
-      "photo": null,
-      "profileComplete": false
+      "photo": {
+        "path": "/candidates/kimberly_yvette_best.jpg",
+        "sourceName": "kimberly_yvette_best.jpg",
+        "sourceHash": "fd9f210e900d9f0f0fd2492f75971bc04e964dfc92cd9d94c2f4c6015f845521",
+        "sourceWidth": 555,
+        "sourceHeight": 552
+      },
+      "profileComplete": true
     },
     {
       "id": "roderick_glenn_davis",
       "contestId": "nc-district-court-judge-26-seat-13",
       "name": "Roderick G. Davis",
       "party": "DEM",
-      "website": null,
+      "website": "https://roderickgdavisforjudge.com/",
       "issues": {
-        "en": [],
+        "en": [
+          "Approaching decisions diligently, thoughtfully and fairly."
+        ],
         "es": []
       },
-      "photo": null,
-      "profileComplete": false
+      "photo": {
+        "path": "/candidates/roderick_glenn_davis.jpg",
+        "sourceName": "roderick_glenn_davis.jpg",
+        "sourceHash": "ba90587139bdec0eef92dacd4c1a9c0ae0d7bae619f4db5d3c9ec7dea17d3bad",
+        "sourceWidth": 447,
+        "sourceHeight": 447
+      },
+      "profileComplete": true
     },
     {
       "id": "alyssa_michelle_levine",
       "contestId": "nc-district-court-judge-26-seat-14",
       "name": "Alyssa M. Levine",
       "party": "DEM",
-      "website": null,
+      "website": "https://alyssalevineforjudge.com/home-3",
       "issues": {
-        "en": [],
+        "en": [
+          "Gives parties an opportunity to be heard, listens respectfully, treats people with dignity."
+        ],
         "es": []
       },
-      "photo": null,
-      "profileComplete": false
+      "photo": {
+        "path": "/candidates/alyssa_michelle_levine.jpg",
+        "sourceName": "alyssa_michelle_levine.jpg",
+        "sourceHash": "0acacf94d9b4207bb14f59b5f30f4fe8e7eebaac6ab1bdf1cc26ad90db589f8d",
+        "sourceWidth": 1233,
+        "sourceHeight": 1234
+      },
+      "profileComplete": true
     },
     {
       "id": "jennifer_lynn_fleet",
       "contestId": "nc-district-court-judge-26-seat-15",
       "name": "Jennifer L. Fleet",
       "party": "DEM",
-      "website": null,
+      "website": "https://www.judgejenniferfleet.com/",
       "issues": {
-        "en": [],
+        "en": [
+          "Showing commitment to the job, knowledge of the law, and an open minded approach."
+        ],
         "es": []
       },
-      "photo": null,
-      "profileComplete": false
+      "photo": {
+        "path": "/candidates/jennifer_lynn_fleet.jpg",
+        "sourceName": "jennifer_lynn_fleet.jpg",
+        "sourceHash": "e348c3d2de4d21a43428485a797b0dec29b44400db93fa0708e7fdd52e3c4df5",
+        "sourceWidth": 408,
+        "sourceHeight": 490
+      },
+      "profileComplete": true
     },
     {
       "id": "matthew_dennis_newton",
       "contestId": "nc-district-court-judge-26-seat-16",
       "name": "Matt Newton",
       "party": "DEM",
-      "website": null,
+      "website": "https://www.mattnewtonforjudge.com/",
       "issues": {
-        "en": [],
+        "en": [
+          "Ensuring that the courthouse is a place where equality and justice prevails for all."
+        ],
         "es": []
       },
-      "photo": null,
-      "profileComplete": false
+      "photo": {
+        "path": "/candidates/matthew_dennis_newton.jpg",
+        "sourceName": "matthew_dennis_newton.jpeg",
+        "sourceHash": "e281d73dbd887ac3181bb09e84d1924924a6cf4ecfd444d58c760e3810ef4417",
+        "sourceWidth": 714,
+        "sourceHeight": 800
+      },
+      "profileComplete": true
     },
     {
       "id": "paige_barns_mcthenia",
@@ -2203,10 +2311,18 @@
       "party": "DEM",
       "website": null,
       "issues": {
-        "en": [],
+        "en": [
+          "Washington & Lee University Law graduate and incumbent for the district."
+        ],
         "es": []
       },
-      "photo": null,
+      "photo": {
+        "path": "/candidates/paige_barns_mcthenia.jpg",
+        "sourceName": "paige_barns_mcthenia.jpg",
+        "sourceHash": "cd904129c4d598410e19ea0aaf88a93292d5ef7103ac2ae9eb641ffd3c08750f",
+        "sourceWidth": 427,
+        "sourceHeight": 540
+      },
       "profileComplete": false
     },
     {
@@ -2214,52 +2330,84 @@
       "contestId": "nc-district-court-judge-26-seat-18",
       "name": "Habekah Cannon",
       "party": "DEM",
-      "website": null,
+      "website": "https://habekahforjudge.com/",
       "issues": {
-        "en": [],
+        "en": [
+          "Guided by fairness, integrity, and respect for every person who enters the courtroom."
+        ],
         "es": []
       },
-      "photo": null,
-      "profileComplete": false
+      "photo": {
+        "path": "/candidates/habekah_britton_cannon.jpg",
+        "sourceName": "habekah_britton_cannon.jpg",
+        "sourceHash": "660041de947085ebb157ec400afcd5d317beb49fddc7df9f350bed35a1b6b984",
+        "sourceWidth": 881,
+        "sourceHeight": 1024
+      },
+      "profileComplete": true
     },
     {
       "id": "samantha_carien_mobley",
       "contestId": "nc-district-court-judge-26-seat-19",
       "name": "Samantha C. Mobley",
       "party": "DEM",
-      "website": null,
+      "website": "https://www.votesamanthamobley.com/",
       "issues": {
-        "en": [],
+        "en": [
+          "Recognizes the importance of fairness, consistency and the safety of the community."
+        ],
         "es": []
       },
-      "photo": null,
-      "profileComplete": false
+      "photo": {
+        "path": "/candidates/samantha_carien_mobley.jpg",
+        "sourceName": "samantha_carien_mobley.jpg",
+        "sourceHash": "de6ec4f03cb3d0e572b172ddda26e6f21c975dc1307867460d4ddb401ec117ce",
+        "sourceWidth": 381,
+        "sourceHeight": 524
+      },
+      "profileComplete": true
     },
     {
-      "id": "karen_d_williams",
+      "id": "karen_d_mccallum",
       "contestId": "nc-district-court-judge-26-seat-20",
       "name": "Karen D. McCallum",
       "party": "DEM",
-      "website": null,
+      "website": "https://www.facebook.com/p/Karen-McCallum-For-District-Court-Judge-District-26-F-100063736012721/",
       "issues": {
-        "en": [],
+        "en": [
+          "Experienced, fair, dedicated, and ethical."
+        ],
         "es": []
       },
-      "photo": null,
-      "profileComplete": false
+      "photo": {
+        "path": "/candidates/karen_d_mccallum.jpg",
+        "sourceName": "karen_d_mccallum.jpg",
+        "sourceHash": "5167ecf381e4ab9d8ddfcf9d23f8b61974e4b5758310d84b396b4f4988ea6e3f",
+        "sourceWidth": 447,
+        "sourceHeight": 447
+      },
+      "profileComplete": true
     },
     {
       "id": "rhonda_lynn_patternson-wrighten",
       "contestId": "nc-district-court-judge-26-seat-21",
       "name": "Rhonda L. Patterson-Wrighten",
       "party": "DEM",
-      "website": null,
+      "website": "https://rpattersonforjudge.com/",
       "issues": {
-        "en": [],
+        "en": [
+          "Efficient, effective and experienced service on the bench."
+        ],
         "es": []
       },
-      "photo": null,
-      "profileComplete": false
+      "photo": {
+        "path": "/candidates/rhonda_lynn_patternson-wrighten.jpg",
+        "sourceName": "rhonda_lynn_patternson-wrighten.jpg",
+        "sourceHash": "036c12c9289992536081cd6cd68aa85ed67861bf3a53c13d7e2fd34acfb2d89b",
+        "sourceWidth": 447,
+        "sourceHeight": 447
+      },
+      "profileComplete": true
     }
   ]
 }
