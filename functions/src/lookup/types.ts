@@ -32,10 +32,13 @@ export interface AddressCandidate {
   url: string;
 }
 
-/** A link to a party-specific sample ballot PDF. */
+/** A link to a sample ballot PDF. */
 export interface SampleBallot {
-  /** Party name as shown on the BOE page, e.g. "Democratic". */
-  party: string;
+  /**
+   * Party name for a primary-election ballot, e.g. "Democratic". Absent for a
+   * general election, where the BOE shows one ballot for every voter.
+   */
+  party?: string;
   /** Absolute URL to the ballot PDF. */
   url: string;
   /**
@@ -67,7 +70,7 @@ export interface BallotInformation {
   matchedAddress: string;
   /** Election title from the page, e.g. "2026 Primary Election". */
   electionTitle?: string;
-  /** Party -> sample ballot PDF links. */
+  /** Sample ballot PDF links: one per party (primary) or a single one (general). */
   sampleBallots: SampleBallot[];
   /**
    * The voter's districts, keyed by the BOE's label. Examples of keys:

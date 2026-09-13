@@ -41,7 +41,11 @@ export interface LookupResult {
     electionTitle?: string;
     /** BOE district labels keyed by kind, e.g. { stateHouse: "NC HOUSE DISTRICT 105" }. */
     districts?: Record<string, string>;
-    sampleBallots?: { party: string; url: string; hasBallot: boolean }[];
+    /**
+     * Sample ballot PDFs. A primary has one per party (`party` set); a general
+     * election has a single ballot for everyone (`party` absent).
+     */
+    sampleBallots?: { party?: string; url: string; hasBallot: boolean }[];
     pollingPlace?: {
       name?: string;
       streetAddress?: string;

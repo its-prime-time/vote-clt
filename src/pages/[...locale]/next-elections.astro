@@ -1,12 +1,19 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import { elections, pollingLocationUrl } from '../../data/elections';
+import { renderMarkdown } from '../../lib/markdown';
 import { localePaths, pick, useTranslations, type Locale } from '../../i18n/utils';
 
 export const getStaticPaths = localePaths;
 
 const { locale } = Astro.props as { locale: Locale };
 const t = useTranslations(locale);
+
+/** The two choice labels printed under a ballot question (see `ballot.choices`). */
+const choiceLabels = {
+  forAgainst: [t('elections.ballotFor'), t('elections.ballotAgainst')],
+  yesNo: [t('elections.ballotYes'), t('elections.ballotNo')],
+};
 ---
 
 <BaseLayout locale={locale} title={t('elections.title')}>
@@ -25,42 +32,115 @@ const t = useTranslations(locale);
         <h2 id={`election-${election.id}`} class="rule-heading">
           {pick(election.date, locale)}
         </h2>
-        <p class="summary">{pick(election.summary, locale)}</p>
+        {/* The summary is Markdown so it can include links (see elections.ts). */}
+        <div class="summary" set:html={renderMarkdown(pick(election.summary, locale))} />
 
-        {/* <details> gives the show/hide behavior with no JavaScript. */}
-        <details class="initiatives">
-          <summary>
-            <span class="label-closed">{t('elections.view')}</span>
-            <span class="label-open">{t('elections.close')}</span>
-          </summary>
+        {/* Ballot initiatives are always shown — no expand/collapse. */}
+        <div class="initiatives">
+          <h3>{t('elections.initiativesHeading')}</h3>
 
           {election.initiatives.length > 0 ? (
-            <div class="table-scroll">
-              <table>
-                <thead>
-                  <tr>
-                    <th scope="col">{t('elections.colType')}</th>
-                    <th scope="col">{t('elections.colTitle')}</th>
-                    <th scope="col">{t('elections.colSubject')}</th>
-                    <th scope="col">{t('elections.colDescription')}</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {election.initiatives.map((initiative) => (
+            <>
+              {/* How to open the accordion rows. Only shown when there's a table. */}
+              <p class="row-hint">{t('elections.rowHint')}</p>
+              <div class="table-scroll">
+                <table>
+                  <thead>
                     <tr>
-                      <td>{pick(initiative.type, locale)}</td>
-                      <td>{pick(initiative.title, locale)}</td>
-                      <td>{pick(initiative.subject, locale)}</td>
-                      <td>{pick(initiative.description, locale)}</td>
+                      {/* Toggle column: no visible heading, but screen readers get one. */}
+                      <th scope="col" class="toggle-col">
+                        <span class="visually-hidden">{t('elections.fullText')}</span>
+                      </th>
+                      <th scope="col">{t('elections.colType')}</th>
+                      <th scope="col">{t('elections.colTitle')}</th>
+                      <th scope="col">{t('elections.colSubject')}</th>
+                      <th scope="col">{t('elections.colDescription')}</th>
                     </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
+                  </thead>
+                  <tbody>
+                    {election.initiatives.map((initiative, index) => {
+                      // Ids that tie each toggle button to the row it opens.
+                      const ballotRowId = `ballot-${election.id}-${index}`;
+                      // Zebra striping by initiative, not by <tr>, so the hidden
+                      // ballot rows don't throw the alternation off. The ballot
+                      // row shares its initiative's background.
+                      const stripe = index % 2 === 1 ? 'alt' : '';
+                      return (
+                        <>
+                          <tr class:list={['initiative-row', stripe]}>
+                            <td class="toggle-cell">
+                              {/*
+                                Accordion toggle. Starts collapsed; the script at
+                                the bottom of this file flips aria-expanded and
+                                the ballot row's `hidden` attribute.
+                              */}
+                              <button
+                                type="button"
+                                class="row-toggle"
+                                aria-expanded="false"
+                                aria-controls={ballotRowId}
+                              >
+                                <span class="visually-hidden">
+                                  {t('elections.fullText')}: {pick(initiative.title, locale)}
+                                </span>
+                              </button>
+                            </td>
+                            <td>{pick(initiative.type, locale)}</td>
+                            <td>
+                              {pick(initiative.title, locale)}
+                              {initiative.votersNote && (
+                                <p class="voters-note">{pick(initiative.votersNote, locale)}</p>
+                              )}
+                            </td>
+                            <td>{pick(initiative.subject, locale)}</td>
+                            <td>{pick(initiative.description, locale)}</td>
+                          </tr>
+
+                          {/*
+                            The accordion row: one cell spanning the whole table,
+                            holding a picture of the ballot contest — heading,
+                            question, and the two choice ovals. The ovals are
+                            plain <span>s, not form inputs, so nobody mistakes
+                            this for a real ballot.
+                          */}
+                          <tr id={ballotRowId} class:list={['ballot-row', stripe]} hidden>
+                            <td colspan="5">
+                              <div class="ballot">
+                                <p class="ballot-heading">{pick(initiative.ballot.heading, locale)}</p>
+                                <div class="ballot-text">
+                                  {initiative.ballot.text.map((paragraph) => (
+                                    <p>{pick(paragraph, locale)}</p>
+                                  ))}
+                                </div>
+                                <ul class="ballot-choices">
+                                  {choiceLabels[initiative.ballot.choices].map((label) => (
+                                    <li>
+                                      <span class="oval" aria-hidden="true" />
+                                      {label}
+                                    </li>
+                                  ))}
+                                </ul>
+                              </div>
+                              <p class="ballot-source">
+                                {t('elections.ballotSourcePrefix')}<a
+                                  href={initiative.ballot.sourceUrl}
+                                  target="_blank"
+                                  rel="noopener">{t('elections.ballotSourceLink')}</a
+                                >.
+                              </p>
+                            </td>
+                          </tr>
+                        </>
+                      );
+                    })}
+                  </tbody>
+                </table>
+              </div>
+            </>
           ) : (
             <p class="none">{t('elections.none')}</p>
           )}
-        </details>
+        </div>
       </section>
     ))
   }
@@ -77,34 +157,19 @@ const t = useTranslations(locale);
   }
 
   .initiatives {
-    margin-top: 1rem;
+    margin-top: 2rem;
   }
 
-  .initiatives summary {
-    display: inline-block;
-    cursor: pointer;
-    color: var(--vc-blue);
-    font-weight: 700;
-    font-size: 0.8125rem;
-    letter-spacing: 0.06em;
-    text-transform: uppercase;
-    list-style: none;
-  }
-  .initiatives summary::-webkit-details-marker {
-    display: none;
-  }
-  .initiatives summary:hover {
-    text-decoration: underline;
+  /* Sub-heading under the election date: same weight/tracking as h1/h2
+     (from global.css), one step smaller than the h2. */
+  .initiatives h3 {
+    font-size: clamp(1.25rem, 2.5vw, 1.625rem);
+    font-weight: 800;
   }
 
-  .label-open {
-    display: none;
-  }
-  .initiatives[open] .label-closed {
-    display: none;
-  }
-  .initiatives[open] .label-open {
-    display: inline;
+  .row-hint {
+    margin-top: 0.5rem;
+    color: var(--vc-ink-muted);
   }
 
   .table-scroll {
@@ -124,7 +189,7 @@ const t = useTranslations(locale);
     border: 1px solid var(--vc-rule);
     padding: 0.75rem 1rem;
     text-align: left;
-    vertical-align: middle;
+    vertical-align: top;
   }
 
   th {
@@ -134,8 +199,119 @@ const t = useTranslations(locale);
     text-transform: uppercase;
   }
 
-  tbody tr:nth-child(even) {
+  tbody tr.alt {
     background: var(--vc-surface-alt);
+  }
+
+  /* ---- Accordion toggle (first column) ---- */
+
+  .toggle-col,
+  .toggle-cell {
+    width: 1%;
+    padding-inline: 0.5rem;
+    text-align: center;
+  }
+
+  /* The whole row toggles (see the script), so show it's clickable. */
+  .initiative-row {
+    cursor: pointer;
+  }
+
+  .row-toggle {
+    display: inline-grid;
+    place-items: center;
+    width: 1.75rem;
+    height: 1.75rem;
+    padding: 0;
+    border: 0;
+    border-radius: 4px;
+    background: transparent;
+    color: var(--vc-blue);
+    cursor: pointer;
+  }
+  .row-toggle:hover {
+    background: var(--vc-rule);
+  }
+
+  /* Chevron drawn with two borders: points right when collapsed, down when open. */
+  .row-toggle::before {
+    content: '';
+    width: 0.5rem;
+    height: 0.5rem;
+    border-right: 2px solid currentColor;
+    border-bottom: 2px solid currentColor;
+    transform: translateX(-1px) rotate(-45deg);
+    transition: transform 0.15s ease;
+  }
+  .row-toggle[aria-expanded='true']::before {
+    transform: translateY(-2px) rotate(45deg);
+  }
+
+  /* The opened row reads as part of the row above it: no rule between them. */
+  .ballot-row td {
+    border-top: 0;
+    padding: 0.25rem 1rem 1.25rem 3rem;
+  }
+
+  /* The ballot picture: a white card with a heavy rule, like a printed contest. */
+  .ballot {
+    max-width: 32rem;
+    background: var(--vc-surface);
+    border: 1px solid var(--vc-ink);
+  }
+
+  .ballot-heading {
+    padding: 0.5rem 0.75rem;
+    background: var(--vc-ink);
+    color: var(--vc-surface);
+    font-weight: 700;
+    font-size: 0.8125rem;
+    letter-spacing: 0.03em;
+  }
+
+  .ballot-text {
+    padding: 0.75rem;
+  }
+
+  .ballot-text p + p {
+    margin-top: 0.625rem;
+  }
+
+  .voters-note {
+    margin-top: 0.375rem;
+    font-size: 0.8125rem;
+    color: var(--vc-red);
+    font-style: italic;
+  }
+
+  .ballot-choices {
+    list-style: none;
+    margin: 0;
+    padding: 0 0.75rem 0.75rem;
+  }
+
+  .ballot-choices li {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.375rem 0;
+    font-weight: 700;
+    text-transform: uppercase;
+  }
+
+  /* Empty ballot oval — decorative only. */
+  .oval {
+    flex: none;
+    width: 1.75rem;
+    height: 0.875rem;
+    border: 1.5px solid var(--vc-ink);
+    border-radius: 50%;
+  }
+
+  .ballot-source {
+    margin-top: 0.5rem;
+    font-size: 0.8125rem;
+    color: var(--vc-ink-muted);
   }
 
   .none {
@@ -144,3 +320,28 @@ const t = useTranslations(locale);
     font-style: italic;
   }
 </style>
+
+<script>
+  // Accordion behavior for the Ballot Initiatives table. Each toggle button
+  // names the ballot row it controls in `aria-controls`; toggling flips the
+  // button's `aria-expanded` (which also rotates the chevron via CSS) and the
+  // row's `hidden` attribute. No strings here, so one script serves EN and ES.
+  //
+  // The listener sits on the whole initiative row, so a click anywhere in it
+  // toggles. Clicks on the button itself bubble up to the same listener, and
+  // the button keeps keyboard users covered (Enter/Space fire a click).
+  for (const row of document.querySelectorAll<HTMLTableRowElement>('.initiative-row')) {
+    const button = row.querySelector<HTMLButtonElement>('.row-toggle');
+    const ballotRow = document.getElementById(button?.getAttribute('aria-controls') ?? '');
+    if (!button || !ballotRow) continue;
+
+    row.addEventListener('click', () => {
+      // Don't toggle when someone is just selecting text to copy it.
+      if (window.getSelection()?.toString()) return;
+
+      const expand = button.getAttribute('aria-expanded') !== 'true';
+      button.setAttribute('aria-expanded', String(expand));
+      ballotRow.hidden = !expand;
+    });
+  }
+</script>

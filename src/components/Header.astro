@@ -220,6 +220,8 @@ const otherLocales = locales.filter((l) => l !== locale);
 
   .has-menu {
     position: relative;
+    /* Space between the "All Candidates" trigger and its dropdown. */
+    --submenu-gap: 0.9rem;
   }
 
   .submenu {
@@ -230,12 +232,28 @@ const otherLocales = locales.filter((l) => l !== locale);
     top: 100%;
     left: 50%;
     transform: translateX(-50%);
-    margin-top: 0.9rem;
+    margin-top: var(--submenu-gap);
     min-width: 14rem;
     background: var(--vc-blue);
     box-shadow: 0 8px 24px rgb(0 0 0 / 0.18);
     display: none;
     z-index: 10;
+  }
+
+  /*
+    Invisible "hover bridge" filling the gap above the dropdown. Without it,
+    moving the mouse from the trigger down to the menu crosses empty space,
+    .has-menu loses :hover, and the menu closes before the mouse arrives.
+    The pseudo-element belongs to the submenu, so hovering it still counts
+    as hovering .has-menu. It has no background, so nothing changes visually.
+  */
+  .submenu::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 100%;
+    height: var(--submenu-gap);
   }
 
   .nav-trigger[aria-expanded='true'] + .submenu {
@@ -296,10 +314,12 @@ const otherLocales = locales.filter((l) => l !== locale);
       justify-content: flex-start;
       gap: 1rem 1.5rem;
     }
+    .has-menu {
+      --submenu-gap: 0.5rem;
+    }
     .submenu {
       left: 0;
       transform: none;
-      margin-top: 0.5rem;
     }
   }
 </style>

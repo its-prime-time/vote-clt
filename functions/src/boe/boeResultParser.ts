@@ -104,16 +104,7 @@ export function parseBallotInformation(
     clean(ballotsHeading.replace(/sample ballots:?/i, '')) || undefined;
 
   // --- Sample ballots ---
-  const sampleBallots: SampleBallot[] = [];
-  for (const { id, party } of SAMPLE_BALLOT_IDS) {
-    const href = $(id).attr('href');
-    if (!href) continue;
-    const url = href; // These are already absolute (http://apps.meckboe.org/...).
-    // The BOE points parties with no ballot at a "NO BALLOT" placeholder PDF.
-    // Decode first so the URL-encoded space in "NO%20BALLOT" becomes a space.
-    const hasBallot = !/no\s*ballot/i.test(safeDecode(url));
-    sampleBallots.push({ party, url, hasBallot });
-  }
+  const sampleBallots = parseSampleBallots($);
 
   // --- Districts ---
   const districts: Record<string, string> = {};
@@ -140,6 +131,61 @@ export function parseBallotInformation(
     // its target page name if present.
     candidatesUrl: findHrefContaining($, 'CandidatesByAddress.aspx'),
   };
+}
+
+/**
+ * Collect the sample-ballot PDF links.
+ *
+ * The BOE renders these two different ways depending on the election:
+ *
+ *   - Primaries: one link per party, with the ids in SAMPLE_BALLOT_IDS
+ *     (`#hyperlinkDem`, `#hyperlinkRep`, …).
+ *   - General elections: every voter gets the same ballot, so the page shows a
+ *     single "Click Here for your Sample Ballot" link. As of Sept 2026 its id
+ *     is `#hyperlinkInfinity_Dem` (the "_Dem" is a leftover in the BOE's
+ *     markup — it is NOT a Democratic ballot), linking to
+ *     `…/pages/SampleBallots/SampleBallots/B0039.pdf`.
+ *
+ * Rather than chase the general-election link's id (which looks likely to
+ * change), we pick up the known party ids first and then any other link that
+ * points into the BOE's SampleBallots folder. Those extra links have no party.
+ */
+function parseSampleBallots($: cheerio.CheerioAPI): SampleBallot[] {
+  const sampleBallots: SampleBallot[] = [];
+  const seenUrls = new Set<string>();
+
+  const add = (href: string, party?: string) => {
+    const url = toHttps(href);
+    if (seenUrls.has(url)) return;
+    seenUrls.add(url);
+    // The BOE points parties with no ballot at a "NO BALLOT" placeholder PDF.
+    // Decode first so the URL-encoded space in "NO%20BALLOT" becomes a space.
+    const hasBallot = !/no\s*ballot/i.test(safeDecode(url));
+    sampleBallots.push(party ? { party, url, hasBallot } : { url, hasBallot });
+  };
+
+  // 1. Primary-election per-party links.
+  for (const { id, party } of SAMPLE_BALLOT_IDS) {
+    const href = $(id).attr('href');
+    if (href) add(toAbsoluteBoeUrl(href), party);
+  }
+
+  // 2. Any other sample-ballot PDF link (the general-election single ballot).
+  $('a[href]').each((_, el) => {
+    const href = $(el).attr('href');
+    if (href && /\/SampleBallots\//i.test(href)) add(toAbsoluteBoeUrl(href));
+  });
+
+  return sampleBallots;
+}
+
+/**
+ * The BOE writes its PDF links as http://apps.meckboe.org/…, but the site
+ * serves them fine over https. Upgrading avoids a mixed-content hop from our
+ * https site. Only BOE URLs are touched.
+ */
+function toHttps(url: string): string {
+  return url.replace(/^http:\/\/apps\.meckboe\.org\//i, 'https://apps.meckboe.org/');
 }
 
 /** Assemble the polling-place block, or undefined if the name is missing. */

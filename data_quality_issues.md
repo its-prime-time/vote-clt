@@ -1,8 +1,8 @@
 # Candidate data quality report
 
-Generated 2026-09-03 00:06 UTC from [Candidate_Listing_2026](https://docs.google.com/spreadsheets/d/10-ZfK0aqOk7VS9HlCoDO2LP1tnxn1y8rYQmHLTeNy0I/edit) by `make ingest`. This file is rewritten on every ingest — fix the rows below in the spreadsheet and the entries disappear on the next run.
+Generated 2026-09-13 13:54 UTC from [Candidate_Listing_2026](https://docs.google.com/spreadsheets/d/10-ZfK0aqOk7VS9HlCoDO2LP1tnxn1y8rYQmHLTeNy0I/edit) by `make ingest`. This file is rewritten on every ingest — fix the rows below in the spreadsheet and the entries disappear on the next run.
 
-**78 candidates · 51 contests · 61 complete profiles (website + blurb + photo) · 0 Spanish blurbs · 35 issues**
+**77 candidates · 51 contests · 75 complete profiles (website + blurb + photo) · 25 Spanish blurbs · 57 issues**
 
 ## Needs fixing
 
@@ -17,6 +17,20 @@ _Published as-is, but probably not what was intended._
 - **Paige McThenia** (Candidate Profiles, row 55) — Website "linkedin.com/in/judgepaigemcthenia" is not a full web address starting with http:// or https://. Not shown.
 - **Spencer Merriweather** (Candidate Profiles, row 61) — Policy Blurb (EN) has 1 line; the standard is 3 (one priority per line).
 - **Spencer Merriweather** (Candidate Profiles, row 61) — Policy Blurb (EN) has a line of 82 characters; lines over 40 wrap awkwardly on the candidate card.
+- **Angela White Edwards** (Candidate Profiles, row 67) — Policy Blurb (EN) has 1 line; the standard is 3 (one priority per line).
+- **Elisa Chinn Gary** (Candidate Profiles, row 72) — Policy Blurb (EN) has 1 line; the standard is 3 (one priority per line).
+- **Elisa Chinn Gary** (Candidate Profiles, row 72) — Policy Blurb (EN) has a line of 74 characters; lines over 40 wrap awkwardly on the candidate card.
+- **Garry L. McFadden** (Candidate Profiles, row 73) — Policy Blurb (EN) has 1 line; the standard is 3 (one priority per line).
+- **Garry L. McFadden** (Candidate Profiles, row 73) — Policy Blurb (EN) has a line of 78 characters; lines over 40 wrap awkwardly on the candidate card.
+- **Michael Betterly** (Candidate Profiles, row 74) — Policy Blurb (EN) has 1 line; the standard is 3 (one priority per line).
+- **Michael Betterly** (Candidate Profiles, row 74) — Policy Blurb (EN) has a line of 79 characters; lines over 40 wrap awkwardly on the candidate card.
+- **Barbara Bleiweis** (Candidate Profiles, row 75) — Policy Blurb (EN) has 1 line; the standard is 3 (one priority per line).
+- **Barbara Bleiweis** (Candidate Profiles, row 75) — Policy Blurb (EN) has a line of 82 characters; lines over 40 wrap awkwardly on the candidate card.
+- **Jillian King** (Candidate Profiles, row 76) — Policy Blurb (EN) has 1 line; the standard is 3 (one priority per line).
+- **Jillian King** (Candidate Profiles, row 76) — Policy Blurb (EN) has a line of 42 characters; lines over 40 wrap awkwardly on the candidate card.
+- **Makenzie Pearce** (Candidate Profiles, row 77) — Policy Blurb (EN) has 1 line; the standard is 3 (one priority per line).
+- **Long Tran** (Candidate Profiles, row 78) — Policy Blurb (EN) has 1 line; the standard is 3 (one priority per line).
+- **Long Tran** (Candidate Profiles, row 78) — Policy Blurb (EN) has a line of 41 characters; lines over 40 wrap awkwardly on the candidate card.
 - **Roy Cooper** (Candidate Images folder) — "roy_asberry_cooper.jpg" is only 478×634 pixels; it will look soft on the card (target is 480×600). Use a larger original if one is available.
 - **Michael Dublin** (Candidate Images folder) — "michael_louis_dublin.png" is only 200×300 pixels; it will look soft on the card (target is 480×600). Use a larger original if one is available.
 - **Alma S. Adams** (Candidate Images folder) — "alma_shealey_adams.jpg" is only 319×480 pixels; it will look soft on the card (target is 480×600). Use a larger original if one is available.
@@ -39,6 +53,14 @@ _Published as-is, but probably not what was intended._
 - **Craig Collins** (Candidate Images folder) — "craig_robert_collins.jpg" is only 480×480 pixels; it will look soft on the card (target is 480×600). Use a larger original if one is available.
 - **Leigh Altman** (Candidate Images folder) — "leigh_altman.jpg" is only 200×300 pixels; it will look soft on the card (target is 480×600). Use a larger original if one is available.
 - **Yvette Townsend-Ingram** (Candidate Images folder) — "yvette_benita_townsend-ingram.jpg" is only 377×530 pixels; it will look soft on the card (target is 480×600). Use a larger original if one is available.
+- **Morris (Mac) McAdoo** (Candidate Images folder) — "morris_fonville_mcadoo.jpg" is only 300×169 pixels; it will look soft on the card (target is 480×600). Use a larger original if one is available.
+- **Mark Jerrell** (Candidate Images folder) — "mark_devin_jerrell.jpg" is only 447×447 pixels; it will look soft on the card (target is 480×600). Use a larger original if one is available.
+- **Charles DeLoach** (Candidate Images folder) — "mark_charles_deloach.jpg" is only 200×300 pixels; it will look soft on the card (target is 480×600). Use a larger original if one is available.
+- **Susan Rodriguez-McDowell** (Candidate Images folder) — "susan_marie_rodriguez-mcdowell.jpeg" is only 200×300 pixels; it will look soft on the card (target is 480×600). Use a larger original if one is available.
+- **Michael Betterly** (Candidate Images folder) — "michael_betterly.jpg" is only 500×500 pixels; it will look soft on the card (target is 480×600). Use a larger original if one is available.
+- **Jillian King** (Candidate Images folder) — "jillian_nicole_king.jpg" is only 200×300 pixels; it will look soft on the card (target is 480×600). Use a larger original if one is available.
+- **Makenzie Pearce** (Candidate Images folder) — "makenzie_purnell_pearce.jpeg" is only 200×300 pixels; it will look soft on the card (target is 480×600). Use a larger original if one is available.
+- **Garry L. McFadden** (Candidate Images folder) — "garry_leonard_mcfadden.jpg" is only 230×285 pixels; it will look soft on the card (target is 480×600). Use a larger original if one is available.
 - **Spencer Merriweather** (Candidate Images folder) — "spencer_benjamin_merriweather.jpg" is only 400×600 pixels; it will look soft on the card (target is 480×600). Use a larger original if one is available.
 - **Karen Eady-Williams** (Candidate Images folder) — "karen_elise_eady-williams.jpg" is only 500×500 pixels; it will look soft on the card (target is 480×600). Use a larger original if one is available.
 - **Elizabeth Thornton Trosch** (Candidate Images folder) — "elizabeth_thornton_trosch.jpg" is only 447×447 pixels; it will look soft on the card (target is 480×600). Use a larger original if one is available.

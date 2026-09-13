@@ -23,6 +23,8 @@ Run `make` on its own to see every target.
 | `make emulate` | Build, then serve through the Firebase Hosting emulator — the only local mode that applies `firebase.json` (clean URLs, headers, the 404 page) |
 | `make draft` | Deploy to a shareable, expiring preview URL |
 | `make publish` | Build and deploy to the live site |
+| `make ingest` | Pull candidates + photos from the editorial spreadsheet into committed files (does **not** deploy — see [Candidates](#candidates--from-the-editorial-spreadsheet)) |
+| `make ingest-check` | Report whether the committed candidate data is behind the spreadsheet; writes nothing |
 | `make login` | Refresh Firebase CLI credentials |
 | `make clean` | Remove `dist/` and `.astro/` |
 
@@ -108,7 +110,24 @@ what's missing.
 
 Candidates and contests come from the `Candidate_Listing_2026` Google Sheet
 and its `Candidate Images` Drive folder, which the editorial team maintains.
-They reach the site through `make ingest`:
+They reach the site through `make ingest` (`scripts/ingest/`), which:
+
+1. Downloads the `Mecklenburg 11/03/26` tab (the NCSBE filing export) and the
+   `Candidate Profiles` tab (website, blurbs, Image checkbox) as CSV and joins
+   them on the `ID` column.
+2. Derives each contest's office, district, seat, and jurisdiction from the
+   NCSBE contest name, and the `ballotMatch` the sample-ballot page uses.
+3. For every candidate whose Image box is ticked, downloads `<ID>.jpg`/`.png`
+   from the Drive folder and resizes it to a 480×600 JPEG. Unchanged photos
+   (same source hash as last run) are skipped; photos for candidates no longer
+   ticked are deleted.
+4. Writes the outputs below. If nothing changed since the last run, it writes
+   nothing at all.
+
+Problems with individual rows (typos, missing photos, off-standard blurbs) never
+stop the run — they are listed in the report and the row is left out or
+published without the bad field. Only structural problems (sheet unreachable,
+a column renamed) exit with an error.
 
 ```sh
 make ingest          # fetch the sheet + photos, regenerate the files below
@@ -129,6 +148,25 @@ request:
 without writing anything. Both need no credentials (the sheet and folder are
 link-shared); if `gcloud auth login --enable-gdrive-access` has been run, the
 folder is listed through the Drive API instead of the public folder page.
+For a quick data-only run, `npm run ingest -- --no-photos` skips the Drive
+folder and keeps the photos already recorded.
+
+#### Getting an ingest onto the live site
+
+The ingest only changes files in your working copy. The site is static — the
+candidate JSON is imported when Astro builds the pages — so nothing reaches
+voteclt.org until you rebuild and deploy hosting:
+
+```sh
+make ingest                     # 1. regenerate the data
+git status && git diff          # 2. review (and send data_quality_issues.md to the editors)
+# 3. commit on a branch — include new photos, which `git diff` doesn't show — open a PR, merge
+make draft                      # optional: check the candidate pages on a preview URL
+make publish                    # 4. build + deploy hosting from updated main
+```
+
+`make publish` is enough; the Cloud Function doesn't use the candidate data,
+so `make deploy` (functions + hosting) isn't needed.
 
 Everything structural (office, district, seat, jurisdiction) is derived from
 the NCSBE contest names, so a new race in the sheet flows through

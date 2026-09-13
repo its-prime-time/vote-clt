@@ -43,6 +43,7 @@ const messages = {
     network: t('results.error.network'),
     generic: t('results.error.generic'),
   },
+  samplePdfLink: t('ballot.samplePdfLink'),
 };
 ---
 
@@ -117,15 +118,16 @@ const messages = {
             <dd id="detail-precinct"></dd>
           </div>
           {/*
-            The BOE's per-party PDF links still point at the 2026 PRIMARY
-            ballots, so we deliberately don't render them. Restore the linked
-            list (git history: spec 004) once the general-election ballots are
-            posted — the lookup result already carries them as
-            ballot.sampleBallots.
+            Sample ballot PDF(s). The script fills #detail-sample-links from
+            ballot.sampleBallots; the pending note shows only when the BOE
+            has no usable PDF for this address.
           */}
           <div class="details-item">
             <dt>{t('ballot.samplePdf')}</dt>
-            <dd class="pending">{t('ballot.samplePdfPending')}</dd>
+            <dd>
+              <ul id="detail-sample-links" class="sample-links" hidden></ul>
+              <span id="detail-sample-pending" class="pending">{t('ballot.samplePdfPending')}</span>
+            </dd>
           </div>
         </dl>
         <p class="details-source">{t('ballot.source')}</p>
@@ -192,7 +194,7 @@ const messages = {
   import { matchContests } from '../../../lib/ballotMatch';
   import type { BallotMatch } from '../../../data/candidateTypes';
 
-  const messages: { errors: Record<string, string> } = JSON.parse(
+  const messages: { errors: Record<string, string>; samplePdfLink?: string } = JSON.parse(
     document.getElementById('lookup-messages')?.textContent ?? '{"errors":{}}',
   );
 
@@ -302,8 +304,34 @@ const messages = {
     byId('detail-precinct-item').hidden = !ballot.precinct;
     if (ballot.precinct) byId('detail-precinct').textContent = ballot.precinct;
 
-    // Sample-ballot PDF links are intentionally not rendered for now — see
-    // the comment on the details-item in the markup above.
+    renderSampleBallots(ballot.sampleBallots ?? []);
+  }
+
+  /**
+   * One link per usable sample-ballot PDF. A general election has a single
+   * ballot with no party ("View your sample ballot"); a primary has one per
+   * party ("View your sample ballot — Democratic"). Parties the BOE marks as
+   * "NO BALLOT" are skipped. With nothing usable, the pending note stays.
+   */
+  function renderSampleBallots(sampleBallots: NonNullable<NonNullable<LookupResult['ballot']>['sampleBallots']>): void {
+    const usable = sampleBallots.filter((b) => b.hasBallot && b.url);
+    const list = byId('detail-sample-links');
+    list.replaceChildren(
+      ...usable.map((b) => {
+        const link = document.createElement('a');
+        link.className = 'details-link';
+        link.href = b.url;
+        link.target = '_blank';
+        link.rel = 'noopener';
+        const label = messages.samplePdfLink ?? 'View your sample ballot';
+        link.textContent = b.party ? `${label} — ${b.party}` : label;
+        const item = document.createElement('li');
+        item.append(link);
+        return item;
+      }),
+    );
+    list.hidden = usable.length === 0;
+    byId('detail-sample-pending').hidden = usable.length > 0;
   }
 
   /**
@@ -501,6 +529,15 @@ const messages = {
 
   .pending {
     font-style: italic;
+  }
+
+  .sample-links {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+  .sample-links .details-link {
+    margin-top: 0;
   }
 
   .details-source {
