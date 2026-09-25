@@ -12,23 +12,19 @@ import {
 
 export interface TeamMember {
   name: string;
-  role: I18nText;
+  /** Short first-person bio shown under the photo, in both languages. */
+  bio: I18nText;
   /** Path under `public/`. Leave unset to render the placeholder avatar. */
   photo?: string;
 }
 
 export const team: TeamMember[] = [
   {
-    name: 'Team Member One',
-    role: { en: 'Role placeholder', es: 'Función pendiente' },
-  },
-  {
-    name: 'Team Member Two',
-    role: { en: 'Role placeholder', es: 'Función pendiente' },
-  },
-  {
-    name: 'Team Member Three',
-    role: { en: 'Role placeholder', es: 'Función pendiente' },
+    name: 'Hayden Jenkins',
+    bio: {
+      en: "I'm an IB senior at East Meck High and a future political science major. I believe voting is one of the most important political tools to make our voices heard and hold politicians accountable to community needs. So, for my senior project, I wanted to increase voting accessibility in my home community, Charlotte.",
+      es: 'Soy estudiante de último año del programa IB en East Meck High y planeo estudiar ciencias políticas. Creo que votar es una de las herramientas políticas más importantes para hacer oír nuestras voces y exigir a los políticos que respondan a las necesidades de la comunidad. Por eso, para mi proyecto de último año, quise aumentar el acceso al voto en mi comunidad, Charlotte.',
+    },
   },
 ];
 

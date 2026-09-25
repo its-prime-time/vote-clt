@@ -101,7 +101,9 @@ export const ui = {
     'elections.ballotSourceLink': 'NC State Board of Elections',
 
     'about.title': 'About Us',
-    'about.mission': 'Our mission is....',
+    'about.fact.heading': 'Did you know?',
+    'about.fact.body':
+      "In the 2024 presidential election, **only 65% of eligible adults voted**. Even less show up for state and city elections. However, those state and city positions are often what impact our day-to-day activities the most. Vote CLT aims to make voting easy and accessible for all Charlotteans by providing credible summaries of each candidate's main priorities, taken straight from the candidates themselves.",
     'about.team': 'Meet Our Team',
 
     'faq.title': 'FAQ',
@@ -208,7 +210,9 @@ export const ui = {
     'elections.ballotSourceLink': 'Junta Estatal de Elecciones de Carolina del Norte',
 
     'about.title': 'Quiénes Somos',
-    'about.mission': 'Nuestra misión es....',
+    'about.fact.heading': '¿Sabías que…?',
+    'about.fact.body':
+      'En la elección presidencial de 2024, **solo el 65 % de los adultos elegibles votó**. Aún menos participan en las elecciones estatales y municipales. Sin embargo, esos cargos estatales y municipales suelen ser los que más impactan nuestra vida diaria. Vote CLT busca que votar sea fácil y accesible para todos los habitantes de Charlotte, ofreciendo resúmenes confiables de las principales prioridades de cada candidato, tomadas directamente de los propios candidatos.',
     'about.team': 'Conoce a Nuestro Equipo',
 
     'faq.title': 'Preguntas Frecuentes',

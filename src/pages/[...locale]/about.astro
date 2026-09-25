@@ -3,6 +3,7 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 import Placeholder from '../../components/Placeholder.astro';
 import { team } from '../../data/team';
 import { localePaths, pick, useTranslations, type Locale } from '../../i18n/utils';
+import { renderInlineMarkdown } from '../../lib/markdown';
 
 export const getStaticPaths = localePaths;
 
@@ -13,8 +14,13 @@ const t = useTranslations(locale);
 <BaseLayout locale={locale} title={t('about.title')}>
   <div class="wrap page-head">
     <h1>{t('about.title')}</h1>
-    <p class="page-lead">{t('about.mission')}</p>
   </div>
+
+  <section class="wrap fact" aria-labelledby="fact-heading">
+    <h2 id="fact-heading">{t('about.fact.heading')}</h2>
+    <!-- The string is Markdown so the editorial team can bold a phrase; rendered inline (no extra <p>). -->
+    <p class="fact-body" set:html={renderInlineMarkdown(t('about.fact.body'))} />
+  </section>
 
   <section class="wrap team" aria-labelledby="team-heading">
     <h2 id="team-heading">{t('about.team')}</h2>
@@ -31,7 +37,7 @@ const t = useTranslations(locale);
               )}
             </div>
             <p class="member-name">{member.name}</p>
-            <p class="member-role">{pick(member.role, locale)}</p>
+            <p class="member-bio">{pick(member.bio, locale)}</p>
           </li>
         ))
       }
@@ -40,6 +46,23 @@ const t = useTranslations(locale);
 </BaseLayout>
 
 <style>
+  /* "Did you know?" — sits below the page title with its own breathing room. */
+  .fact {
+    margin-top: clamp(3.5rem, 9vw, 6rem);
+    text-align: center;
+  }
+
+  .fact h2 {
+    text-align: center;
+  }
+
+  .fact-body {
+    max-width: 800px;
+    margin: 1.5rem auto 0;
+    text-align: center;
+    text-wrap: pretty;
+  }
+
   .team {
     margin-top: clamp(3rem, 8vw, 6rem);
     text-align: center;
@@ -55,8 +78,13 @@ const t = useTranslations(locale);
     justify-items: center;
   }
 
+  .member {
+    text-align: center;
+  }
+
   .avatar {
     width: min(14rem, 60vw);
+    margin-inline: auto;
     aspect-ratio: 1;
     border-radius: 50%;
     overflow: hidden;
@@ -74,8 +102,11 @@ const t = useTranslations(locale);
     font-weight: 600;
   }
 
-  .member-role {
+  .member-bio {
+    max-width: 600px;
+    margin: 0.5rem auto 0;
     color: var(--vc-ink-muted);
     font-size: 0.9375rem;
+    text-wrap: pretty;
   }
 </style>
