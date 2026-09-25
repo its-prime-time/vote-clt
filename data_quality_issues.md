@@ -1,8 +1,8 @@
 # Candidate data quality report
 
-Generated 2026-09-13 13:54 UTC from [Candidate_Listing_2026](https://docs.google.com/spreadsheets/d/10-ZfK0aqOk7VS9HlCoDO2LP1tnxn1y8rYQmHLTeNy0I/edit) by `make ingest`. This file is rewritten on every ingest — fix the rows below in the spreadsheet and the entries disappear on the next run.
+Generated 2026-09-25 00:49 UTC from [Candidate_Listing_2026](https://docs.google.com/spreadsheets/d/10-ZfK0aqOk7VS9HlCoDO2LP1tnxn1y8rYQmHLTeNy0I/edit) by `make ingest`. This file is rewritten on every ingest — fix the rows below in the spreadsheet and the entries disappear on the next run.
 
-**77 candidates · 51 contests · 75 complete profiles (website + blurb + photo) · 25 Spanish blurbs · 57 issues**
+**77 candidates · 51 contests · 75 complete profiles (website + blurb + photo) · 25 Spanish blurbs · 55 issues**
 
 ## Needs fixing
 
@@ -27,10 +27,8 @@ _Published as-is, but probably not what was intended._
 - **Barbara Bleiweis** (Candidate Profiles, row 75) — Policy Blurb (EN) has 1 line; the standard is 3 (one priority per line).
 - **Barbara Bleiweis** (Candidate Profiles, row 75) — Policy Blurb (EN) has a line of 82 characters; lines over 40 wrap awkwardly on the candidate card.
 - **Jillian King** (Candidate Profiles, row 76) — Policy Blurb (EN) has 1 line; the standard is 3 (one priority per line).
-- **Jillian King** (Candidate Profiles, row 76) — Policy Blurb (EN) has a line of 42 characters; lines over 40 wrap awkwardly on the candidate card.
 - **Makenzie Pearce** (Candidate Profiles, row 77) — Policy Blurb (EN) has 1 line; the standard is 3 (one priority per line).
 - **Long Tran** (Candidate Profiles, row 78) — Policy Blurb (EN) has 1 line; the standard is 3 (one priority per line).
-- **Long Tran** (Candidate Profiles, row 78) — Policy Blurb (EN) has a line of 41 characters; lines over 40 wrap awkwardly on the candidate card.
 - **Roy Cooper** (Candidate Images folder) — "roy_asberry_cooper.jpg" is only 478×634 pixels; it will look soft on the card (target is 480×600). Use a larger original if one is available.
 - **Michael Dublin** (Candidate Images folder) — "michael_louis_dublin.png" is only 200×300 pixels; it will look soft on the card (target is 480×600). Use a larger original if one is available.
 - **Alma S. Adams** (Candidate Images folder) — "alma_shealey_adams.jpg" is only 319×480 pixels; it will look soft on the card (target is 480×600). Use a larger original if one is available.
