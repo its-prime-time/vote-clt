@@ -17,6 +17,14 @@
  *                                  the committed files are out of date
  *   npm run ingest -- --no-photos  skip the photo folder (faster; keeps the
  *                                  photos recorded in the existing JSON)
+ *   npm run ingest -- --no-translate
+ *                                  don't ask Gemini for anything new; use only
+ *                                  saved translations (no Google login needed)
+ *
+ * Spanish blurbs: editor Spanish from the sheet is used (accents restored);
+ * blurbs the editors haven't translated are machine-translated by Gemini.
+ * Gemini's answers are saved in scripts/ingest/spanish-cache.json (also
+ * committed), so it is only called for new or changed text. See lib/spanish.ts.
  *
  * The run only aborts for problems that make the output meaningless (the sheet
  * can't be fetched, a column is missing). Problems with individual rows are
@@ -35,16 +43,21 @@ import {
   PROFILES_TAB,
   REPO_ROOT,
   SHEET_ID,
+  SPANISH_CACHE,
 } from './config';
+import { GeminiSpanish } from './lib/gemini';
 import { IssueLog } from './lib/issues';
 import { syncPhotos } from './lib/photos';
 import { renderReport } from './lib/report';
 import { fetchSheetTab } from './lib/sheets';
+import { resolveSpanish } from './lib/spanish';
+import { SpanishCache } from './lib/spanishCache';
 import { transform } from './lib/transform';
 
 interface CliOptions {
   check: boolean;
   photos: boolean;
+  translate: boolean;
 }
 
 async function main(): Promise<void> {
@@ -85,8 +98,22 @@ async function main(): Promise<void> {
     console.log('Skipping photos (--no-photos); keeping the ones recorded in the existing JSON.');
   }
 
-  // 4. Assemble --------------------------------------------------------------
-  const candidates: Candidate[] = result.candidates.map(({ wantsPhoto: _w, sortName: _s, ...draft }) => {
+  // 4. Spanish blurbs ---------------------------------------------------------
+  // `--check` never calls Gemini: it only compares, so anything not already in
+  // the cache shows up as "out of date".
+  const cache = await SpanishCache.load(SPANISH_CACHE);
+  const askGemini = options.translate && !options.check;
+  console.log(askGemini ? 'Resolving Spanish blurbs (Gemini for anything new)…' : 'Resolving Spanish blurbs from saved translations only…');
+  const spanish = await resolveSpanish(result.candidates, cache, askGemini ? new GeminiSpanish() : null, log);
+  const spanishCounts = countBy(spanish.sources.values());
+  console.log(
+    `  ${spanishCounts.editor ?? 0} from the sheet, ${spanishCounts.machine ?? 0} machine-translated, ` +
+      `${spanish.geminiCalls} new Gemini request(s)` +
+      (spanish.pending > 0 ? `, ${spanish.pending} still need Gemini (run \`make ingest\` with a Google login)` : ''),
+  );
+
+  // 5. Assemble --------------------------------------------------------------
+  const candidates: Candidate[] = result.candidates.map(({ wantsPhoto: _w, sortName: _s, gender: _g, ...draft }) => {
     const photo = photos.get(draft.id) ?? null;
     return {
       ...draft,
@@ -112,13 +139,14 @@ async function main(): Promise<void> {
       contests: result.contests.length,
       completeProfiles: candidates.filter((c) => c.profileComplete).length,
       spanishBlurbs: candidates.filter((c) => c.issues.es.length > 0).length,
+      machineSpanish: candidates.filter((c) => spanish.sources.get(c.id) === 'machine').map((c) => c.name),
       englishBlurbs: candidates.filter((c) => c.issues.en.length > 0).length,
       tallyEnCompleted: result.tallyEnCompleted,
     },
     log,
   );
 
-  // 5. Write (or compare) ----------------------------------------------------
+  // 6. Write (or compare) ----------------------------------------------------
   // Both outputs carry a run timestamp. We ignore it when deciding whether
   // anything changed, and we don't rewrite a file whose only difference is
   // the timestamp — so an ingest that finds nothing new leaves git clean.
@@ -130,6 +158,7 @@ async function main(): Promise<void> {
     dataChanged && path.relative(REPO_ROOT, OUTPUT_JSON),
     photosChanged && `${path.relative(REPO_ROOT, OUTPUT_PHOTOS_DIR)}/`,
     reportChanged && path.relative(REPO_ROOT, OUTPUT_REPORT),
+    cache.changed && path.relative(REPO_ROOT, SPANISH_CACHE),
   ].filter((c): c is string => Boolean(c));
 
   printSummary(data, log);
@@ -148,6 +177,7 @@ async function main(): Promise<void> {
     await writeFile(OUTPUT_JSON, JSON.stringify(data, null, 2) + '\n');
   }
   if (reportChanged) await writeFile(OUTPUT_REPORT, report);
+  if (cache.changed) await cache.save();
 
   console.log(changes.length > 0 ? `\nUpdated: ${changes.join(', ')}.` : '\nNothing changed since the last ingest.');
   if (log.errors.length > 0) {
@@ -163,12 +193,13 @@ function stripGeneratedLine(report: string): string {
 // ---------------------------------------------------------------------------
 
 function parseArgs(argv: string[]): CliOptions {
-  const options: CliOptions = { check: false, photos: true };
+  const options: CliOptions = { check: false, photos: true, translate: true };
   for (const arg of argv) {
     if (arg === '--check') options.check = true;
     else if (arg === '--no-photos') options.photos = false;
+    else if (arg === '--no-translate') options.translate = false;
     else if (arg === '--help' || arg === '-h') {
-      console.log('Usage: npm run ingest [-- --check] [-- --no-photos]');
+      console.log('Usage: npm run ingest [-- --check] [-- --no-photos] [-- --no-translate]');
       process.exit(0);
     } else {
       console.error(`Unknown option: ${arg}`);
@@ -195,6 +226,13 @@ async function readTextIfExists(filePath: string): Promise<string | null> {
   } catch {
     return null;
   }
+}
+
+/** How many times each value occurs: ['a', 'b', 'a'] → { a: 2, b: 1 }. */
+function countBy<T extends string>(values: Iterable<T>): Partial<Record<T, number>> {
+  const counts: Partial<Record<T, number>> = {};
+  for (const value of values) counts[value] = (counts[value] ?? 0) + 1;
+  return counts;
 }
 
 /** Two outputs are "the same" if everything but the run timestamp matches. */

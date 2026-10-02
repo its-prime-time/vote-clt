@@ -121,7 +121,8 @@ They reach the site through `make ingest` (`scripts/ingest/`), which:
    from the Drive folder and resizes it to a 480×600 JPEG. Unchanged photos
    (same source hash as last run) are skipped; photos for candidates no longer
    ticked are deleted.
-4. Writes the outputs below. If nothing changed since the last run, it writes
+4. Fills in the Spanish blurbs (see below).
+5. Writes the outputs below. If nothing changed since the last run, it writes
    nothing at all.
 
 Problems with individual rows (typos, missing photos, off-standard blurbs) never
@@ -143,13 +144,35 @@ request:
 - `data_quality_issues.md` — feedback for the editorial team: rows with typos,
   missing IDs, unticked photos, off-standard blurbs. Rewritten each run; send
   it to whoever owns the sheet.
+- `scripts/ingest/spanish-cache.json` — every answer Gemini has given the
+  ingest (see below), so each machine translation is reviewed in the diff.
 
 `make ingest-check` tells you whether the committed data is behind the sheet
-without writing anything. Both need no credentials (the sheet and folder are
-link-shared); if `gcloud auth login --enable-gdrive-access` has been run, the
-folder is listed through the Drive API instead of the public folder page.
-For a quick data-only run, `npm run ingest -- --no-photos` skips the Drive
-folder and keeps the photos already recorded.
+without writing anything. Reading the sheet and folder needs no credentials
+(both are link-shared); if `gcloud auth login --enable-gdrive-access` has been
+run, the folder is listed through the Drive API instead of the public folder
+page. For a quick data-only run, `npm run ingest -- --no-photos` skips the
+Drive folder and keeps the photos already recorded.
+
+#### Spanish blurbs
+
+- **Editor Spanish wins.** A blurb typed into `Policy Blurb (ES)` is always
+  used as written. The editors' keyboard can't type accents, so Gemini puts
+  them back — and the change is accepted only if it adds accents and nothing
+  else. If Gemini also changes a word (it means the cell has a typo), the text
+  is published as typed and the report shows the typo with Gemini's suggested
+  fix.
+- **Everything else is machine-translated** from the English blurb by Gemini
+  (`gemini-3.5-flash` on Vertex AI, with some editor translations as style
+  examples). The report lists these candidates so an editor can replace them.
+- **Gender column (K).** Optional `M` / `F` / `O`, used only so translated
+  words describing the candidate agree ("experimentada"); `O` or blank keeps
+  the wording gender-neutral. Not shown on the site.
+- **Cached.** Gemini's answers are saved in `scripts/ingest/spanish-cache.json`
+  and reused, so Gemini is only called for new or changed text. That call
+  needs a Google login: `gcloud auth application-default login`. Without one,
+  run `npm run ingest -- --no-translate`. `make ingest-check` never calls
+  Gemini.
 
 #### Getting an ingest onto the live site
 
@@ -196,7 +219,5 @@ With English and Spanish side by side:
 - **Logo.** The header renders the site name as text.
 - **Copy.** The About mission statement, team names/roles, and FAQ answers are
   lorem-grade.
-- **Spanish blurbs.** The sample-ballot sentence and the candidate cards fall
-  back to English until the `Policy Blurb (ES)` column is filled in.
 - **Fonts.** `--vc-font` in `src/styles/global.css` is a system stack; point it
   at the brand webfont once chosen.

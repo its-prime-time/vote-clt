@@ -19,6 +19,8 @@ export interface ReportSummary {
   contests: number;
   completeProfiles: number;
   spanishBlurbs: number;
+  /** Ballot names of candidates whose Spanish blurb is a machine translation. */
+  machineSpanish: string[];
   /** The "EN Completed" number from the Profiles tab tally, if present. */
   tallyEnCompleted: number | null;
   /** Profiles with an English blurb, to compare against the tally. */
@@ -38,7 +40,7 @@ export function renderReport(summary: ReportSummary, log: IssueLog): string {
   lines.push('');
   lines.push(
     `**${summary.candidates} candidates · ${summary.contests} contests · ${summary.completeProfiles} complete profiles ` +
-      `(website + blurb + photo) · ${summary.spanishBlurbs} Spanish blurbs · ${total} issue${total === 1 ? '' : 's'}**`,
+      `(website + blurb + photo) · ${summary.spanishBlurbs} Spanish blurbs (${summary.machineSpanish.length} machine-translated) · ${total} issue${total === 1 ? '' : 's'}**`,
   );
 
   if (summary.tallyEnCompleted !== null && summary.tallyEnCompleted !== summary.englishBlurbs) {
@@ -62,6 +64,16 @@ export function renderReport(summary: ReportSummary, log: IssueLog): string {
   lines.push('_Published as-is, but probably not what was intended._');
   lines.push('');
   lines.push(...renderIssues(log.warnings));
+
+  lines.push('');
+  lines.push('## Machine-translated Spanish');
+  lines.push('');
+  lines.push(
+    '_These candidates have no Spanish blurb in the sheet, so the site shows a machine translation of the English one. ' +
+      'Type a Spanish blurb into the "Policy Blurb (ES)" column to replace it; accents are added automatically if your keyboard can\'t type them._',
+  );
+  lines.push('');
+  lines.push(...(summary.machineSpanish.length > 0 ? summary.machineSpanish.map((name) => `- ${name}`) : ['None.']));
   lines.push('');
 
   return lines.join('\n');

@@ -43,6 +43,12 @@ export const lookupAddress = onCall(
     // a while; give it generous headroom.
     timeoutSeconds: 120,
     memory: '512MiB',
+    // Keep one instance warm at all times so a voter's lookup never waits for
+    // a cold start (loading Node, the Genkit/Vertex client, etc.). This is
+    // billed continuously, at Cloud Run's idle rate, even with no traffic.
+    // It only removes cold-start delay; most of a lookup's time is spent
+    // waiting on ScrapingBee and the BOE site.
+    minInstances: 1,
     // The front-end is a static site on our own domain, but callable functions
     // are public by design; keep unauthenticated access (this is public voter
     // info) and rely on rate limits / App Check if abuse appears.

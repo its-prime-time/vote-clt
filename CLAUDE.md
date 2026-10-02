@@ -134,7 +134,16 @@ from this machine keeps using the same-origin rewrite.
   (480×600) + `data_quality_issues.md`. All three are **committed**; the diff
   is the review. `make ingest-check` = is the committed data behind the sheet.
   An ingest that finds nothing new writes nothing (timestamps are ignored).
-- No credentials needed: sheet via public gviz CSV, photos via public download,
+- Spanish blurbs (`scripts/ingest/lib/spanish.ts`): editor `Policy Blurb (ES)`
+  (column J) wins, with accents restored by Gemini under a guard that rejects
+  any change besides accents (`lib/accents.ts`, unit-tested); a rejection means
+  a typo in the cell and is reported with Gemini's suggestion. Blurbs without
+  editor Spanish are machine-translated (`gemini-3.5-flash`, Vertex `global`,
+  ADC). Optional `Gender` column K (M/F/O) feeds translation agreement and is
+  part of the cache key. All answers are cached in the committed
+  `scripts/ingest/spanish-cache.json`; `--check` never calls Gemini,
+  `--no-translate` skips new calls.
+- Reading the sheet needs no credentials: sheet via public gviz CSV, photos via public download,
   folder listing via Drive API if `gcloud auth print-access-token` has Drive
   scope, else via the public `embeddedfolderview` page (a fallback that could
   break if Google changes the markup — the API path is the durable one).
@@ -185,7 +194,7 @@ Still placeholder or rough:
    page 5 plus decisions recorded above; the design team hasn't seen the
    voting-details panel or the multi-seat rows yet.
 2. **Editorial data gaps** — see `data_quality_issues.md` (ID typo for Alma
-   Adams, stray row, 40 profiles without blurbs, no Spanish blurbs yet).
+   Adams, stray row, off-standard blurbs; Spanish typos flagged for the editors).
 3. **Copy** — About mission, team roster, FAQ answers are lorem-grade.
 4. **Brand** — logo is text; `--vc-font` is a system stack.
 5. `candidatesUrl` from the scraper is always `null` (the BOE info page has no

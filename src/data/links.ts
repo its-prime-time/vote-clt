@@ -51,6 +51,21 @@ export const ncStatewideReferendums2026Url =
 export const ncReferendums2026Url =
   'https://s3.amazonaws.com/dl.ncsbe.gov/Elections/2026/Candidate%20Filing/referendums_20261103.pdf';
 
+/**
+ * NC Absentee Ballot Portal: request a mail-in ballot online. The request must
+ * reach the county board by 5 p.m. two Tuesdays before Election Day
+ * (Oct 20 for Nov 3, 2026); the ballot itself is due by 7:30 p.m. on
+ * Election Day (checked on ncsbe.gov 2026-10-01).
+ */
+export const ncAbsenteePortalUrl = 'https://votebymail.ncsbe.gov/app/home';
+
+/** The 2026 fillable North Carolina Absentee Ballot Request Form (PDF, English). */
+export const ncAbsenteeRequestFormUrl =
+  'https://s3.amazonaws.com/dl.ncsbe.gov/Forms/2026/2026_Absentee_Request_Form_Fillable_English.pdf';
+
+/** NCSBE "County Board of Elections" search: address and contact details for any county's board. */
+export const ncCountyBoeSearchUrl = 'https://vt.ncsbe.gov/BOEInfo/';
+
 /** Mecklenburg County Board of Elections home page. */
 export const meckBoeUrl = 'https://vote.mecknc.gov/';
 
