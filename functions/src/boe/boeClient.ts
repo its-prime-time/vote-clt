@@ -15,7 +15,7 @@
 import type { PageFetcher } from '../fetching/pageFetcher.js';
 import { PageFetchError } from '../fetching/pageFetcher.js';
 import { BOE_SEARCH_URL, SEARCH_FORM } from './boeUrls.js';
-import { parseSearchResults, parseBallotInformation } from './boeResultParser.js';
+import { isSearchPage, pageTitle, parseSearchResults, parseBallotInformation } from './boeResultParser.js';
 import {
   LookupError,
   type AddressCandidate,
@@ -42,7 +42,8 @@ export class BoeClient {
    *   - 'address_not_found' when the BOE returns no matches
    *   - 'multiple_matches' when it returns more than one (with the candidate
    *      links attached for the UI to display)
-   *   - 'upstream_error' when the search request itself fails
+   *   - 'upstream_error' when the search request itself fails, or comes back
+   *      with something other than the BOE search page (e.g. a Cloudflare block)
    */
   async search(address: ParsedAddress): Promise<AddressCandidate> {
     let html: string;
@@ -72,6 +73,16 @@ export class BoeClient {
     }
 
     const candidates = parseSearchResults(html);
+
+    // No results AND no search form means we never actually reached the BOE
+    // search (see isSearchPage). Report it as an outage, not as "not found".
+    if (candidates.length === 0 && !isSearchPage(html)) {
+      throw new LookupError(
+        'upstream_error',
+        'We had trouble reaching the Board of Elections while loading the address search. ' +
+          `Please try again in a moment. (Unexpected page: "${pageTitle(html)}")`,
+      );
+    }
 
     if (candidates.length === 0) {
       throw new LookupError(

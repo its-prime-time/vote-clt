@@ -34,7 +34,10 @@ export interface TeamMember {
 export const team: TeamMember[] = [
   {
     name: 'Hayden Jenkins',
-    role: { en: 'Project Manager', es: 'Gerente de proyecto' },
+    role: {
+      en: 'Project Manager / Web Designer / Information Architect',
+      es: 'Gerente de proyecto / Diseñador web / Arquitecto de información',
+    },
     photo: '/team/hayden-jenkins.jpg',
     bio: {
       en: "I'm an IB senior at East Meck High and a future political science major. I believe voting is one of the most important political tools to make our voices heard and hold politicians accountable to community needs. So, for my senior project, I want to increase voting accessibility in my home community, Charlotte.",
@@ -60,8 +63,8 @@ export const team: TeamMember[] = [
     photo: '/team/andy-jenkins.jpg',
     minor: true,
     bio: {
-      en: 'Eeep eeep! (Translation: I coded this website. Now go vote!)',
-      es: '¡Eeep eeep! (Traducción: programé este sitio web. ¡Ahora ve a votar!)',
+      en: "Eeep eeep! (Translation: I coded Hayden's design. Now go vote!)",
+      es: '¡Eeep eeep! (Traducción: programé el diseño de Hayden. ¡Ahora ve a votar!)',
     },
   },
 ];

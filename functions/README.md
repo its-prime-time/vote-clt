@@ -80,6 +80,30 @@ make deploy             # build site + deploy BOTH functions and hosting
 make deploy-functions   # functions only
 ```
 
+Note: `make publish` (hosting only) has also been seen to redeploy
+`lookupAddress`, apparently because the hosting rewrite points at it, so a
+publish ships whatever is in `functions/` too.
+
+## Monitoring and alerts
+
+Every lookup writes one structured log line, `lookup outcome`
+(`src/lookup/lookupLog.ts`), with `outcome` (`ok`, `address_not_found`,
+`multiple_matches`, `unrecognized_address`, `upstream_error`, `internal`),
+`durationMs`, and for failures a `detail`. The voter's address is not logged.
+`upstream_error` and `internal` are logged at ERROR; everything a voter can
+cause is INFO.
+
+- [Lookup outcomes in Logs Explorer](https://console.cloud.google.com/logs/query;query=resource.type%3D%22cloud_run_revision%22%20AND%20resource.labels.service_name%3D%22lookupaddress%22%20AND%20jsonPayload.message%3D%22lookup%20outcome%22;duration=P7D?project=vote-clt)
+  (add `AND severity>=ERROR` for failures only).
+- A search page without the BOE's search form (e.g. a Cloudflare block page,
+  `specs/sample/cloudflare-block-page.html`) is reported as `upstream_error`,
+  not "not found", so outages are visible.
+- **Alert:** the Cloud Monitoring policy "Vote CLT: ballot lookup failing"
+  emails the team on any ERROR line from `lookupAddress`, at most once per 30
+  minutes. Its definition is `monitoring/lookup-failure-alert.json`;
+  recipients are notification channels set in the Cloud console
+  (Monitoring → Alerting).
+
 ## Layout
 
 ```

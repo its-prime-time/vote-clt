@@ -20,6 +20,7 @@ import { defineSecret } from 'firebase-functions/params';
 import { setGlobalOptions } from 'firebase-functions/v2';
 import { loadConfig } from './config.js';
 import { AddressLookupService } from './lookup/addressLookupService.js';
+import { logLookupOutcome } from './lookup/lookupLog.js';
 import { LookupError, type LookupErrorCode } from './lookup/types.js';
 
 // The ScrapingBee API key is stored as a Firebase secret (set once with
@@ -63,15 +64,20 @@ export const lookupAddress = onCall(
     }
 
     const service = new AddressLookupService(loadConfig());
+    const startedAt = Date.now();
+    const elapsed = () => Date.now() - startedAt;
 
     try {
-      return await service.lookup(address);
+      const ballot = await service.lookup(address);
+      logLookupOutcome('ok', elapsed());
+      return ballot;
     } catch (err) {
       if (err instanceof LookupError) {
+        logLookupOutcome(err.code, elapsed(), err.code === 'upstream_error' ? err.message : undefined);
         throw toHttpsError(err);
       }
-      // Unexpected: log it server-side and return a generic message.
-      console.error('Unexpected error during address lookup:', err);
+      // Unexpected: log it server-side (with the stack) and return a generic message.
+      logLookupOutcome('internal', elapsed(), err instanceof Error ? (err.stack ?? err.message) : String(err));
       throw new HttpsError('internal', 'Something went wrong. Please try again.');
     }
   },
