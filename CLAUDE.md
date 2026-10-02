@@ -70,7 +70,7 @@ make functions-lookup-prod ADDR="3227 Planters Ridge Rd 28270"   # hit the DEPLO
 make functions-lookup ADDR="..."   # run the pipeline in-process (needs SCRAPINGBEE_API_KEY locally)
 make draft                # preview channel deploy — use before touching the live site
 make deploy               # build + deploy functions AND hosting (firebase runs functions build via predeploy)
-make deploy-functions / make publish (hosting — but see Gotchas: it also redeployed the function)
+make deploy-functions / make publish (hosting only; see Gotchas)
 ```
 
 Verification checklist for a change: `make build`, `npx astro check`,
@@ -113,9 +113,10 @@ from this machine keeps using the same-origin rewrite.
   form; `isSearchPage` turns that into `upstream_error` (logged at ERROR →
   email alert, see `functions/README.md` "Monitoring"). Fix by trying
   `SCRAPINGBEE_PROXY_MODE=stealth` before touching the parser.
-- `make publish` (`--only hosting`) redeployed `lookupAddress` on 2026-10-02
-  (audit log), apparently via the hosting rewrite. Treat publish as also
-  shipping `functions/`.
+- On 2026-10-02 the audit log showed `lookupAddress` updated during a
+  `make publish` (`--only hosting`); a later publish did not touch it, so it
+  may have been a separate deploy. Check function revisions after publishing
+  if it matters (`gcloud run revisions list --service lookupaddress --region us-central1`).
 - `functions/lib/src/` is stale output from an old tsconfig layout (rootDir
   mismatch, fixed in PR #4). Gitignored and harmless; `make clean` removes it.
 - `results.astro` has one client `<script>` shared by both locales, so any

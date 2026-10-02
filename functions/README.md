@@ -80,9 +80,10 @@ make deploy             # build site + deploy BOTH functions and hosting
 make deploy-functions   # functions only
 ```
 
-Note: `make publish` (hosting only) has also been seen to redeploy
-`lookupAddress`, apparently because the hosting rewrite points at it, so a
-publish ships whatever is in `functions/` too.
+Note: on 2026-10-02 the audit log showed `lookupAddress` updated during a
+`make publish` (hosting only); a later publish did not touch it, so it may
+have been a separate deploy. If it matters, check the function's revisions
+after publishing.
 
 ## Monitoring and alerts
 
