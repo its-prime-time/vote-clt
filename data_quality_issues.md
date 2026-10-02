@@ -1,8 +1,8 @@
 # Candidate data quality report
 
-Generated 2026-10-02 00:22 UTC from [Candidate_Listing_2026](https://docs.google.com/spreadsheets/d/10-ZfK0aqOk7VS9HlCoDO2LP1tnxn1y8rYQmHLTeNy0I/edit) by `make ingest`. This file is rewritten on every ingest — fix the rows below in the spreadsheet and the entries disappear on the next run.
+Generated 2026-10-02 00:57 UTC from [Candidate_Listing_2026](https://docs.google.com/spreadsheets/d/10-ZfK0aqOk7VS9HlCoDO2LP1tnxn1y8rYQmHLTeNy0I/edit) by `make ingest`. This file is rewritten on every ingest — fix the rows below in the spreadsheet and the entries disappear on the next run.
 
-**77 candidates · 51 contests · 75 complete profiles (website + blurb + photo) · 77 Spanish blurbs (52 machine-translated) · 57 issues**
+**77 candidates · 51 contests · 75 complete profiles (website + blurb + photo) · 77 Spanish blurbs (52 machine-translated) · 55 issues**
 
 ## Needs fixing
 
@@ -69,8 +69,6 @@ _Published as-is, but probably not what was intended._
 - **Samantha C. Mobley** (Candidate Images folder) — "samantha_carien_mobley.jpg" is only 381×524 pixels; it will look soft on the card (target is 480×600). Use a larger original if one is available.
 - **Karen D. McCallum** (Candidate Images folder) — "karen_d_mccallum.jpg" is only 447×447 pixels; it will look soft on the card (target is 480×600). Use a larger original if one is available.
 - **Rhonda L. Patterson-Wrighten** (Candidate Images folder) — "rhonda_lynn_patternson-wrighten.jpg" is only 447×447 pixels; it will look soft on the card (target is 480×600). Use a larger original if one is available.
-- **Lakesha Womack** (Candidate Profiles) — Policy Blurb (ES) looks like it has a typo, so accents were not added automatically and it is published exactly as typed: "Atencio medica accesible" (suggested: "Atención médica accesible"). Fix the typo in the sheet and the accents are added on the next ingest.
-- **Sarah Stevens** (Candidate Profiles) — Policy Blurb (ES) looks like it has a typo, so accents were not added automatically and it is published exactly as typed: "Respetera la Constitucion del" (suggested: "Respetará la Constitución del"). Fix the typo in the sheet and the accents are added on the next ingest.
 
 ## Machine-translated Spanish
 

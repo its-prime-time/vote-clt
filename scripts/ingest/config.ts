@@ -49,6 +49,8 @@ export const GEMINI = {
   concurrency: 4,
   /** How many of the editors' translations to show Gemini as style examples. */
   examples: 8,
+  /** Cap on the length of one answer (a blurb needs well under 500). */
+  maxOutputTokens: 2048,
 } as const;
 
 /** URL prefix the site uses for the photos (mirrors OUTPUT_PHOTOS_DIR under public/). */

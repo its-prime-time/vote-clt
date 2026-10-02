@@ -82,23 +82,56 @@ export class GeminiSpanish {
     return this.askForLines(prompt);
   }
 
-  /** Send a prompt and return the JSON array of strings Gemini answers with. */
+  /**
+   * Send a prompt and return the JSON array of strings Gemini answers with.
+   *
+   * Very occasionally a model gets stuck repeating itself and returns a huge,
+   * broken answer. Asking again at temperature 0 just repeats the same broken
+   * answer, so if the first reply can't be read we ask once more with a
+   * little randomness (temperature 0.3). Network and login errors are not
+   * retried here; spanish.ts handles those.
+   */
   private async askForLines(prompt: string): Promise<string[]> {
+    try {
+      return await this.generateLines(prompt, 0);
+    } catch (err) {
+      if (!(err instanceof UnreadableAnswerError)) throw err;
+      return this.generateLines(prompt, 0.3);
+    }
+  }
+
+  /** One Gemini request; throws UnreadableAnswerError if the reply isn't a JSON list of strings. */
+  private async generateLines(prompt: string, temperature: number): Promise<string[]> {
     const response = await this.ai.models.generateContent({
       model: GEMINI.model,
       contents: prompt,
       config: {
         // Temperature 0 = always pick the most likely wording; we want
         // faithful, repeatable answers, not creative ones.
-        temperature: 0,
+        temperature,
+        // A blurb is a few short lines; this is ample, and it stops a
+        // runaway answer early instead of after tens of thousands of characters.
+        maxOutputTokens: GEMINI.maxOutputTokens,
         responseMimeType: 'application/json',
         responseSchema: { type: Type.ARRAY, items: { type: Type.STRING } },
       },
     });
-    const parsed: unknown = JSON.parse(response.text ?? '[]');
+    let parsed: unknown;
+    try {
+      parsed = JSON.parse(response.text ?? '');
+    } catch {
+      throw new UnreadableAnswerError(response.text);
+    }
     if (!Array.isArray(parsed) || !parsed.every((item) => typeof item === 'string')) {
-      throw new Error(`Gemini did not return a list of strings: ${response.text}`);
+      throw new UnreadableAnswerError(response.text);
     }
     return parsed.map((line) => line.trim());
+  }
+}
+
+/** Gemini answered, but not with a readable JSON list of strings. */
+class UnreadableAnswerError extends Error {
+  constructor(text: string | undefined) {
+    super(`Gemini's answer was not a list of strings: ${(text ?? '(empty)').slice(0, 200)}`);
   }
 }
