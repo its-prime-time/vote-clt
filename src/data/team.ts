@@ -25,8 +25,7 @@ export interface TeamMember {
   /** Path under `public/`. Leave unset to render the placeholder avatar. */
   photo?: string;
   /**
-   * Minor contributor: shown on its own centered row below the main team,
-   * with an avatar half the size of everyone else's.
+   * Minor contributor: shown on its own centered row below the main team.
    */
   minor?: boolean;
 }

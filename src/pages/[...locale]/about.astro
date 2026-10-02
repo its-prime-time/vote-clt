@@ -94,16 +94,12 @@ const t = useTranslations(locale);
     text-align: center;
   }
 
-  /* Minor contributors take a whole row of their own (so they sit centered
-     below the main team on every screen size) with a half-size avatar. */
+  /* Minor contributors take a whole row of their own, so they sit centered
+     below the main team on every screen size. */
   .member--minor {
     grid-column: 1 / -1;
     /* Extra space on top of the grid gap to set minor contributors apart. */
     padding-top: clamp(1.5rem, 4vw, 3rem);
-  }
-
-  .member--minor .avatar {
-    width: min(7rem, 30vw);
   }
 
   .avatar {
