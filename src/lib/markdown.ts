@@ -42,6 +42,18 @@ export function renderMarkdown(markdown: string): string {
   return marked.parse(markdown.trim()) as string;
 }
 
+/**
+ * Inline Markdown → HTML, with no wrapping `<p>`. Use this for a single
+ * sentence or phrase that is placed inside an element the page already owns
+ * (e.g. bolding a few words of a paragraph in the UI strings).
+ */
+export function renderInlineMarkdown(markdown: string): string {
+  if (typeof markdown !== 'string') {
+    throw new TypeError(`renderInlineMarkdown expected a string, got ${typeof markdown}`);
+  }
+  return marked.parseInline(markdown.trim()) as string;
+}
+
 function escapeAttribute(value: string): string {
   return value.replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;');
 }

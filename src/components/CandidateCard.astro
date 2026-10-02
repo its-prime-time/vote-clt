@@ -172,8 +172,13 @@ const sentence =
     text-wrap: balance;
   }
 
+  /* A round bullet (•) and a non-breaking space, so the bullet never wraps
+     onto a line by itself. The second declaration adds empty alt text (after
+     the "/") so screen readers don't read "bullet" aloud; browsers that don't
+     understand alt text ignore it and use the first one. */
   .issues li::before {
-    content: '- ';
+    content: '•\00a0';
+    content: '•\00a0' / '';
   }
 
   .sentence {

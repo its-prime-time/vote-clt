@@ -27,6 +27,32 @@ export const OUTPUT_JSON = path.join(REPO_ROOT, 'src/data/generated/candidates.j
 export const OUTPUT_PHOTOS_DIR = path.join(REPO_ROOT, 'public/candidates');
 export const OUTPUT_REPORT = path.join(REPO_ROOT, 'data_quality_issues.md');
 
+/**
+ * Saved Gemini answers (machine translations and accent fixes). Committed, so
+ * every machine-written Spanish line is reviewed in the PR diff. See
+ * lib/spanishCache.ts.
+ */
+export const SPANISH_CACHE = path.join(REPO_ROOT, 'scripts/ingest/spanish-cache.json');
+
+/**
+ * Gemini on Vertex AI, used to fill in Spanish blurbs the editors haven't
+ * translated and to restore accents in the ones they have. Same project and
+ * `global` endpoint as the address parser in functions/src/config.ts; the
+ * full Flash model (not Flash-Lite) because translation quality matters more
+ * here than cost — each blurb is only ever sent once.
+ */
+export const GEMINI = {
+  project: 'vote-clt',
+  location: 'global',
+  model: 'gemini-3.5-flash',
+  /** How many requests to have in flight at once. */
+  concurrency: 4,
+  /** How many of the editors' translations to show Gemini as style examples. */
+  examples: 8,
+  /** Cap on the length of one answer (a blurb needs well under 500). */
+  maxOutputTokens: 2048,
+} as const;
+
 /** URL prefix the site uses for the photos (mirrors OUTPUT_PHOTOS_DIR under public/). */
 export const PHOTO_URL_PREFIX = '/candidates';
 

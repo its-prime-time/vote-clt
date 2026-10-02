@@ -3,6 +3,7 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 import Placeholder from '../../components/Placeholder.astro';
 import { team } from '../../data/team';
 import { localePaths, pick, useTranslations, type Locale } from '../../i18n/utils';
+import { renderInlineMarkdown } from '../../lib/markdown';
 
 export const getStaticPaths = localePaths;
 
@@ -13,8 +14,13 @@ const t = useTranslations(locale);
 <BaseLayout locale={locale} title={t('about.title')}>
   <div class="wrap page-head">
     <h1>{t('about.title')}</h1>
-    <p class="page-lead">{t('about.mission')}</p>
   </div>
+
+  <section class="wrap fact" aria-labelledby="fact-heading">
+    <h2 id="fact-heading">{t('about.fact.heading')}</h2>
+    <!-- The string is Markdown so the editorial team can bold a phrase; rendered inline (no extra <p>). -->
+    <p class="fact-body" set:html={renderInlineMarkdown(t('about.fact.body'))} />
+  </section>
 
   <section class="wrap team" aria-labelledby="team-heading">
     <h2 id="team-heading">{t('about.team')}</h2>
@@ -22,7 +28,7 @@ const t = useTranslations(locale);
     <ul class="roster">
       {
         team.map((member) => (
-          <li class="member">
+          <li class:list={['member', { 'member--minor': member.minor }]}>
             <div class="avatar">
               {member.photo ? (
                 <img src={member.photo} alt={member.name} width="220" height="220" />
@@ -32,6 +38,7 @@ const t = useTranslations(locale);
             </div>
             <p class="member-name">{member.name}</p>
             <p class="member-role">{pick(member.role, locale)}</p>
+            {member.bio && <p class="member-bio">{pick(member.bio, locale)}</p>}
           </li>
         ))
       }
@@ -40,6 +47,23 @@ const t = useTranslations(locale);
 </BaseLayout>
 
 <style>
+  /* "Did you know?" — sits below the page title with its own breathing room. */
+  .fact {
+    margin-top: clamp(3.5rem, 9vw, 6rem);
+    text-align: center;
+  }
+
+  .fact h2 {
+    text-align: center;
+  }
+
+  .fact-body {
+    max-width: 800px;
+    margin: 1.5rem auto 0;
+    text-align: center;
+    text-wrap: pretty;
+  }
+
   .team {
     margin-top: clamp(3rem, 8vw, 6rem);
     text-align: center;
@@ -49,14 +73,42 @@ const t = useTranslations(locale);
     list-style: none;
     margin: clamp(2rem, 5vw, 3.5rem) 0 0;
     padding: 0;
+    /* Phones: one column, members stacked in data order (Hayden on top). */
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(14rem, 1fr));
+    grid-template-columns: 1fr;
     gap: 2.5rem;
     justify-items: center;
+    max-width: 60rem;
+    margin-inline: auto;
+  }
+
+  /* Wider screens: side by side, in data order left to right. */
+  @media (min-width: 40rem) {
+    .roster {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 3rem;
+    }
+  }
+
+  .member {
+    text-align: center;
+  }
+
+  /* Minor contributors take a whole row of their own (so they sit centered
+     below the main team on every screen size) with a half-size avatar. */
+  .member--minor {
+    grid-column: 1 / -1;
+    /* Extra space on top of the grid gap to set minor contributors apart. */
+    padding-top: clamp(1.5rem, 4vw, 3rem);
+  }
+
+  .member--minor .avatar {
+    width: min(7rem, 30vw);
   }
 
   .avatar {
     width: min(14rem, 60vw);
+    margin-inline: auto;
     aspect-ratio: 1;
     border-radius: 50%;
     overflow: hidden;
@@ -75,7 +127,15 @@ const t = useTranslations(locale);
   }
 
   .member-role {
+    margin-top: 0.125rem;
+    font-style: italic;
+  }
+
+  .member-bio {
+    max-width: 600px;
+    margin: 0.5rem auto 0;
     color: var(--vc-ink-muted);
     font-size: 0.9375rem;
+    text-wrap: pretty;
   }
 </style>

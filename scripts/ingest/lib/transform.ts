@@ -43,12 +43,25 @@ const PROFILE_COLUMNS = [
   'Policy Blurb (ES)',
 ] as const;
 
+/**
+ * Optional profiles column: the candidate's gender as M, F, or O (other or
+ * unknown). Only used so machine translations into Spanish can agree with the
+ * candidate ("experimentada" vs "experimentado"); never shown on the site.
+ * Optional so the ingest keeps working if the column is removed.
+ */
+const GENDER_COLUMN = 'Gender';
+
+/** M = masculine, F = feminine, O = other or unknown (Spanish stays neutral). */
+export type Gender = 'M' | 'F' | 'O';
+
 /** A candidate as assembled from the sheets, before photos are resolved. */
 export interface CandidateDraft extends Omit<Candidate, 'photo' | 'profileComplete'> {
   /** The editors ticked the Image box — a file named `<id>.*` should exist. */
   wantsPhoto: boolean;
   /** For sorting within a contest. */
   sortName: string;
+  /** From the optional Gender column; 'O' when blank or missing. */
+  gender: Gender;
 }
 
 export interface TransformResult {
@@ -151,6 +164,7 @@ export function transform(listing: SheetTab, profiles: SheetTab, log: IssueLog):
     const issuesEs = profile ? readBlurb(profile, 'Policy Blurb (ES)', subject, isJudicial, log, { silent: true }) : [];
     const website = profile ? readWebsite(profile, subject, log) : null;
     const wantsPhoto = profile?.cells.Image.toUpperCase() === 'TRUE';
+    const gender = profile ? readGender(profile, subject, log) : 'O';
 
     candidates.push({
       id: c.ID,
@@ -160,6 +174,7 @@ export function transform(listing: SheetTab, profiles: SheetTab, log: IssueLog):
       website,
       issues: { en: issuesEn, es: issuesEs },
       wantsPhoto,
+      gender,
       sortName: `${c.last_name} ${c.first_name} ${c.name_on_ballot}`.toLowerCase(),
     });
   }
@@ -277,6 +292,15 @@ function readWebsite(profile: SheetRow, subject: string, log: IssueLog): string 
     log.warning(PROFILES_TAB, subject, `Website "${raw}" is not a full web address starting with http:// or https://. Not shown.`, profile.rowNumber);
     return null;
   }
+}
+
+/** The optional Gender column: M, F, or O. Blank (or no column at all) means O. */
+function readGender(profile: SheetRow, subject: string, log: IssueLog): Gender {
+  const raw = (profile.cells[GENDER_COLUMN] ?? '').trim().toUpperCase();
+  if (raw === '') return 'O';
+  if (raw === 'M' || raw === 'F' || raw === 'O') return raw;
+  log.warning(PROFILES_TAB, subject, `${GENDER_COLUMN} is "${raw}"; expected M, F, or O. Treated as O (Spanish translation stays gender-neutral).`, profile.rowNumber);
+  return 'O';
 }
 
 /** The Profiles tab keeps a small tally in the notes area: a label cell followed by a number cell. */

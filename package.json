@@ -11,13 +11,14 @@
     "check": "astro check",
     "ingest": "tsx scripts/ingest/index.ts",
     "ingest:check": "tsx scripts/ingest/index.ts --check",
-    "test": "node --import tsx --test \"src/**/*.test.ts\""
+    "test": "node --import tsx --test \"src/**/*.test.ts\" \"scripts/**/*.test.ts\""
   },
   "dependencies": {
     "astro": "^7.2.0"
   },
   "devDependencies": {
     "@astrojs/check": "^0.9.10",
+    "@google/genai": "^2.25.0",
     "@types/node": "^26.4.0",
     "csv-parse": "^7.0.2",
     "marked": "^18.0.11",
