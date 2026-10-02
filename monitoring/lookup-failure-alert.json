@@ -1,0 +1,22 @@
+{
+  "displayName": "Vote CLT: ballot lookup failing",
+  "documentation": {
+    "mimeType": "text/markdown",
+    "subject": "Vote CLT: ballot lookup failed",
+    "content": "The `lookupAddress` Cloud Function logged an ERROR. Usually `outcome: upstream_error`: the Mecklenburg BOE search could not be reached or returned an unexpected page (e.g. a Cloudflare block), so voters cannot see their sample ballot. `outcome: internal` is a bug in our code.\n\n**Look:** [lookup outcomes, last 24h](https://console.cloud.google.com/logs/query;query=resource.type%3D%22cloud_run_revision%22%20AND%20resource.labels.service_name%3D%22lookupaddress%22%20AND%20jsonPayload.message%3D%22lookup%20outcome%22;duration=P1D?project=vote-clt) — `jsonPayload.detail` has the error.\n\n**Then:** `make functions-lookup-prod ADDR=\"3227 Planters Ridge Rd 28270\"`. If the BOE is blocking ScrapingBee, try `SCRAPINGBEE_PROXY_MODE=stealth` (see CLAUDE.md, Gotchas).\n\nAt most one email per 30 minutes; the incident closes itself after 30 quiet minutes."
+  },
+  "combiner": "OR",
+  "conditions": [
+    {
+      "displayName": "lookupAddress logged an ERROR",
+      "conditionMatchedLog": {
+        "filter": "resource.type=\"cloud_run_revision\" AND resource.labels.service_name=\"lookupaddress\" AND severity>=ERROR"
+      }
+    }
+  ],
+  "alertStrategy": {
+    "notificationRateLimit": { "period": "1800s" },
+    "autoClose": "1800s"
+  },
+  "severity": "ERROR"
+}

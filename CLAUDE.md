@@ -70,7 +70,7 @@ make functions-lookup-prod ADDR="3227 Planters Ridge Rd 28270"   # hit the DEPLO
 make functions-lookup ADDR="..."   # run the pipeline in-process (needs SCRAPINGBEE_API_KEY locally)
 make draft                # preview channel deploy — use before touching the live site
 make deploy               # build + deploy functions AND hosting (firebase runs functions build via predeploy)
-make deploy-functions / make publish (hosting only)
+make deploy-functions / make publish (hosting — but see Gotchas: it also redeployed the function)
 ```
 
 Verification checklist for a change: `make build`, `npx astro check`,
@@ -109,11 +109,13 @@ from this machine keeps using the same-origin rewrite.
 - Each lookup costs ScrapingBee credits (2 rendered, premium-proxy requests per
   lookup). Don't loop lookups in tests; use the offline fixture modes
   (`npm run lookup -- --fixture-search/--fixture-info`) for parser work.
-- If Cloudflare ever blocks ScrapingBee, the search page will have no
-  `#dgAddress` links and the function will report `address_not_found` rather
-  than `upstream_error`. If "not found" suddenly happens for the known-good
-  address, suspect the fetcher/proxy tier (`SCRAPINGBEE_PROXY_MODE=stealth`)
-  before the parser.
+- If Cloudflare blocks ScrapingBee, the search response lacks the BOE search
+  form; `isSearchPage` turns that into `upstream_error` (logged at ERROR →
+  email alert, see `functions/README.md` "Monitoring"). Fix by trying
+  `SCRAPINGBEE_PROXY_MODE=stealth` before touching the parser.
+- `make publish` (`--only hosting`) redeployed `lookupAddress` on 2026-10-02
+  (audit log), apparently via the hosting rewrite. Treat publish as also
+  shipping `functions/`.
 - `functions/lib/src/` is stale output from an old tsconfig layout (rootDir
   mismatch, fixed in PR #4). Gitignored and harmless; `make clean` removes it.
 - `results.astro` has one client `<script>` shared by both locales, so any

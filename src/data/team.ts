@@ -63,8 +63,8 @@ export const team: TeamMember[] = [
     photo: '/team/andy-jenkins.jpg',
     minor: true,
     bio: {
-      en: 'Eeep eeep! (Translation: I coded this website. Now go vote!)',
-      es: '¡Eeep eeep! (Traducción: programé este sitio web. ¡Ahora ve a votar!)',
+      en: "Eeep eeep! (Translation: I coded Hayden's design. Now go vote!)",
+      es: '¡Eeep eeep! (Traducción: programé el diseño de Hayden. ¡Ahora ve a votar!)',
     },
   },
 ];
