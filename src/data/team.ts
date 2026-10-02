@@ -34,7 +34,10 @@ export interface TeamMember {
 export const team: TeamMember[] = [
   {
     name: 'Hayden Jenkins',
-    role: { en: 'Project Manager', es: 'Gerente de proyecto' },
+    role: {
+      en: 'Project Manager / Web Designer / Information Architect',
+      es: 'Gerente de proyecto / Diseñador web / Arquitecto de información',
+    },
     photo: '/team/hayden-jenkins.jpg',
     bio: {
       en: "I'm an IB senior at East Meck High and a future political science major. I believe voting is one of the most important political tools to make our voices heard and hold politicians accountable to community needs. So, for my senior project, I want to increase voting accessibility in my home community, Charlotte.",

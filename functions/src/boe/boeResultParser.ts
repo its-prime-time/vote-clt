@@ -34,6 +34,25 @@ function clean(text: string | undefined | null): string {
 }
 
 /**
+ * Is this the BOE's address-search page at all?
+ *
+ * Every genuine response from the search — results or no results — is the
+ * same ASP.NET page posted back to itself, so it still contains the search
+ * form. A page WITHOUT the form is something else: most often a Cloudflare
+ * "Attention Required!" block page (see specs/sample/cloudflare-block-page.html),
+ * or a BOE redesign. Without this check those would look like "address not
+ * found", hiding an outage behind what seems like a voter's typo.
+ */
+export function isSearchPage(html: string): boolean {
+  return cheerio.load(html)(SEARCH_FORM.houseNumberInput).length > 0;
+}
+
+/** The page's <title>, for error messages and logs ("Attention Required! | Cloudflare"). */
+export function pageTitle(html: string): string {
+  return clean(cheerio.load(html)('title').first().text()) || '(no title)';
+}
+
+/**
  * Extract the list of candidate addresses from a search results page.
  *
  * The results live as `<a>` links inside the `#dgAddress` table. Zero links
