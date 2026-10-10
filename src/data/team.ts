@@ -56,11 +56,22 @@ export const team: TeamMember[] = [
     },
   },
   {
+    name: 'Zury Taty',
+    role: { en: 'Data Collection', es: 'Recopilación de datos' },
+    // The original is a landscape selfie; this copy is cropped square around
+    // her face so it fills the round frame like the others.
+    photo: '/team/zury-taty.jpg',
+    bio: {
+      en: "I'm an IB Senior at East Meck and a future humanities major. I am passionate about voting because I am passionate about people's rights. When people acknowledge that power, they can make themselves heard and protect themselves.",
+      es: 'Soy estudiante de último año del programa IB en East Meck y planeo estudiar humanidades. Me apasiona votar porque me apasionan los derechos de las personas. Cuando las personas reconocen ese poder, pueden hacerse oír y protegerse.',
+    },
+  },
+  {
     name: 'Andy Jenkins',
     role: { en: 'Code Monkey', es: 'Programador' },
     // Free cartoon from Vecteezy, cropped square around the monkey's face.
+    // Fourth in the 2×2 grid (bottom right), so no longer `minor`.
     photo: '/team/andy-jenkins.jpg',
-    minor: true,
     bio: {
       en: "Eeep eeep! (Translation: I coded Hayden's design. Now go vote!)",
       es: '¡Eeep eeep! (Traducción: programé el diseño de Hayden. ¡Ahora ve a votar!)',
