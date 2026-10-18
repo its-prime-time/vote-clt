@@ -11,9 +11,10 @@ const t = useTranslations(locale);
 /**
  * Early voting banner. Early in-person voting for the 2026 general election
  * runs Oct 15–31, so the banner should come down after the 31st. Because the
- * site is static, the build-time check below only helps if we rebuild; the
- * small script at the bottom of the page also hides it in the browser once
- * the date has passed, so a forgotten deploy never shows stale news.
+ * site is static, the build-time check below only helps if we rebuild. The
+ * banner is therefore rendered collapsed, and the small script at the bottom
+ * of the page reveals it (with a slide-down animation) only while the date
+ * hasn't passed, so a forgotten deploy never shows stale news.
  * The cutoff is midnight Eastern time at the start of Nov 1.
  */
 const earlyVotingEndsAt = '2026-11-01T00:00:00-04:00';
@@ -21,17 +22,26 @@ const showEarlyVoting = Date.now() < Date.parse(earlyVotingEndsAt);
 ---
 
 <BaseLayout locale={locale} title={t('home.title')}>
+  {
+    /*
+     * Full-width strip directly under the site navigation (it is the first
+     * thing inside <main>). The outer div does the collapse/expand animation;
+     * the inner .wrap keeps the text in line with the rest of the page.
+     */
+    showEarlyVoting && (
+      <div class="early-voting" data-ends-at={earlyVotingEndsAt}>
+        <div class="early-voting-inner">
+          <p class="wrap">
+            {t('home.earlyVoting')}{' '}
+            <a href={meckBoeUpcomingElectionsUrl} target="_blank" rel="noopener">
+              {t('home.earlyVotingLink')}
+            </a>
+          </p>
+        </div>
+      </div>
+    )
+  }
   <section class="wrap hero">
-    {
-      showEarlyVoting && (
-        <p class="early-voting" data-ends-at={earlyVotingEndsAt}>
-          {t('home.earlyVoting')}{' '}
-          <a href={meckBoeUpcomingElectionsUrl} target="_blank" rel="noopener">
-            {t('home.earlyVotingLink')}
-          </a>
-        </p>
-      )
-    }
     <h1>{t('home.title')}</h1>
     <p class="page-lead">{t('home.subtitle')}</p>
 
@@ -73,31 +83,67 @@ const showEarlyVoting = Date.now() < Date.parse(earlyVotingEndsAt);
 </BaseLayout>
 
 <script>
-  // Hide the early voting banner once its end date has passed (see the
-  // comment on earlyVotingEndsAt in the frontmatter).
+  // Reveal the early voting banner after the page has loaded, unless its end
+  // date has passed (see the comment on earlyVotingEndsAt in the
+  // frontmatter). Adding the class starts the CSS slide-down transition.
   const banner = document.querySelector<HTMLElement>('.early-voting');
-  if (banner && Date.now() >= Date.parse(banner.dataset.endsAt ?? '')) {
-    banner.hidden = true;
+
+  function revealBanner(): void {
+    if (!banner || Date.now() >= Date.parse(banner.dataset.endsAt ?? '')) return;
+    // A short pause after load so the motion catches the eye rather than
+    // happening while the page is still painting.
+    window.setTimeout(() => banner.classList.add('is-shown'), 300);
+  }
+
+  if (document.readyState === 'complete') {
+    revealBanner();
+  } else {
+    window.addEventListener('load', revealBanner, { once: true });
   }
 </script>
 
 <style>
-  /* Early voting banner: a centered red strip above the heading. */
+  /*
+   * Early voting banner: a full-width red strip hugging the bottom of the
+   * site navigation. It starts collapsed to zero height and slides open when
+   * the script adds .is-shown. The grid-template-rows 0fr → 1fr trick lets
+   * the height animate to the content's natural size, whatever the text wraps
+   * to. Users who ask for reduced motion get it instantly (global.css).
+   */
   .early-voting {
-    max-width: 39rem;
-    /*
-     * The negative top margin pulls the banner up into the hero's top
-     * padding (3–7rem, see .hero), leaving roughly 1.5–2.5rem above it, and
-     * the larger bottom margin gives the heading more room below it. When
-     * the banner is hidden, both margins go away with it.
-     */
-    margin: clamp(-4.5rem, -6vw, -1.5rem) auto clamp(2.5rem, 6vw, 4.5rem);
-    padding: 0.85rem 1.25rem;
-    border-radius: 0.5rem;
+    display: grid;
+    grid-template-rows: 0fr;
     background: var(--vc-red);
     color: #fff;
+    transition: grid-template-rows 0.5s ease-out;
+  }
+
+  .early-voting.is-shown {
+    grid-template-rows: 1fr;
+  }
+
+  /* The grid row clips this while collapsed. */
+  .early-voting-inner {
+    overflow: hidden;
+  }
+
+  /* The text fades and drops in slightly as the strip opens. */
+  .early-voting p {
+    /* Block margins only: .wrap centers the text with auto inline margins. */
+    margin-block: 0;
+    padding-block: 0.85rem;
     text-align: center;
     text-wrap: balance;
+    opacity: 0;
+    transform: translateY(-0.5rem);
+    transition:
+      opacity 0.4s ease-out 0.15s,
+      transform 0.4s ease-out 0.15s;
+  }
+
+  .early-voting.is-shown p {
+    opacity: 1;
+    transform: none;
   }
 
   .early-voting a {
