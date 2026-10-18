@@ -32,8 +32,9 @@ export const ui = {
     'nav.skipToContent': 'Skip to main content',
 
     // Early voting banner above the home page heading. The link text is a
-    // separate string so the page can wrap it in an <a>.
-    'home.earlyVoting': 'Early in-person voting is open now through October 31.',
+    // separate string so the page can wrap it in an <a>. The \u00a0
+    // (non-breaking space) keeps the date on one line on narrow screens.
+    'home.earlyVoting': 'Early in-person voting is open now through October\u00a031.',
     'home.earlyVotingLink': 'Find an early voting site',
 
     'home.title': 'Find my ballot',
@@ -145,7 +146,7 @@ export const ui = {
     'nav.switchLanguage': 'Cambiar idioma',
     'nav.skipToContent': 'Saltar al contenido principal',
 
-    'home.earlyVoting': 'La votación anticipada en persona está abierta desde ahora hasta el 31 de octubre.',
+    'home.earlyVoting': 'La votación anticipada en persona está abierta desde ahora hasta el 31\u00a0de\u00a0octubre.',
     'home.earlyVotingLink': 'Encuentra un lugar de votación anticipada',
 
     'home.title': 'Encuentra mi boleta',
