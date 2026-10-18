@@ -4,7 +4,7 @@
  * Timing logic for the red banner under the home page navigation. The banner
  * has three phases, and disappears on its own once they are over:
  *
- *   until 9 p.m. Eastern Oct 31       → "early"       ("Early in-person voting is open…")
+ *   until 3 p.m. Eastern Oct 31       → "early"       ("Early in-person voting is open…")
  *   until polls open 6:30 a.m. Nov 3  → "countdown"   ("Polls open in 2 days 09:30:12")
  *   until polls close 7:30 p.m. Nov 3 → "electionDay" ("It's Election Day! Polls are now open…")
  *   after that                        → "none"        (banner collapses)
@@ -15,9 +15,10 @@
 
 /**
  * When the banner switches from the early voting message to the countdown:
- * 9 p.m. Eastern on Saturday Oct 31, 2026 (still daylight time, UTC−4).
+ * 3 p.m. Eastern on Saturday Oct 31, 2026, when early voting closes in North
+ * Carolina (still daylight time, UTC−4).
  */
-export const EARLY_VOTING_BANNER_ENDS_AT = '2026-10-31T21:00:00-04:00';
+export const EARLY_VOTING_BANNER_ENDS_AT = '2026-10-31T15:00:00-04:00';
 
 /**
  * When polls open in Mecklenburg County on Election Day: 6:30 a.m. Eastern on

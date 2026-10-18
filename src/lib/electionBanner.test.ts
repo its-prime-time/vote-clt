@@ -13,14 +13,14 @@ import {
 const phaseAt = (iso: string) =>
   bannerPhase(Date.parse(iso), EARLY_VOTING_BANNER_ENDS_AT, POLLS_OPEN_AT, POLLS_CLOSE_AT);
 
-test('early voting message shows until 9 p.m. Eastern on Oct 31', () => {
+test('early voting message shows until 3 p.m. Eastern on Oct 31', () => {
   assert.equal(phaseAt('2026-10-18T12:00:00-04:00'), 'early');
-  assert.equal(phaseAt('2026-10-31T20:59:59-04:00'), 'early');
+  assert.equal(phaseAt('2026-10-31T14:59:59-04:00'), 'early');
 });
 
-test('countdown starts at 9 p.m. Eastern on Oct 31 (01:00 UTC Nov 1)', () => {
-  assert.equal(phaseAt('2026-10-31T21:00:00-04:00'), 'countdown');
-  assert.equal(phaseAt('2026-11-01T01:00:00Z'), 'countdown');
+test('countdown starts at 3 p.m. Eastern on Oct 31 (19:00 UTC)', () => {
+  assert.equal(phaseAt('2026-10-31T15:00:00-04:00'), 'countdown');
+  assert.equal(phaseAt('2026-10-31T19:00:00Z'), 'countdown');
 });
 
 test('countdown runs across the Nov 1 daylight-time change until 6:30 a.m. EST Nov 3', () => {
@@ -49,9 +49,9 @@ test('timeLeft treats a past moment as zero', () => {
   assert.deepEqual(timeLeft(-5000), { days: 0, hours: 0, minutes: 0, seconds: 0 });
 });
 
-test('from 9 p.m. Oct 31 to polls opening is 2 days 10 hours 30 minutes (25-hour Nov 1)', () => {
+test('from 3 p.m. Oct 31 to polls opening is 2 days 16 hours 30 minutes (25-hour Nov 1)', () => {
   const ms = Date.parse(POLLS_OPEN_AT) - Date.parse(EARLY_VOTING_BANNER_ENDS_AT);
-  assert.deepEqual(timeLeft(ms), { days: 2, hours: 10, minutes: 30, seconds: 0 });
+  assert.deepEqual(timeLeft(ms), { days: 2, hours: 16, minutes: 30, seconds: 0 });
 });
 
 test('formatTimeLeft uses singular/plural day words and drops days on the last day', () => {
