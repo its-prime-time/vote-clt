@@ -2,6 +2,7 @@
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import { localePaths, localizePath, useTranslations, type Locale } from '../../i18n/utils';
 import { meckBoeUpcomingElectionsUrl } from '../../data/links';
+import { EARLY_VOTING_BANNER_ENDS_AT, POLLS_CLOSE_AT, POLLS_OPEN_AT } from '../../lib/electionBanner';
 
 export const getStaticPaths = localePaths;
 
@@ -9,16 +10,19 @@ const { locale } = Astro.props as { locale: Locale };
 const t = useTranslations(locale);
 
 /**
- * Early voting banner. Early in-person voting for the 2026 general election
- * runs Oct 15–31, so the banner should come down after the 31st. Because the
- * site is static, the build-time check below only helps if we rebuild. The
- * banner is therefore rendered collapsed, and the small script at the bottom
- * of the page reveals it (with a slide-down animation) only while the date
- * hasn't passed, so a forgotten deploy never shows stale news.
- * The cutoff is midnight Eastern time at the start of Nov 1.
+ * Election banner. It has three messages: the early voting notice until
+ * 9 p.m. Eastern on Oct 31, then a live countdown to polls opening at
+ * 6:30 a.m. on Nov 3, then "It's Election Day!" until polls close at
+ * 7:30 p.m., after which it disappears. The dates and the timing rules live
+ * in src/lib/electionBanner.ts.
+ *
+ * Because the site is static, the build-time check below only drops the
+ * banner if we rebuild after polls close. So all three messages are rendered
+ * (hidden and collapsed), and the client script at the bottom of the page
+ * picks the right one from the visitor's clock and slides the banner open —
+ * a forgotten deploy never shows stale news.
  */
-const earlyVotingEndsAt = '2026-11-01T00:00:00-04:00';
-const showEarlyVoting = Date.now() < Date.parse(earlyVotingEndsAt);
+const showBanner = Date.now() < Date.parse(POLLS_CLOSE_AT);
 ---
 
 <BaseLayout locale={locale} title={t('home.title')}>
@@ -28,14 +32,33 @@ const showEarlyVoting = Date.now() < Date.parse(earlyVotingEndsAt);
      * thing inside <main>). The outer div does the collapse/expand animation;
      * the inner .wrap keeps the text in line with the rest of the page.
      */
-    showEarlyVoting && (
-      <div class="early-voting" data-ends-at={earlyVotingEndsAt}>
-        <div class="early-voting-inner">
-          <p class="wrap">
+    showBanner && (
+      <div
+        class="election-banner"
+        data-early-ends-at={EARLY_VOTING_BANNER_ENDS_AT}
+        data-polls-open-at={POLLS_OPEN_AT}
+        data-polls-close-at={POLLS_CLOSE_AT}
+      >
+        <div class="election-banner-inner">
+          <p class="wrap" data-phase="early" hidden>
             {t('home.earlyVoting')}{' '}
             <a href={meckBoeUpcomingElectionsUrl} target="_blank" rel="noopener">
               {t('home.earlyVotingLink')}
             </a>
+          </p>
+          <p class="wrap" data-phase="countdown" hidden>
+            {t('home.countdownPrefix')}{' '}
+            {/* role="timer" tells screen readers this changes constantly, so they don't announce every tick. */}
+            <strong
+              class="countdown"
+              role="timer"
+              data-day={t('home.countdownDay')}
+              data-days={t('home.countdownDays')}
+            />{' '}
+            {t('home.countdownSuffix')}
+          </p>
+          <p class="wrap" data-phase="electionDay" hidden>
+            {t('home.electionDay')}
           </p>
         </div>
       </div>
@@ -83,34 +106,72 @@ const showEarlyVoting = Date.now() < Date.parse(earlyVotingEndsAt);
 </BaseLayout>
 
 <script>
-  // Reveal the early voting banner after the page has loaded, unless its end
-  // date has passed (see the comment on earlyVotingEndsAt in the
-  // frontmatter). Adding the class starts the CSS slide-down transition.
-  const banner = document.querySelector<HTMLElement>('.early-voting');
+  // Drives the election banner (see the comment in the frontmatter and
+  // src/lib/electionBanner.ts). Every second it works out which message
+  // should show, updates the countdown, and opens or closes the banner.
+  import { bannerPhase, formatTimeLeft, timeLeft, type BannerPhase } from '../../lib/electionBanner';
 
-  function revealBanner(): void {
-    if (!banner || Date.now() >= Date.parse(banner.dataset.endsAt ?? '')) return;
-    // A short pause after load so the motion catches the eye rather than
-    // happening while the page is still painting.
-    window.setTimeout(() => banner.classList.add('is-shown'), 300);
+  const banner = document.querySelector<HTMLElement>('.election-banner');
+
+  /** Show only the paragraph for `phase` (or none), and fill in the countdown. */
+  function render(el: HTMLElement, phase: BannerPhase, now: number): void {
+    for (const p of el.querySelectorAll<HTMLElement>('[data-phase]')) {
+      p.hidden = p.dataset.phase !== phase;
+    }
+    if (phase === 'countdown') {
+      const clock = el.querySelector<HTMLElement>('.countdown');
+      if (clock) {
+        const left = timeLeft(Date.parse(el.dataset.pollsOpenAt ?? '') - now);
+        clock.textContent = formatTimeLeft(left, clock.dataset.day ?? '', clock.dataset.days ?? '');
+      }
+    }
+    // Adding/removing the class runs the CSS slide-open / slide-closed transition.
+    el.classList.toggle('is-shown', phase !== 'none');
   }
 
-  if (document.readyState === 'complete') {
-    revealBanner();
-  } else {
-    window.addEventListener('load', revealBanner, { once: true });
+  /** Work out the phase for right now and render it. Returns the phase. */
+  function update(el: HTMLElement): BannerPhase {
+    const now = Date.now();
+    const phase = bannerPhase(
+      now,
+      el.dataset.earlyEndsAt ?? '',
+      el.dataset.pollsOpenAt ?? '',
+      el.dataset.pollsCloseAt ?? '',
+    );
+    render(el, phase, now);
+    return phase;
+  }
+
+  /** Start the banner after page load, then keep it current until it's gone. */
+  function start(el: HTMLElement): void {
+    // A short pause after load so the motion catches the eye rather than
+    // happening while the page is still painting.
+    window.setTimeout(() => {
+      if (update(el) === 'none') return;
+      const timer = window.setInterval(() => {
+        if (update(el) === 'none') window.clearInterval(timer);
+      }, 1000);
+    }, 300);
+  }
+
+  if (banner) {
+    if (document.readyState === 'complete') {
+      start(banner);
+    } else {
+      window.addEventListener('load', () => start(banner), { once: true });
+    }
   }
 </script>
 
 <style>
   /*
-   * Early voting banner: a full-width red strip hugging the bottom of the
+   * Election banner: a full-width red strip hugging the bottom of the
    * site navigation. It starts collapsed to zero height and slides open when
    * the script adds .is-shown. The grid-template-rows 0fr → 1fr trick lets
    * the height animate to the content's natural size, whatever the text wraps
    * to. Users who ask for reduced motion get it instantly (global.css).
    */
-  .early-voting {
+  .election-banner {
     display: grid;
     grid-template-rows: 0fr;
     background: var(--vc-red);
@@ -118,17 +179,17 @@ const showEarlyVoting = Date.now() < Date.parse(earlyVotingEndsAt);
     transition: grid-template-rows 0.5s ease-out;
   }
 
-  .early-voting.is-shown {
+  .election-banner.is-shown {
     grid-template-rows: 1fr;
   }
 
   /* The grid row clips this while collapsed. */
-  .early-voting-inner {
+  .election-banner-inner {
     overflow: hidden;
   }
 
   /* The text fades and drops in slightly as the strip opens. */
-  .early-voting p {
+  .election-banner p {
     /* Block margins only: .wrap centers the text with auto inline margins. */
     margin-block: 0;
     padding-block: 0.85rem;
@@ -141,18 +202,23 @@ const showEarlyVoting = Date.now() < Date.parse(earlyVotingEndsAt);
       transform 0.4s ease-out 0.15s;
   }
 
-  .early-voting.is-shown p {
+  .election-banner.is-shown p {
     opacity: 1;
     transform: none;
   }
 
-  .early-voting a {
+  /* The countdown digits keep a fixed width so the text doesn't jiggle each second. */
+  .countdown {
+    font-variant-numeric: tabular-nums;
+  }
+
+  .election-banner a {
     color: #fff;
     font-weight: 600;
     text-decoration: underline;
   }
 
-  .early-voting a:hover {
+  .election-banner a:hover {
     text-decoration-thickness: 2px;
   }
 

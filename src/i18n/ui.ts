@@ -36,6 +36,16 @@ export const ui = {
     // (non-breaking space) keeps the date on one line on narrow screens.
     'home.earlyVoting': 'Early in-person voting is open now through October\u00a031.',
     'home.earlyVotingLink': 'Find an early voting site',
+    // After early voting the banner becomes a countdown:
+    // "Polls open in 2 days 09:30:12 — Election Day, Tuesday, November 3, at 6:30 a.m."
+    // The script fills in the time between the prefix and suffix, using the
+    // day/days words.
+    'home.countdownPrefix': 'Polls open in',
+    'home.countdownSuffix': '— Election Day, Tuesday, November\u00a03, at 6:30\u00a0a.m.',
+    'home.countdownDay': 'day',
+    'home.countdownDays': 'days',
+    // While polls are open on Election Day (6:30 a.m.–7:30 p.m.).
+    'home.electionDay': 'It’s Election Day! Polls are now open until 7:30\u00a0p.m.',
 
     'home.title': 'Find my ballot',
     'home.subtitle':
@@ -148,6 +158,11 @@ export const ui = {
 
     'home.earlyVoting': 'La votación anticipada en persona está abierta desde ahora hasta el 31\u00a0de\u00a0octubre.',
     'home.earlyVotingLink': 'Encuentra un lugar de votación anticipada',
+    'home.countdownPrefix': 'Las urnas abren en',
+    'home.countdownSuffix': '— día de las elecciones, martes 3\u00a0de\u00a0noviembre, a las 6:30\u00a0a.\u00a0m.',
+    'home.countdownDay': 'día',
+    'home.countdownDays': 'días',
+    'home.electionDay': '¡Hoy es el día de las elecciones! Las urnas están abiertas hasta las 7:30\u00a0p.\u00a0m.',
 
     'home.title': 'Encuentra mi boleta',
     'home.subtitle':
