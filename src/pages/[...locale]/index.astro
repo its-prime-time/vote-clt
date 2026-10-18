@@ -1,15 +1,37 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import { localePaths, localizePath, useTranslations, type Locale } from '../../i18n/utils';
+import { meckBoeUpcomingElectionsUrl } from '../../data/links';
 
 export const getStaticPaths = localePaths;
 
 const { locale } = Astro.props as { locale: Locale };
 const t = useTranslations(locale);
+
+/**
+ * Early voting banner. Early in-person voting for the 2026 general election
+ * runs Oct 15–31, so the banner should come down after the 31st. Because the
+ * site is static, the build-time check below only helps if we rebuild; the
+ * small script at the bottom of the page also hides it in the browser once
+ * the date has passed, so a forgotten deploy never shows stale news.
+ * The cutoff is midnight Eastern time at the start of Nov 1.
+ */
+const earlyVotingEndsAt = '2026-11-01T00:00:00-04:00';
+const showEarlyVoting = Date.now() < Date.parse(earlyVotingEndsAt);
 ---
 
 <BaseLayout locale={locale} title={t('home.title')}>
   <section class="wrap hero">
+    {
+      showEarlyVoting && (
+        <p class="early-voting" data-ends-at={earlyVotingEndsAt}>
+          {t('home.earlyVoting')}{' '}
+          <a href={meckBoeUpcomingElectionsUrl} target="_blank" rel="noopener">
+            {t('home.earlyVotingLink')}
+          </a>
+        </p>
+      )
+    }
     <h1>{t('home.title')}</h1>
     <p class="page-lead">{t('home.subtitle')}</p>
 
@@ -50,7 +72,38 @@ const t = useTranslations(locale);
   </section>
 </BaseLayout>
 
+<script>
+  // Hide the early voting banner once its end date has passed (see the
+  // comment on earlyVotingEndsAt in the frontmatter).
+  const banner = document.querySelector<HTMLElement>('.early-voting');
+  if (banner && Date.now() >= Date.parse(banner.dataset.endsAt ?? '')) {
+    banner.hidden = true;
+  }
+</script>
+
 <style>
+  /* Early voting banner: a centered blue strip above the heading. */
+  .early-voting {
+    max-width: 39rem;
+    margin: 0 auto clamp(1.5rem, 4vw, 2.5rem);
+    padding: 0.85rem 1.25rem;
+    border-radius: 0.5rem;
+    background: var(--vc-blue);
+    color: #fff;
+    text-align: center;
+    text-wrap: balance;
+  }
+
+  .early-voting a {
+    color: #fff;
+    font-weight: 600;
+    text-decoration: underline;
+  }
+
+  .early-voting a:hover {
+    text-decoration-thickness: 2px;
+  }
+
   .hero {
     padding-block: clamp(3rem, 9vw, 7rem) clamp(3rem, 10vw, 9rem);
   }
