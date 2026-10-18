@@ -57,7 +57,10 @@ export const team: TeamMember[] = [
   },
   {
     name: 'Zury Taty',
-    role: { en: 'Data Collection', es: 'Recopilación de datos' },
+    role: {
+      en: 'Data Collection / Spanish Translations',
+      es: 'Recopilación de datos / Traducciones al español',
+    },
     // The original is a landscape selfie; this copy is cropped square around
     // her face so it fills the round frame like the others.
     photo: '/team/zury-taty.jpg',
